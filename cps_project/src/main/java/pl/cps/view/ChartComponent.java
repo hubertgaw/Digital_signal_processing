@@ -5,13 +5,14 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.HBox;
+import pl.cps.logic.model.UniformNoise;
 
 /**
  * @author Thomas Darimont
  */
-public class SinChartComponent extends HBox {
+public class ChartComponent extends HBox {
 
-    public SinChartComponent() {
+    public ChartComponent() {
 
         NumberAxis xAxis = new NumberAxis();
         xAxis.setLabel("x");
@@ -24,13 +25,15 @@ public class SinChartComponent extends HBox {
 
         ObservableList<XYChart.Data<Number, Number>> data = series.getData();
 
-        for (double x = -Math.PI; x < Math.PI; x += 0.5) {
-            data.add(new XYChart.Data<Number, Number>(x, 10 * Math.sin(x)));
-        }
+        UniformNoise uniformNoise = new UniformNoise(6, 1.0, 7.5);
+        uniformNoise.generate(data);
+
 
         LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxis, yAxis);
         lineChart.setTitle("Sine function");
         lineChart.getData().add(series);
+        lineChart.setCreateSymbols(false);
+        lineChart.getStyleClass().add("graphStyle.css"); //TODO nie dziala polaczenie z cssem (do zmiany grubosci linii)
 
         getChildren().add(lineChart);
     }

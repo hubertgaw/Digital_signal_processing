@@ -7,16 +7,16 @@ import javafx.scene.layout.GridPane;
  */
 public class MainLayout extends GridPane {
 
-    private final SinChartComponent sinChartComponent;
+    private final ChartComponent chartComponent;
 
-    public MainLayout(SinChartComponent sinChartComponent) {
+    public MainLayout(ChartComponent chartComponent) {
 
-        this.sinChartComponent = sinChartComponent;
+        this.chartComponent = chartComponent;
         initComponent();
     }
 
     public void initComponent() {
 
-        add(this.sinChartComponent, 0, 1);
+        add(this.chartComponent, 0, 1);
     }
 }

@@ -6,7 +6,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import pl.cps.view.MainLayout;
-import pl.cps.view.SinChartComponent;
+import pl.cps.view.ChartComponent;
 
 /**
  * @author Thomas Darimont
@@ -20,8 +20,8 @@ public class App extends Application {
 
     private String windowTitle;
 
-    private SinChartComponent sinChartComponent = new SinChartComponent();
-    private MainLayout mainLayout = new MainLayout(sinChartComponent);
+    private ChartComponent chartComponent = new ChartComponent();
+    private MainLayout mainLayout = new MainLayout(chartComponent);
 
     @Override
     public void start(Stage stage) throws Exception {
