@@ -6,9 +6,9 @@ public class UniformlyDistributedNoise extends Signal {
 
     private Random rand;
 
-    public UniformlyDistributedNoise(double amplitude, double startTime, double duration, Random rand) {
+    public UniformlyDistributedNoise(double amplitude, double startTime, double duration) {
         super(amplitude, startTime, duration);
-        this.rand = rand;
+        this.rand = new Random();
     }
 
     public UniformlyDistributedNoise() {
@@ -17,6 +17,7 @@ public class UniformlyDistributedNoise extends Signal {
     @Override
     public double calculateValue(double time) throws SignalIsNotTransmittedInThisTime {
         checkTimePeriod(time);
-        return (rand.nextDouble() % (getAmplitude() * 2)) - getAmplitude();
+        return -getAmplitude() + (getAmplitude() - (-getAmplitude())) * rand.nextDouble();
+//      from formula: double randomValue = rangeMin + (rangeMax - rangeMin) * r.nextDouble();
     }
 }

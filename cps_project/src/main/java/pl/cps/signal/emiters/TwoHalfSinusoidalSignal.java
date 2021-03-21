@@ -4,8 +4,8 @@ import static java.lang.Math.abs;
 
 public class TwoHalfSinusoidalSignal extends SinusoidalSignal{
 
-    public TwoHalfSinusoidalSignal(double amplitude, double startTime, double duration, double frequency) {
-        super(amplitude, startTime, duration, frequency);
+    public TwoHalfSinusoidalSignal(double amplitude, double startTime, double duration, double term) {
+        super(amplitude, startTime, duration, term);
     }
 
     @Override

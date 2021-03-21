@@ -5,22 +5,27 @@ import javafx.application.Preloader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import pl.cps.signal.emiters.SignalIsNotTransmittedInThisTime;
 import pl.cps.view.MainLayout;
 import pl.cps.view.ChartComponent;
 
-/**
- * @author Thomas Darimont
- */
+
 
 public class App extends Application {
 
-    /**
-     * Note that this is configured in application.properties
-     */
 
     private String windowTitle;
 
-    private ChartComponent chartComponent = new ChartComponent();
+    private ChartComponent chartComponent;
+
+    {
+        try {
+            chartComponent = new ChartComponent();
+        } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
+            signalIsNotTransmittedInThisTime.printStackTrace();
+        }
+    }
+
     private MainLayout mainLayout = new MainLayout(chartComponent);
 
     @Override

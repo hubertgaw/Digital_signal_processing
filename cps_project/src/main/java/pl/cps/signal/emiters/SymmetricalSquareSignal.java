@@ -1,7 +1,7 @@
 package pl.cps.signal.emiters;
 
-public class SymetricalSquareSignal extends SquareSignal {
-    public SymetricalSquareSignal(double amplitude, double startTime, double duration, double frequency, int kw) {
+public class SymmetricalSquareSignal extends SquareSignal {
+    public SymmetricalSquareSignal(double amplitude, double startTime, double duration, double frequency, double kw) {
         super(amplitude, startTime, duration, frequency, kw);
     }
 

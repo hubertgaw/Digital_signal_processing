@@ -2,12 +2,12 @@ package pl.cps.signal.emiters;
 
 public class SquareSignal extends Signal {
 
-    private double frequency;
-    private int kw;
+    private double term;
+    private double kw;
 
-    public SquareSignal(double amplitude, double startTime, double duration, double frequency, int kw) {
+    public SquareSignal(double amplitude, double startTime, double duration, double term, double kw) {
         super(amplitude, startTime, duration);
-        this.frequency = frequency;
+        this.term = term;
         this.kw = kw;
     }
 
@@ -21,14 +21,22 @@ public class SquareSignal extends Signal {
     }
 
     protected boolean shouldReturnZero(double time) {
-        int k = 0;
-        while (((1 / frequency) * k) < (getStartTime() + getDuration())) {
-            if ((time > ((kw / frequency) - ((kw / frequency) + (k / frequency)))) &&
-                    (time < ((1 / frequency) + (k / frequency) + getStartTime()))) {
-                return true;
-            }
-            k++;
+//        int k = 0;
+//        while (((term) * k) < (getStartTime() + getDuration())) {
+//            if ((time > ((kw * term) - ((kw * term) + (k * term)))) &&
+//                    (time < ((term) + (k * term) + getStartTime()))) {
+//                return true;
+//            }
+//            k++;
+//        }
+//        return false;
+        if (((time - getStartTime()) / term) - Math.floor((time - getStartTime()) / term) >= kw) {
+            return true;
+        } else {
+            return false;
         }
-        return false;
+
     }
+
+
 }

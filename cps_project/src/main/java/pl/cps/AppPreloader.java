@@ -6,10 +6,7 @@ import javafx.scene.control.ProgressIndicator;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
-/**
- * @author Tommy Ziegler
- * @author Thomas Darimont
- */
+
 @SuppressWarnings("restriction")
 public class AppPreloader extends Preloader {
 

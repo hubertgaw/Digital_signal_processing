@@ -1,8 +1,8 @@
 package pl.cps.signal.emiters;
 
 public class OneHalfSinusoidalSignal extends SinusoidalSignal {
-    public OneHalfSinusoidalSignal(double amplitude, double startTime, double duration, double frequency) {
-        super(amplitude, startTime, duration, frequency);
+    public OneHalfSinusoidalSignal(double amplitude, double startTime, double duration, double term) {
+        super(amplitude, startTime, duration, term);
     }
 
     @Override
