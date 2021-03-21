@@ -1,5 +1,8 @@
 package pl.cps.signal.emiters;
 
+import javafx.collections.ObservableList;
+import javafx.scene.chart.XYChart;
+
 public abstract class Signal {
     private double amplitude, startTime, duration;
 
@@ -46,6 +49,13 @@ public abstract class Signal {
         if ((time < getStartTime()) || (time > getStartTime() + getDuration())) {
             throw new SignalIsNotTransmittedInThisTime();
         }
+    }
+
+    public void generateChart (ObservableList<XYChart.Data<Number, Number>> data) throws SignalIsNotTransmittedInThisTime {
+        for (double x = startTime; x < startTime + duration; x += 0.01) {
+            data.add(new XYChart.Data<Number, Number>(x, calculateValue(x)));
+        }
+
     }
 
 }

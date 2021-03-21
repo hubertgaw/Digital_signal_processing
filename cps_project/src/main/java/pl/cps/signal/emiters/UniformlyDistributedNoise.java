@@ -4,11 +4,10 @@ import java.util.Random;
 
 public class UniformlyDistributedNoise extends Signal {
 
-    private Random rand;
+    private final Random rand = new Random();
 
-    public UniformlyDistributedNoise(double amplitude, double startTime, double duration, Random rand) {
+    public UniformlyDistributedNoise(double amplitude, double startTime, double duration) {
         super(amplitude, startTime, duration);
-        this.rand = rand;
     }
 
     public UniformlyDistributedNoise() {

@@ -3,9 +3,9 @@ package pl.cps.signal.emiters;
 public class SquareSignal extends Signal {
 
     private double frequency;
-    private int kw;
+    private double kw;
 
-    public SquareSignal(double amplitude, double startTime, double duration, double frequency, int kw) {
+    public SquareSignal(double amplitude, double startTime, double duration, double frequency, double kw) {
         super(amplitude, startTime, duration);
         this.frequency = frequency;
         this.kw = kw;
