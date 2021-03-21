@@ -30,8 +30,8 @@ public class ChartComponent extends HBox {
 //        uniformNoise.generate(data);
 
 
-        Signal gaussianNoise = new GaussianNoise(4);
-//        gaussianNoise.generateChart(data); //todo fix
+        Signal gaussianNoise = new GaussianNoise(1.0, 0, 5.0);
+        gaussianNoise.generateChart(data);
 
         Signal impulseNoise = new ImpulseNoise(2.0, 1.0, 3.0, 1);
 //        impulseNoise.generateChart(data);
@@ -52,7 +52,7 @@ public class ChartComponent extends HBox {
 //        twoHalfSinusoidalSignal.generateChart(data);
 
         Signal uniformlyDistributedNoise = new UniformlyDistributedNoise(2.0,1.0,3.0);
-        uniformlyDistributedNoise.generateChart(data);
+//        uniformlyDistributedNoise.generateChart(data);
 
         LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxis, yAxis);
         lineChart.setTitle("Sine function");

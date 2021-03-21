@@ -18,7 +18,7 @@ public class UniformNoise {
     }
 
     public double value (double x) {
-        return -amplitude + (amplitude - (-amplitude) * rand.nextDouble());
+        return -amplitude + (amplitude - (-amplitude)) * rand.nextDouble();
     }
 
     public void generate (ObservableList<XYChart.Data<Number, Number>> data) {
