@@ -38,7 +38,7 @@ public class ChartComponent extends HBox {
 //        oneHalfSinusoidalSignal.generateChart(data);
 
         Signal sinus = new SinusoidalSignal(4, 0.0, 10.0, 2);
-        sinus.generateChart(data);
+//        sinus.generateChart(data);
 
         Signal squareSignal = new SquareSignal(3.0,1.0, 4.0, 2.0, 0.5);
 //        squareSignal.generateChart(data);
@@ -52,6 +52,11 @@ public class ChartComponent extends HBox {
         Signal uniformlyDistributedNoise = new UniformlyDistributedNoise(2.0,1.0,3.0);
 //        uniformlyDistributedNoise.generateChart(data);
 
+        Signal triangularSignal = new TriangularSignal(3.0,1.0,6.0,2.0, 0.7);
+//        triangularSignal.generateChart(data);
+
+        Signal unitJump = new UnitJump(10.0, 0.0, 6, 2.0);
+        unitJump.generateChart(data);
         //uncomment to draw continous signals:
         LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxis, yAxis);
         lineChart.setTitle("Sine function");
