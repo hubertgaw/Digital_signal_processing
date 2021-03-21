@@ -9,15 +9,10 @@ import pl.cps.signal.emiters.SignalIsNotTransmittedInThisTime;
 import pl.cps.view.MainLayout;
 import pl.cps.view.ChartComponent;
 
-/**
- * @author Thomas Darimont
- */
+
 
 public class App extends Application {
 
-    /**
-     * Note that this is configured in application.properties
-     */
 
     private String windowTitle;
 

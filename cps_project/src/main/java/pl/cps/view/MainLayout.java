@@ -2,9 +2,7 @@ package pl.cps.view;
 
 import javafx.scene.layout.GridPane;
 
-/**
- * @author Thomas Darimont
- */
+
 public class MainLayout extends GridPane {
 
     private final ChartComponent chartComponent;
