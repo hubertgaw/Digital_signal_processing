@@ -30,6 +30,10 @@ public class ChartComponent extends HBox {
 
     }
 
+    public ObservableList<XYChart.Data<Number, Number>> getData() {
+        return data;
+    }
+
     public void drawChart() {
         if (generatedSignal instanceof ImpulseNoise || generatedSignal instanceof UnitImpulse) {
             ScatterChart<Number, Number> scatterChart = new ScatterChart<Number, Number>(xAxis, yAxis);

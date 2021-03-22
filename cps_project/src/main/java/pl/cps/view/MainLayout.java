@@ -12,11 +12,12 @@ public class MainLayout extends GridPane {
 
         this.chartComponent = chartComponent;
         try {
-            chartComponent.generateImpulseNoise();
+            chartComponent.generateSinusoidalSignal();
         } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
             signalIsNotTransmittedInThisTime.printStackTrace();
         }
         chartComponent.drawChart();
+//        chartComponent.getData().get(1).getYValue();
         initComponent();
     }
 
