@@ -1,6 +1,7 @@
 package pl.cps.view;
 
 import javafx.scene.layout.GridPane;
+import pl.cps.signal.emiters.SignalIsNotTransmittedInThisTime;
 
 
 public class MainLayout extends GridPane {
@@ -10,6 +11,12 @@ public class MainLayout extends GridPane {
     public MainLayout(ChartComponent chartComponent) {
 
         this.chartComponent = chartComponent;
+        try {
+            chartComponent.generateImpulseNoise();
+        } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
+            signalIsNotTransmittedInThisTime.printStackTrace();
+        }
+        chartComponent.drawChart();
         initComponent();
     }
 
