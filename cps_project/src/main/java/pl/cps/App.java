@@ -16,17 +16,17 @@ public class App extends Application {
 
     private String windowTitle;
 
-    private ChartComponent chartComponent;
+//    private ChartComponent chartComponent;
 
-    {
-        try {
-            chartComponent = new ChartComponent();
-        } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
-            signalIsNotTransmittedInThisTime.printStackTrace();
-        }
-    }
+//    {
+//        try {
+//            chartComponent = new ChartComponent();
+//        } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
+//            signalIsNotTransmittedInThisTime.printStackTrace();
+//        }
+//    }
 
-    private MainLayout mainLayout = new MainLayout(chartComponent);
+    private MainLayout mainLayout = new MainLayout();
 
     @Override
     public void start(Stage stage) throws Exception {

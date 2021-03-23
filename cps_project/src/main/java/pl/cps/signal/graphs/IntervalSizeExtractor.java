@@ -1,4 +1,4 @@
-package pl.cps.graphs;
+package pl.cps.signal.graphs;
 
 public class IntervalSizeExtractor {
 
