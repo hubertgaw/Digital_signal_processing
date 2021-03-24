@@ -12,13 +12,11 @@ public class MinMaxExtractor {
                 .max(Comparator.comparing(XYChart.Data::getYValue))
                 .get()
                 .getYValue();
-        System.out.println(max);
         Double min = data
                 .stream()
                 .min(Comparator.comparing(XYChart.Data::getYValue))
                 .get()
                 .getYValue();
-        System.out.println(min);
 
         return new double[]{min, max} ;
     }

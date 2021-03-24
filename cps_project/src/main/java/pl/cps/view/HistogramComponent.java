@@ -15,13 +15,12 @@ public class HistogramComponent extends HBox {
     private NumberAxis yAxis;
     private XYChart.Series<String, Number> series;
     private SignalGraphToHistogramConverter converter = new SignalGraphToHistogramConverter();
-    private final int NUMBER_OF_BARS = 10;
+    private final int NUMBER_OF_BARS = 15;
 
     public HistogramComponent() {
         this.xAxis = new CategoryAxis();
         this.yAxis = new NumberAxis();
         this.series = new XYChart.Series<>();
-        this.series.setName("histogram series");
     }
 
     public void drawHistogram(ObservableList<XYChart.Data<Double, Double>> data) {
@@ -32,7 +31,6 @@ public class HistogramComponent extends HBox {
             String tmpString = entry.getKey();
             Integer tmpValue = entry.getValue();
             XYChart.Data<String, Number> dataChart = new XYChart.Data<>(tmpString, tmpValue);
-            System.out.println(dataChart);
             series.getData().add(dataChart);
 
         }

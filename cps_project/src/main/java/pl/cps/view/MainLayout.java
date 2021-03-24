@@ -1,10 +1,8 @@
 package pl.cps.view;
 
-import javafx.scene.chart.XYChart;
 import javafx.scene.layout.GridPane;
 import pl.cps.signal.emiters.SignalIsNotTransmittedInThisTime;
 
-import java.util.Comparator;
 
 
 public class MainLayout extends GridPane {
@@ -21,7 +19,7 @@ public class MainLayout extends GridPane {
         }
         try {
             //TU ZMIANA GENEROWANEGO SYGNALU
-            chartComponent.generateOneHalfSinusoidalSignal();
+            chartComponent.generateSinusoidalSignal();
         } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
             signalIsNotTransmittedInThisTime.printStackTrace();
         }

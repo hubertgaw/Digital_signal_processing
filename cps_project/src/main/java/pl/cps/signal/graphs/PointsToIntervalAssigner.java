@@ -4,6 +4,8 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 import pl.cps.view.MainLayout;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 public class PointsToIntervalAssigner {
@@ -19,10 +21,25 @@ public class PointsToIntervalAssigner {
     }
 
     public void createIntervalLimits(double min, double max, double internalSize) {
-        for (double i = min + internalSize; i < max - internalSize; i = i + internalSize) {
+
+        // zeby wartosci byly w takiej samej "formie", nie powstawaly bledy przy zaokraglaniu
+        min = BigDecimal.valueOf(min)
+                .setScale(7, RoundingMode.HALF_UP)
+                .doubleValue();
+
+        max = BigDecimal.valueOf(max)
+                .setScale(7, RoundingMode.HALF_UP)
+                .doubleValue();
+
+        internalSize = BigDecimal.valueOf(internalSize)
+                .setScale(7, RoundingMode.HALF_UP)
+                .doubleValue();
+
+        //caly czas tu sie minimalnie zle generuje, prawdopodobnie, ze przy dodawaniu nie dodaje dokladnie
+        //tylko czasem stosuje przyblizenie
+        for (double i = min + internalSize; i <= max; i = i + internalSize) {
             intervalLimits.add(i);
         }
-        intervalLimits.add(max); //zeby zawsze max konczyl ostatni przedzial
         for (int i = 0; i < intervalLimits.size(); i++) {
             pointsInEachInterval.add(0);
         }
