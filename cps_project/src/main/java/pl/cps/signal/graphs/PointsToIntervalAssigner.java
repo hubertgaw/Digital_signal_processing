@@ -4,21 +4,18 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 import pl.cps.view.MainLayout;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class PointsToIntervalAssigner {
     private List<Double> intervalLimits = new ArrayList<>();
     private List<Integer> pointsInEachInterval = new ArrayList<>();
-    private Map<String, Integer> pointsInIntervals = new HashMap<>();
+    private Map<String, Integer> pointsInIntervals = new LinkedHashMap<>();
 
-    public void assign(double[] minMax, double intervalSize,
+    public Map<String, Integer> assign(double[] minMax, double intervalSize,
                        ObservableList<XYChart.Data<Double, Double>> data) {
         createIntervalLimits(minMax[0], minMax[1], intervalSize);
         assignPointsToIntervals(data);
-        convertListsToMap(minMax[0], intervalSize);
+        return (convertListsToMap(minMax[0], intervalSize));
     }
 
     public void createIntervalLimits(double min, double max, double internalSize) {
@@ -42,7 +39,7 @@ public class PointsToIntervalAssigner {
         }
     }
 
-    public void convertListsToMap(double min, double interval) {
+    public Map<String, Integer> convertListsToMap(double min, double interval) {
         // pierwsszy przedział zamkniety z obu stron (nie wiem czy to dobre podejscie
         // ale ktorys przedzial musi byc zamkniety z obu stron
         pointsInIntervals.put("[" + String.format("%.2f", min) + ","
@@ -51,5 +48,6 @@ public class PointsToIntervalAssigner {
             pointsInIntervals.put("(" + String.format("%.2f", intervalLimits.get(i) - interval) + ","
                     + String.format("%.2f", intervalLimits.get(i)) + "]", pointsInEachInterval.get(i));
         }
+        return pointsInIntervals;
     }
 }

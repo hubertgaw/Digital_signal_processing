@@ -62,7 +62,7 @@ public class ChartComponent extends HBox {
         generatedSignal.generateChart(data);
     }
 
-    public void generateUniformlyDistributedSignal() throws SignalIsNotTransmittedInThisTime {
+    public void generateUniformlyDistributedNoise() throws SignalIsNotTransmittedInThisTime {
         generatedSignal = new UniformlyDistributedNoise(2.0,1.0,3.0);
         generatedSignal.generateChart(data);
     }

@@ -3,7 +3,9 @@ package pl.cps.signal.graphs;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 
+import java.util.Map;
+
 public interface Converter {
-    public void convert(ObservableList<XYChart.Data<Double, Double>> data, int barsNumber);
+     Map<String, Integer> convert(ObservableList<XYChart.Data<Double, Double>> data, int barsNumber);
 
 }

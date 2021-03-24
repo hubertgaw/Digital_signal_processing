@@ -12,15 +12,6 @@ public class MainLayout extends GridPane {
     private ChartComponent chartComponent;
     private HistogramComponent histogramComponent;
 
-//    {
-//        try {
-//            chartComponent = new ChartComponent();
-//        } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
-//            signalIsNotTransmittedInThisTime.printStackTrace();
-//        }
-//    }
-
-//    private final HistogramComponent histogramComponent;
 
     public MainLayout() {
         try {
@@ -28,29 +19,20 @@ public class MainLayout extends GridPane {
         } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
             signalIsNotTransmittedInThisTime.printStackTrace();
         }
-//        this.chartComponent = chartComponent;
         try {
-            chartComponent.generateSquareSignal();
+            //TU ZMIANA GENEROWANEGO SYGNALU
+            chartComponent.generateOneHalfSinusoidalSignal();
         } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
             signalIsNotTransmittedInThisTime.printStackTrace();
         }
         this.histogramComponent = new HistogramComponent();
         chartComponent.drawChart();
         histogramComponent.drawHistogram(chartComponent.getData());
-//        Double max = chartComponent.getData().stream()
-//                .max(Comparator.comparing(XYChart.Data::getYValue))
-//                .get()
-//                .getYValue();
-//        System.out.println(max);
-//        Double min = chartComponent.getData().stream()
-//                .min(Comparator.comparing(XYChart.Data::getYValue))
-//                .get()
-//                .getYValue();
-//        System.out.println(min);
         initComponent();
     }
 
     public void initComponent() {
-        add(chartComponent, 0, 1);
+        //TU TRZEBA ZMIENIC, CZY CHCEMY HISTOGRAM CZY WYKRES ZOBACZYC
+        add(histogramComponent, 0, 1);
     }
 }
