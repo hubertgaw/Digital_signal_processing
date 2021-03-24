@@ -51,9 +51,9 @@ public abstract class Signal {
         }
     }
 
-    public void generateChart (ObservableList<XYChart.Data<Number, Number>> data) throws SignalIsNotTransmittedInThisTime {
+    public void generateChart (ObservableList<XYChart.Data<Double, Double>> data) throws SignalIsNotTransmittedInThisTime {
         for (double x = startTime; x < startTime + duration; x += 0.01) {
-            data.add(new XYChart.Data<Number, Number>(x, calculateValue(x)));
+            data.add(new XYChart.Data<>(x, calculateValue(x)));
         }
 
     }

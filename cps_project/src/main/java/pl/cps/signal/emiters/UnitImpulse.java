@@ -34,10 +34,10 @@ public class UnitImpulse extends Signal {
     }
 
     @Override
-    public void generateChart(ObservableList<XYChart.Data<Number, Number>> data) throws SignalIsNotTransmittedInThisTime {
+    public void generateChart(ObservableList<XYChart.Data<Double, Double>> data) throws SignalIsNotTransmittedInThisTime {
         int sampleCounter = 0;
         for (double x = getStartTime(); x < getStartTime() + getDuration(); x += 1/getFrequency()) {
-            data.add(new XYChart.Data<Number, Number>(x, calculateValue(sampleCounter)));
+            data.add(new XYChart.Data<>(x, calculateValue(sampleCounter)));
             sampleCounter ++;
         }
     }

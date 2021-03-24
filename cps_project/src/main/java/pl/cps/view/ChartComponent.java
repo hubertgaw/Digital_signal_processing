@@ -1,10 +1,7 @@
 package pl.cps.view;
 
 import javafx.collections.ObservableList;
-import javafx.scene.chart.LineChart;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.ScatterChart;
-import javafx.scene.chart.XYChart;
+import javafx.scene.chart.*;
 import javafx.scene.layout.HBox;
 import pl.cps.signal.emiters.*;
 
@@ -12,9 +9,11 @@ import pl.cps.signal.emiters.*;
 public class ChartComponent extends HBox {
 
     private NumberAxis xAxis, yAxis;
-    private XYChart.Series<Number, Number> series;
-    private ObservableList<XYChart.Data<Number, Number>> data;
+    private XYChart.Series<Double, Double> series;
+    private ObservableList<XYChart.Data<Double, Double>> data;
     private Signal generatedSignal;
+    private LineChart continuousSignalChart;
+    private ScatterChart discreteSignalChart;
 
     public ChartComponent() throws SignalIsNotTransmittedInThisTime {
 
@@ -30,19 +29,25 @@ public class ChartComponent extends HBox {
 
     }
 
+    public ObservableList<XYChart.Data<Double, Double>> getData() {
+        return data;
+    }
+
     public void drawChart() {
         if (generatedSignal instanceof ImpulseNoise || generatedSignal instanceof UnitImpulse) {
-            ScatterChart<Number, Number> scatterChart = new ScatterChart<Number, Number>(xAxis, yAxis);
-            scatterChart.setTitle("Discrete signals");
-            scatterChart.getData().add(series);
-            scatterChart.getStyleClass().add("graphStyle.css"); //TODO nie dziala polaczenie z cssem (do zmiany grubosci linii)
-            getChildren().add(scatterChart);
+//            ScatterChart<Number, Number> scatterChart = new ScatterChart<Number, Number>(xAxis, yAxis);
+            discreteSignalChart = new ScatterChart(xAxis, yAxis);
+            discreteSignalChart.setTitle("Discrete signals");
+            discreteSignalChart.getData().add(series);
+            discreteSignalChart.getStyleClass().add("graphStyle.css"); //TODO nie dziala polaczenie z cssem (do zmiany grubosci linii)
+            getChildren().add(discreteSignalChart);
         } else {
-            LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxis, yAxis);
-            lineChart.getData().add(series);
-            lineChart.setCreateSymbols(false);
-            lineChart.getStyleClass().add("graphStyle.css"); //TODO nie dziala polaczenie z cssem (do zmiany grubosci linii)
-            getChildren().add(lineChart);
+//            LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxis, yAxis);
+            continuousSignalChart = new LineChart(xAxis, yAxis);
+            continuousSignalChart.getData().add(series);
+            continuousSignalChart.setCreateSymbols(false);
+            continuousSignalChart.getStyleClass().add("graphStyle.css"); //TODO nie dziala polaczenie z cssem (do zmiany grubosci linii)
+            getChildren().add(continuousSignalChart);
         }
 
     }
@@ -57,7 +62,7 @@ public class ChartComponent extends HBox {
         generatedSignal.generateChart(data);
     }
 
-    public void generateUniformlyDistributedSignal() throws SignalIsNotTransmittedInThisTime {
+    public void generateUniformlyDistributedNoise() throws SignalIsNotTransmittedInThisTime {
         generatedSignal = new UniformlyDistributedNoise(2.0,1.0,3.0);
         generatedSignal.generateChart(data);
     }

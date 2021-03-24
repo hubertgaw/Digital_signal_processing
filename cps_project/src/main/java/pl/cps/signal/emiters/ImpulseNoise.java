@@ -33,9 +33,9 @@ public class ImpulseNoise extends Signal {
     }
 
     @Override
-    public void generateChart(ObservableList<XYChart.Data<Number, Number>> data) throws SignalIsNotTransmittedInThisTime {
+    public void generateChart(ObservableList<XYChart.Data<Double, Double>> data) throws SignalIsNotTransmittedInThisTime {
         for (double x = getStartTime(); x < getStartTime() + getDuration(); x += 1/getFrequency()) {
-            data.add(new XYChart.Data<Number, Number>(x, calculateValue(x)));
+            data.add(new XYChart.Data<>(x, calculateValue(x)));
         }
     }
 }
