@@ -123,7 +123,7 @@ public class App extends Application {
 
     private Signal getSignalFromMenuItemName(String name, Stage stage) {
         Signal ret = null;
-        setParametersDialogShow(stage);
+        setParametersDialogShow(stage, name);
         if (name == "Szum Gaussowski")
             ret = new GaussianNoise(ampValue, strTimeValue, durValue);
         if (name == "Szum Impulsowy")
@@ -137,7 +137,7 @@ public class App extends Application {
         if (name == "Sygnal prostokatny")
             ret = new SquareSignal(ampValue, strTimeValue, durValue, termValue, kwValue);
         if (name == "Sygnal prostokatny symetryczny")
-            ret = new SymmetricalSquareSignal(ampValue, strTimeValue, durValue, freqValue, kwValue);
+            ret = new SymmetricalSquareSignal(ampValue, strTimeValue, durValue, termValue, kwValue);
         if (name == "Sygnal trojkatny")
             ret = new TriangularSignal(ampValue, strTimeValue, durValue, termValue, kwValue);
         if (name == "Szum o rozkladzie jednostajnym")
@@ -149,7 +149,7 @@ public class App extends Application {
         return ret;
     }
 
-    private void setParametersDialogShow(Stage stage) {
+    private void setParametersDialogShow(Stage stage, String name) {
         Stage dialog = new Stage();
         Button saveBtn = new Button("Dalej");
         VBox ampBox = new VBox(), strtBox = new VBox(), durBox = new VBox(), termBox = new VBox(),
@@ -160,6 +160,39 @@ public class App extends Application {
                 durText = new Text("Czas trwania w sekundach"),
                 termText = new Text("term:"), freqText = new Text("czestotliwosc:"), possText = new Text("Prawdopodobienstwo:"),
                 kwText = new Text("wspolczynnik wypelnienia"), jumpText = new Text("Informacje odnośnie skoku");
+
+        if (name.equals("Szum Gaussowski") || name.equals("Szum o rozkladzie jednostajnym")) {
+            term.setDisable(true);
+            freq.setDisable(true);
+            poss.setDisable(true);
+            kw.setDisable(true);
+            jump.setDisable(true);
+        } else if (name.equals("Sygnał sinusoidalny wyprostowany jednopolowkowo")
+                || name.equals("Sygnał sinusoidalny wyprostowany dwopolowkowo")
+                || name.equals("Sygnal sinusoidalny")) {
+            freq.setDisable(true);
+            poss.setDisable(true);
+            kw.setDisable(true);
+            jump.setDisable(true);
+        } else if (name.equals("Sygnal prostokatny")
+                || name.equals("Sygnal prostokatny symetryczny")
+                || name.equals("Sygnal trojkatny")) {
+            freq.setDisable(true);
+            poss.setDisable(true);
+        } else if (name.equals("Szum Impulsowy")) {
+            term.setDisable(true);
+            kw.setDisable(true);
+            jump.setDisable(true);
+        } else if (name.equals("Impuls jednostkowy")) {
+            term.setDisable(true);
+            poss.setDisable(true);
+            kw.setDisable(true);
+        } else if (name.equals("Skok jednostkowy")) {
+            kw.setDisable(true);
+            poss.setDisable(true);
+            freq.setDisable(true);
+            term.setDisable(true);
+        }
 
         ampBox.getChildren().add(ampText);
         ampBox.getChildren().add(amp);
@@ -201,7 +234,7 @@ public class App extends Application {
 
     private void reloadValues(TextField amp, TextField strTime, TextField dur, TextField term, TextField freq,
                               TextField poss, TextField kw, TextField jump) {
-        System.out.println("AMP:"+ampValue);
+        System.out.println("AMP:" + ampValue);
         ampValue = convertStringToDouble(amp.getText());
         strTimeValue = convertStringToDouble(strTime.getText());
         durValue = convertStringToDouble(dur.getText());
@@ -210,7 +243,7 @@ public class App extends Application {
         possValue = convertStringToDouble(poss.getText());
         kwValue = convertStringToDouble(kw.getText());
         jumpValue = convertStringToDouble(jump.getText());
-        System.out.println("AMP:"+ampValue);
+        System.out.println("AMP:" + ampValue);
         System.out.println("================");
     }
 
