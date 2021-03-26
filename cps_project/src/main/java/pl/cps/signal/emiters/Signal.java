@@ -3,6 +3,9 @@ package pl.cps.signal.emiters;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public abstract class Signal {
     private double amplitude, startTime, duration;
 
@@ -53,7 +56,10 @@ public abstract class Signal {
 
     public void generateChart (ObservableList<XYChart.Data<Double, Double>> data) throws SignalIsNotTransmittedInThisTime {
         for (double x = startTime; x < startTime + duration; x += 0.01) {
-            data.add(new XYChart.Data<>(x, calculateValue(x)));
+            double x_2decimalPoints = BigDecimal.valueOf(x)
+                    .setScale(2, RoundingMode.HALF_UP)
+                    .doubleValue();
+            data.add(new XYChart.Data<>(x_2decimalPoints, calculateValue(x_2decimalPoints)));
         }
 
     }
