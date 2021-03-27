@@ -1,6 +1,7 @@
 package pl.cps.view;
 
 import javafx.scene.layout.GridPane;
+import pl.cps.App;
 import pl.cps.signal.emiters.SignalIsNotTransmittedInThisTime;
 
 
@@ -19,7 +20,7 @@ public class MainLayout extends GridPane {
         }
         try {
             //TU ZMIANA GENEROWANEGO SYGNALU
-            chartComponent.generateSinusoidalSignal();
+            chartComponent.generateSignal(App.getSelectedSignals().get(0));
         } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
             signalIsNotTransmittedInThisTime.printStackTrace();
         }
@@ -31,6 +32,6 @@ public class MainLayout extends GridPane {
 
     public void initComponent() {
         //TU TRZEBA ZMIENIC, CZY CHCEMY HISTOGRAM CZY WYKRES ZOBACZYC
-        add(histogramComponent, 0, 1);
+        add(chartComponent, 0, 1);
     }
 }

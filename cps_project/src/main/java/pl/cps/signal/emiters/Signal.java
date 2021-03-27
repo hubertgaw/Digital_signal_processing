@@ -2,12 +2,16 @@ package pl.cps.signal.emiters;
 
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
+import pl.cps.signal.model.Data;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class Signal {
     private double amplitude, startTime, duration;
+    private List<Data> points = new ArrayList<>();
 
     public Signal(double amplitude, double startTime, double duration) {
         this.amplitude = amplitude;
@@ -55,11 +59,13 @@ public abstract class Signal {
     }
 
     public void generateChart (ObservableList<XYChart.Data<Double, Double>> data) throws SignalIsNotTransmittedInThisTime {
-        for (double x = startTime; x < startTime + duration; x += 0.01) {
+        for (double x = startTime; x < startTime + duration; x += 0.001) {
             double x_2decimalPoints = BigDecimal.valueOf(x)
-                    .setScale(2, RoundingMode.HALF_UP)
+                    .setScale(3, RoundingMode.HALF_UP)
                     .doubleValue();
-            data.add(new XYChart.Data<>(x_2decimalPoints, calculateValue(x_2decimalPoints)));
+            double y = calculateValue(x_2decimalPoints);
+            data.add(new XYChart.Data<>(x_2decimalPoints, y));
+            points.add(new Data(x_2decimalPoints, y));
         }
 
     }

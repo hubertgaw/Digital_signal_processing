@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.application.Preloader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
@@ -11,24 +12,42 @@ import javafx.stage.Stage;
 import pl.cps.signal.emiters.*;
 import pl.cps.view.MainLayout;
 
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+
 
 public class App extends Application {
 
 
     private String windowTitle;
 
-    Double ampValue, strTimeValue, durValue, termValue, freqValue, possValue, kwValue, jumpValue;
+    static Double ampValue, strTimeValue, durValue, termValue, freqValue, possValue, kwValue, jumpValue;
 
-    private MainLayout mainLayout = new MainLayout();
+    private static MainLayout mainLayout;
+    private static GridPane mainPane = new GridPane();
 
-    Menu signalOneMenu = new Menu(), signalTwoMenu = new Menu(), operationMenu = new Menu();
+    static Menu signalOneMenu = new Menu(), signalTwoMenu = new Menu(), operationMenu = new Menu();
+
+    private static List<Signal> selectedSignals = new ArrayList<>();
+
+    public static List<Signal> getSelectedSignals() {
+        return selectedSignals;
+    }
+
+    public static void setSelectedSignals(List<Signal> selectedSignals) {
+        App.selectedSignals = selectedSignals;
+    }
 
     @Override
     public void start(Stage stage) throws Exception {
 
+        Scene mainScene = new Scene(mainPane);
         notifyPreloader(new Preloader.StateChangeNotification(Preloader.StateChangeNotification.Type.BEFORE_START));
         stage.setTitle(windowTitle);
-        stage.setScene(new Scene(mainLayout));
+        stage.setScene(mainScene);
         stage.setResizable(true);
         stage.centerOnScreen();
         setMenu(stage);
@@ -38,16 +57,21 @@ public class App extends Application {
     private void setMenu(Stage stage) {
         VBox buttonBox = new VBox();
         MenuBar menuBar = new MenuBar();
-        Button calculateButton = new Button(), nextButton = new Button();
-        calculateButton.setText("Oblicz i pokaz");
+        Button calculateButton = new Button(), nextButton = new Button(), showButton = new Button();
+        calculateButton.setText("Oblicz");
         nextButton.setText("Nastepny wykres");
-        mainLayout.add(calculateButton, 1, 1);
-        mainLayout.add(nextButton, 1, 2);
+        showButton.setText("Pokaz");
+        mainPane.add(calculateButton, 1, 1);
+        mainPane.add(nextButton, 1, 2);
+        mainPane.add(showButton,1,3);
         calculateButton.setOnMouseClicked((action) -> {
             startCalculating(stage);
         });
         nextButton.setOnMouseClicked((action) -> {
             loadNextDiagram();
+        });
+        showButton.setOnMouseClicked((action) -> {
+            showDiagram();
         });
         signalOneMenu.setText("Sygnal nr 1");
         signalTwoMenu.setText("Sygnal nr 2");
@@ -75,17 +99,24 @@ public class App extends Application {
         menuBar.getMenus().add(operationMenu);
         menuBar.getMenus().add(signalTwoMenu);
         VBox vBox = new VBox(menuBar);
-        mainLayout.add(vBox, 0, 0);
+        mainPane.add(vBox, 0, 0);
     }
 
     private void loadNextDiagram() {
         System.out.println("NEXT");
     }
 
+    private void showDiagram() {
+        //dodanie wykresu na okno
+        mainPane.getChildren().remove(mainLayout);
+        mainLayout = new MainLayout();
+        mainPane.add(mainLayout, 0, 1);
+    }
+
     private void startCalculating(Stage stage) {
         System.out.println("OBLICZAM");
+        selectedSignals.clear();
         getSellections(stage);
-
     }
 
     private void addItemsToMenu(String[] items, Menu menu) {
@@ -103,14 +134,14 @@ public class App extends Application {
         }
     }
 
-    public Object[] getSellections(Stage stage) {
+    public static Object[] getSellections(Stage stage) {
         Object[] ret = {getSignalFromMenuItemName(getSellectdOptionFromMenu(signalOneMenu), stage),
                 getSignalFromMenuItemName(getSellectdOptionFromMenu(signalTwoMenu), stage),
                 getSellectdOptionFromMenu(operationMenu)};
         return ret;
     }
 
-    private String getSellectdOptionFromMenu(Menu menu) {
+    private static String getSellectdOptionFromMenu(Menu menu) {
         String ret = null;
         for (MenuItem item : menu.getItems()) {
             CheckMenuItem tmp = (CheckMenuItem) item;
@@ -121,41 +152,18 @@ public class App extends Application {
         return ret;
     }
 
-    private Signal getSignalFromMenuItemName(String name, Stage stage) {
-        Signal ret = null;
-        setParametersDialogShow(stage, name);
-        if (name == "Szum Gaussowski")
-            ret = new GaussianNoise(ampValue, strTimeValue, durValue);
-        if (name == "Szum Impulsowy")
-            ret = new ImpulseNoise(ampValue, strTimeValue, durValue, freqValue, possValue);
-        if (name == "Sygnał sinusoidalny wyprostowany jednopolowkowo")
-            ret = new OneHalfSinusoidalSignal(ampValue, strTimeValue, durValue, termValue);
-        if (name == "Sygnał sinusoidalny wyprostowany dwopolowkowo")
-            ret = new TwoHalfSinusoidalSignal(ampValue, strTimeValue, durValue, termValue);
-        if (name == "Sygnal sinusoidalny")
-            ret = new SinusoidalSignal(ampValue, strTimeValue, durValue, termValue);
-        if (name == "Sygnal prostokatny")
-            ret = new SquareSignal(ampValue, strTimeValue, durValue, termValue, kwValue);
-        if (name == "Sygnal prostokatny symetryczny")
-            ret = new SymmetricalSquareSignal(ampValue, strTimeValue, durValue, termValue, kwValue);
-        if (name == "Sygnal trojkatny")
-            ret = new TriangularSignal(ampValue, strTimeValue, durValue, termValue, kwValue);
-        if (name == "Szum o rozkladzie jednostajnym")
-            ret = new UniformlyDistributedNoise(ampValue, strTimeValue, durValue);
-        if (name == "Impuls jednostkowy")
-            ret = new UnitImpulse(ampValue, strTimeValue, durValue, freqValue, jumpValue.intValue());
-        if (name == "Skok jednostkowy")
-            ret = new UnitJump(ampValue, strTimeValue, durValue, jumpValue);
-        return ret;
+    private static Signal getSignalFromMenuItemName(String name, Stage stage) {
+        return setParametersDialogShow(stage, name);
     }
 
-    private void setParametersDialogShow(Stage stage, String name) {
+    private static Signal setParametersDialogShow(Stage stage, String name) {
         Stage dialog = new Stage();
         Button saveBtn = new Button("Dalej");
         VBox ampBox = new VBox(), strtBox = new VBox(), durBox = new VBox(), termBox = new VBox(),
                 freqBox = new VBox(), possBox = new VBox(), kwBox = new VBox(), jumpBox = new VBox();
         TextField amp = new TextField("0"), strTime = new TextField("0"), dur = new TextField("0"),
-                term = new TextField("0"), freq = new TextField("0"), poss = new TextField("0"), kw = new TextField("0"), jump = new TextField("0");
+                term = new TextField("0"), freq = new TextField("0"), poss = new TextField("0"),
+                kw = new TextField("0"), jump = new TextField("0");
         Text ampText = new Text("Amplitude:"), strTimeText = new Text("Start w sekundzie:"),
                 durText = new Text("Czas trwania w sekundach"),
                 termText = new Text("term:"), freqText = new Text("czestotliwosc:"), possText = new Text("Prawdopodobienstwo:"),
@@ -179,6 +187,7 @@ public class App extends Application {
                 || name.equals("Sygnal trojkatny")) {
             freq.setDisable(true);
             poss.setDisable(true);
+            jump.setDisable(true);
         } else if (name.equals("Szum Impulsowy")) {
             term.setDisable(true);
             kw.setDisable(true);
@@ -225,15 +234,19 @@ public class App extends Application {
         Scene dialogScene = new Scene(dialogVbox, 600, 800);
         dialog.setScene(dialogScene);
         dialog.show();
+        final Signal[] sig = {null};
         saveBtn.setOnMouseClicked((action) -> {
             reloadValues(amp, strTime, dur, term, freq, poss, kw, jump);
             dialog.getScene().getWindow().hide();
+            sig[0] = generateSignal(name);
+            selectedSignals.add(sig[0]);
         });
-
+        System.out.println(sig[0]);
+        return sig[0];
     }
 
-    private void reloadValues(TextField amp, TextField strTime, TextField dur, TextField term, TextField freq,
-                              TextField poss, TextField kw, TextField jump) {
+    private static void reloadValues(TextField amp, TextField strTime, TextField dur, TextField term, TextField freq,
+                                     TextField poss, TextField kw, TextField jump) {
         System.out.println("AMP:" + ampValue);
         ampValue = convertStringToDouble(amp.getText());
         strTimeValue = convertStringToDouble(strTime.getText());
@@ -247,8 +260,37 @@ public class App extends Application {
         System.out.println("================");
     }
 
-    private double convertStringToDouble(String str) {
-        return Double.parseDouble(str.replaceAll("[^\\d]", ""));
+    private static double convertStringToDouble(String str) {
+//        return Double.parseDouble(str.replaceAll("[^\\d]", ""));
+        return Double.parseDouble(str);
+    }
+
+    private static Signal generateSignal(String name) {
+        Signal ret = null;
+        if (name == "Szum Gaussowski")
+            ret = new GaussianNoise(ampValue, strTimeValue, durValue);
+        if (name == "Szum Impulsowy")
+            ret = new ImpulseNoise(ampValue, strTimeValue, durValue, freqValue, possValue);
+        if (name == "Sygnał sinusoidalny wyprostowany jednopolowkowo")
+            ret = new OneHalfSinusoidalSignal(ampValue, strTimeValue, durValue, termValue);
+        if (name == "Sygnał sinusoidalny wyprostowany dwopolowkowo")
+            ret = new TwoHalfSinusoidalSignal(ampValue, strTimeValue, durValue, termValue);
+        if (name == "Sygnal sinusoidalny")
+            ret = new SinusoidalSignal(ampValue, strTimeValue, durValue, termValue);
+        if (name == "Sygnal prostokatny")
+            ret = new SquareSignal(ampValue, strTimeValue, durValue, termValue, kwValue);
+        if (name == "Sygnal prostokatny symetryczny")
+            ret = new SymmetricalSquareSignal(ampValue, strTimeValue, durValue, termValue, kwValue);
+        if (name == "Sygnal trojkatny")
+            ret = new TriangularSignal(ampValue, strTimeValue, durValue, termValue, kwValue);
+        if (name == "Szum o rozkladzie jednostajnym")
+            ret = new UniformlyDistributedNoise(ampValue, strTimeValue, durValue);
+        if (name == "Impuls jednostkowy")
+            ret = new UnitImpulse(ampValue, strTimeValue, durValue, freqValue, jumpValue.intValue());
+        if (name == "Skok jednostkowy")
+            ret = new UnitJump(ampValue, strTimeValue, durValue, jumpValue);
+        System.out.println("SIGNAL: " + ret);
+        return ret;
     }
 
     public static void main(String[] args) {

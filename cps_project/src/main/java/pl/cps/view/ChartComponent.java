@@ -52,58 +52,8 @@ public class ChartComponent extends HBox {
 
     }
 
-    public void generateUnitJump() throws SignalIsNotTransmittedInThisTime {
-        generatedSignal = new UnitJump(10.0, 0.0, 6, 2.0);
-        generatedSignal.generateChart(data);
-    }
-
-    public void generateTriangularSignal() throws SignalIsNotTransmittedInThisTime {
-        generatedSignal = new TriangularSignal(3.0,1.0,6.0,2.0, 0.7);
-        generatedSignal.generateChart(data);
-    }
-
-    public void generateUniformlyDistributedNoise() throws SignalIsNotTransmittedInThisTime {
-        generatedSignal = new UniformlyDistributedNoise(2.0,1.0,3.0);
-        generatedSignal.generateChart(data);
-    }
-
-    public void generateTwoHalfSinusoidalSignal() throws SignalIsNotTransmittedInThisTime {
-        generatedSignal = new TwoHalfSinusoidalSignal(2.0, 1.0, 3.0, 2.0);
-        generatedSignal.generateChart(data);
-    }
-
-    public void generateSymmetricalSquareSignal() throws SignalIsNotTransmittedInThisTime {
-        generatedSignal  = new SymmetricalSquareSignal(2.0, 1.0, 3.0, 1.0, 0.3);
-        generatedSignal.generateChart(data);
-    }
-
-    public void generateSquareSignal() throws SignalIsNotTransmittedInThisTime {
-        generatedSignal = new SquareSignal(3.0,1.0, 4.0, 2.0, 0.5);
-        generatedSignal.generateChart(data);
-    }
-
-    public void generateSinusoidalSignal() throws SignalIsNotTransmittedInThisTime {
-        generatedSignal = new SinusoidalSignal(4, 0.0, 10.0, 2);
-        generatedSignal.generateChart(data);
-    }
-
-    public void generateOneHalfSinusoidalSignal() throws SignalIsNotTransmittedInThisTime {
-        generatedSignal = new OneHalfSinusoidalSignal(3.0, 0.0, 3.0,2.0);
-        generatedSignal.generateChart(data);
-    }
-
-    public void generateImpulseNoise() throws SignalIsNotTransmittedInThisTime {
-        generatedSignal = new ImpulseNoise(2.0, 1.0, 3.0, 3, 70);
-        generatedSignal.generateChart(data);
-    }
-
-    public void generateGaussianNoise() throws SignalIsNotTransmittedInThisTime {
-        generatedSignal = new GaussianNoise(1.0, 0, 5.0);
-        generatedSignal.generateChart(data);
-    }
-
-    public void generateUnitImpulse() throws SignalIsNotTransmittedInThisTime {
-        generatedSignal = new UnitImpulse(1.0, 0, 5.0, 2.0, 2);
+    public void generateSignal(Signal signal) throws SignalIsNotTransmittedInThisTime {
+        generatedSignal = signal;
         generatedSignal.generateChart(data);
     }
 
