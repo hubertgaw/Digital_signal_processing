@@ -11,6 +11,8 @@ import javafx.stage.Stage;
 import pl.cps.signal.emiters.*;
 import pl.cps.view.MainLayout;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 
 public class App extends Application {
 
@@ -122,34 +124,10 @@ public class App extends Application {
     }
 
     private Signal getSignalFromMenuItemName(String name, Stage stage) {
-        Signal ret = null;
-        setParametersDialogShow(stage, name);
-        if (name == "Szum Gaussowski")
-            ret = new GaussianNoise(ampValue, strTimeValue, durValue);
-        if (name == "Szum Impulsowy")
-            ret = new ImpulseNoise(ampValue, strTimeValue, durValue, freqValue, possValue);
-        if (name == "Sygnał sinusoidalny wyprostowany jednopolowkowo")
-            ret = new OneHalfSinusoidalSignal(ampValue, strTimeValue, durValue, termValue);
-        if (name == "Sygnał sinusoidalny wyprostowany dwopolowkowo")
-            ret = new TwoHalfSinusoidalSignal(ampValue, strTimeValue, durValue, termValue);
-        if (name == "Sygnal sinusoidalny")
-            ret = new SinusoidalSignal(ampValue, strTimeValue, durValue, termValue);
-        if (name == "Sygnal prostokatny")
-            ret = new SquareSignal(ampValue, strTimeValue, durValue, termValue, kwValue);
-        if (name == "Sygnal prostokatny symetryczny")
-            ret = new SymmetricalSquareSignal(ampValue, strTimeValue, durValue, termValue, kwValue);
-        if (name == "Sygnal trojkatny")
-            ret = new TriangularSignal(ampValue, strTimeValue, durValue, termValue, kwValue);
-        if (name == "Szum o rozkladzie jednostajnym")
-            ret = new UniformlyDistributedNoise(ampValue, strTimeValue, durValue);
-        if (name == "Impuls jednostkowy")
-            ret = new UnitImpulse(ampValue, strTimeValue, durValue, freqValue, jumpValue.intValue());
-        if (name == "Skok jednostkowy")
-            ret = new UnitJump(ampValue, strTimeValue, durValue, jumpValue);
-        return ret;
+        return setParametersDialogShow(stage, name);
     }
 
-    private void setParametersDialogShow(Stage stage, String name) {
+    private Signal setParametersDialogShow(Stage stage, String name) {
         Stage dialog = new Stage();
         Button saveBtn = new Button("Dalej");
         VBox ampBox = new VBox(), strtBox = new VBox(), durBox = new VBox(), termBox = new VBox(),
@@ -225,11 +203,14 @@ public class App extends Application {
         Scene dialogScene = new Scene(dialogVbox, 600, 800);
         dialog.setScene(dialogScene);
         dialog.show();
+        final Signal[] sig = {null};
         saveBtn.setOnMouseClicked((action) -> {
             reloadValues(amp, strTime, dur, term, freq, poss, kw, jump);
             dialog.getScene().getWindow().hide();
+            sig[0] = generateSignal(name);
         });
-
+        System.out.println(sig[0]);
+        return sig[0];
     }
 
     private void reloadValues(TextField amp, TextField strTime, TextField dur, TextField term, TextField freq,
@@ -249,6 +230,34 @@ public class App extends Application {
 
     private double convertStringToDouble(String str) {
         return Double.parseDouble(str.replaceAll("[^\\d]", ""));
+    }
+
+    private Signal generateSignal(String name) {
+        Signal ret = null;
+        if (name == "Szum Gaussowski")
+            ret = new GaussianNoise(ampValue, strTimeValue, durValue);
+        if (name == "Szum Impulsowy")
+            ret = new ImpulseNoise(ampValue, strTimeValue, durValue, freqValue, possValue);
+        if (name == "Sygnał sinusoidalny wyprostowany jednopolowkowo")
+            ret = new OneHalfSinusoidalSignal(ampValue, strTimeValue, durValue, termValue);
+        if (name == "Sygnał sinusoidalny wyprostowany dwopolowkowo")
+            ret = new TwoHalfSinusoidalSignal(ampValue, strTimeValue, durValue, termValue);
+        if (name == "Sygnal sinusoidalny")
+            ret = new SinusoidalSignal(ampValue, strTimeValue, durValue, termValue);
+        if (name == "Sygnal prostokatny")
+            ret = new SquareSignal(ampValue, strTimeValue, durValue, termValue, kwValue);
+        if (name == "Sygnal prostokatny symetryczny")
+            ret = new SymmetricalSquareSignal(ampValue, strTimeValue, durValue, termValue, kwValue);
+        if (name == "Sygnal trojkatny")
+            ret = new TriangularSignal(ampValue, strTimeValue, durValue, termValue, kwValue);
+        if (name == "Szum o rozkladzie jednostajnym")
+            ret = new UniformlyDistributedNoise(ampValue, strTimeValue, durValue);
+        if (name == "Impuls jednostkowy")
+            ret = new UnitImpulse(ampValue, strTimeValue, durValue, freqValue, jumpValue.intValue());
+        if (name == "Skok jednostkowy")
+            ret = new UnitJump(ampValue, strTimeValue, durValue, jumpValue);
+        System.out.println("SIGNAL: " + ret);
+        return ret;
     }
 
     public static void main(String[] args) {
