@@ -3,6 +3,9 @@ package pl.cps.signal.emiters;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class UnitImpulse extends Signal {
 
     private double frequency;
@@ -37,7 +40,10 @@ public class UnitImpulse extends Signal {
     public void generateChart(ObservableList<XYChart.Data<Double, Double>> data) throws SignalIsNotTransmittedInThisTime {
         int sampleCounter = 0;
         for (double x = getStartTime(); x < getStartTime() + getDuration(); x += 1/getFrequency()) {
-            data.add(new XYChart.Data<>(x, calculateValue(sampleCounter)));
+            double x_3decimalPoints = BigDecimal.valueOf(x)
+                    .setScale(3, RoundingMode.HALF_UP)
+                    .doubleValue();
+            data.add(new XYChart.Data<>(x_3decimalPoints, calculateValue(sampleCounter)));
             sampleCounter ++;
         }
     }

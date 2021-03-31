@@ -4,6 +4,6 @@ import java.util.List;
 
 public interface Operation {
 
-    public void performCalculating(List<Data> pointsFromFirstSignal,
+    public List<Data> performCalculating(List<Data> pointsFromFirstSignal,
                                    List<Data> pointsFromSecondSignal);
 }
