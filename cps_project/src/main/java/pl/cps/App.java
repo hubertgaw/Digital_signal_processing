@@ -108,6 +108,8 @@ public class App extends Application {
 
     private void showDiagram() {
         //dodanie wykresu na okno
+//        System.out.println("Size show" + getSelectedSignals().size());
+
         mainPane.getChildren().remove(mainLayout);
         mainLayout = new MainLayout();
         mainPane.add(mainLayout, 0, 1);
@@ -117,6 +119,7 @@ public class App extends Application {
         System.out.println("OBLICZAM");
         selectedSignals.clear();
         getSellections(stage);
+//        System.out.println("SIze " + getSelectedSignals().size());
     }
 
     private void addItemsToMenu(String[] items, Menu menu) {
