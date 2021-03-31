@@ -9,6 +9,9 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Math.abs;
+import static java.lang.Math.sqrt;
+
 public abstract class Signal {
     private double amplitude, startTime, duration;
     private List<Data> points = new ArrayList<>();
@@ -58,7 +61,7 @@ public abstract class Signal {
         }
     }
 
-    public void generateChart (ObservableList<XYChart.Data<Double, Double>> data) throws SignalIsNotTransmittedInThisTime {
+    public void generateChart(ObservableList<XYChart.Data<Double, Double>> data) throws SignalIsNotTransmittedInThisTime {
         for (double x = startTime; x < startTime + duration; x += 0.001) {
             double x_2decimalPoints = BigDecimal.valueOf(x)
                     .setScale(3, RoundingMode.HALF_UP)
@@ -70,4 +73,86 @@ public abstract class Signal {
 
     }
 
+    public double getAvarageValue() {
+        double count = 0, sum = 0;
+        for (Data point : points) {
+            sum += point.getY();
+            count++;
+        }
+        return sum / count;
+    }
+
+    public double getAbsAvarageValue() {
+        double count = 0, sum = 0;
+        for (Data point : points) {
+            sum += abs(point.getY());
+            count++;
+        }
+        return sum / count;
+    }
+
+    public double getAvaragePower() {
+        double count = 0, sum = 0;
+        for (Data point : points) {
+            sum += point.getY() * point.getY();
+            count++;
+        }
+        return sum / count;
+    }
+
+    public double getVariation(){
+        double count = 0, sum = 0, avg = this.getAbsAvarageValue();
+        for (Data point : points) {
+            sum += abs(point.getY()-avg)*abs(point.getY()-avg);
+            count++;
+        }
+        return sum / count;
+    }
+
+    public double getEffectiveValue(){
+        return sqrt(this.getAvaragePower());
+    }
+    public double getAbsAvarageValue(Signal secondSignal) {
+        double count = 0, sum = 0;
+        for (Data point : points) {
+            sum += abs(point.getY());
+            count++;
+        }
+        for (Data point : secondSignal.points) {
+            sum += abs(point.getY());
+            count++;
+        }
+
+        return sum / count;
+    }
+
+    public double getAvaragePower(Signal secondSignal) {
+        double count = 0, sum = 0;
+        for (Data point : points) {
+            sum += point.getY() * point.getY();
+            count++;
+        }
+        for (Data point : secondSignal.points) {
+            sum +=  point.getY() * point.getY();
+            count++;
+        }
+        return sum / count;
+    }
+
+    public double getVariation(Signal secondSignal){
+        double count = 0, sum = 0, avg = this.getAbsAvarageValue();
+        for (Data point : points) {
+            sum += abs(point.getY()-avg)*abs(point.getY()-avg);
+            count++;
+        }
+        for (Data point : secondSignal.points) {
+            sum +=  abs(point.getY()-avg)*abs(point.getY()-avg);
+            count++;
+        }
+        return sum / count;
+    }
+
+    public double getEffectiveValue(Signal secondSignal){
+        return sqrt(this.getAvaragePower(secondSignal));
+    }
 }
