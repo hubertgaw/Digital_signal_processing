@@ -5,14 +5,11 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Addition implements Operation {
+public class Addition {
 
-    private double firstX;
-    private double lastX;
-    private List<Data> resultPoints = new ArrayList<>();
+    private static List<Data> resultPoints = new ArrayList<>();
 
-    @Override
-    public List<Data> performCalculating(List<Data> pointsFromFirstSignal,
+    public static List<Data> performCalculating(List<Data> pointsFromFirstSignal,
                                    List<Data> pointsFromSecondSignal) {
         boolean firstSignalLonger = pointsFromFirstSignal.size() >= pointsFromSecondSignal.size();
         boolean found = false;
@@ -21,7 +18,7 @@ public class Addition implements Operation {
         if (firstSignalLonger) {
             for (Data data1 : pointsFromFirstSignal) {
                 for (Data data2 : pointsFromSecondSignal) {
-                    if (data1.getX() == data2.getX()) {
+                    if (data1.getX().equals(data2.getX())) {
                         resultPoints.add(new Data(data1.getX(), data1.getY() + data2.getY()));
                         break;
                     }
@@ -30,7 +27,7 @@ public class Addition implements Operation {
         } else {
             for (Data data2 : pointsFromSecondSignal) {
                 for (Data data1 : pointsFromFirstSignal) {
-                    if (data2.getX() == data1.getX()) {
+                    if (data2.getX().equals(data1.getX())) {
                         resultPoints.add(new Data(data2.getX(), data2.getY() + data1.getY()));
                         break;
                     }

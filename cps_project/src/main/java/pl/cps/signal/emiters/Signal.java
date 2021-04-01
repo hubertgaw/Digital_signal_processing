@@ -26,6 +26,11 @@ public abstract class Signal {
     public Signal() {
     }
 
+
+    public List<Data> getPoints() {
+        return points;
+    }
+
     public void setAmplitude(double amplitude) {
         this.amplitude = amplitude;
     }

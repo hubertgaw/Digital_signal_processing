@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-public class Division implements Operation{
+public class Division {
 
-    private List<Data> resultPoints = new ArrayList<>();
+    private static List<Data> resultPoints = new ArrayList<>();
 
-
-    @Override
-    public List<Data> performCalculating(List<Data> pointsFromFirstSignal,
+    public static List<Data> performCalculating(List<Data> pointsFromFirstSignal,
                                    List<Data> pointsFromSecondSignal) {
         boolean firstSignalLonger = pointsFromFirstSignal.size() >= pointsFromSecondSignal.size();
         boolean found = false;
@@ -19,7 +17,7 @@ public class Division implements Operation{
         if (firstSignalLonger) {
             for (Data data1 : pointsFromFirstSignal) {
                 for (Data data2 : pointsFromSecondSignal) {
-                    if (data1.getX() == data2.getX()) {
+                    if (data1.getX().equals(data2.getX())) {
                         if (data2.getY().equals(0d)) {
                             Data maxValueData = resultPoints.stream().max(Comparator.comparing(v -> v.getY())).get();
                             Double maxValue = maxValueData.getY();
@@ -34,7 +32,7 @@ public class Division implements Operation{
         } else {
             for (Data data2 : pointsFromSecondSignal) {
                 for (Data data1 : pointsFromFirstSignal) {
-                    if (data2.getX() == data1.getX()) {
+                    if (data2.getX().equals(data1.getX())) {
                         if (data1.getY().equals(0d)) {
                             Data maxValueData = resultPoints.stream().max(Comparator.comparing(v -> v.getY())).get();
                             Double maxValue = maxValueData.getY();
