@@ -10,6 +10,8 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pl.cps.signal.emiters.*;
+import pl.cps.signal.model.Addition;
+import pl.cps.signal.model.Data;
 import pl.cps.view.MainLayout;
 
 import javax.swing.*;
@@ -32,6 +34,16 @@ public class App extends Application {
     static Menu signalOneMenu = new Menu(), signalTwoMenu = new Menu(), operationMenu = new Menu();
 
     private static List<Signal> selectedSignals = new ArrayList<>();
+
+    private static String selectedOperation;
+
+    public static String getSelectedOperation() {
+        return selectedOperation;
+    }
+
+    public static void setSelectedOperation(String selectedOperation) {
+        App.selectedOperation = selectedOperation;
+    }
 
     public static List<Signal> getSelectedSignals() {
         return selectedSignals;
@@ -110,13 +122,15 @@ public class App extends Application {
         //dodanie wykresu na okno
         mainPane.getChildren().remove(mainLayout);
         mainLayout = new MainLayout();
+        //        System.out.println("Size show" + getSelectedSignals().size());
         mainPane.add(mainLayout, 0, 1);
     }
 
     private void startCalculating(Stage stage) {
         System.out.println("OBLICZAM");
         selectedSignals.clear();
-        getSellections(stage);
+        System.out.println("Operacja" + getSellections(stage)[2].toString());
+//        System.out.println("SIze " + getSelectedSignals().size());
     }
 
     private void addItemsToMenu(String[] items, Menu menu) {
@@ -146,6 +160,7 @@ public class App extends Application {
         for (MenuItem item : menu.getItems()) {
             CheckMenuItem tmp = (CheckMenuItem) item;
             if (tmp.isSelected()) {
+                setSelectedOperation(tmp.getText());
                 return tmp.getText();
             }
         }

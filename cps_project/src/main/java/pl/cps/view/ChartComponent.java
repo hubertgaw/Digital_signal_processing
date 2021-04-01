@@ -4,6 +4,9 @@ import javafx.collections.ObservableList;
 import javafx.scene.chart.*;
 import javafx.scene.layout.HBox;
 import pl.cps.signal.emiters.*;
+import pl.cps.signal.model.Data;
+
+import java.util.List;
 
 
 public class ChartComponent extends HBox {
@@ -12,6 +15,7 @@ public class ChartComponent extends HBox {
     private XYChart.Series<Double, Double> series;
     private ObservableList<XYChart.Data<Double, Double>> data;
     private Signal generatedSignal;
+    private OperationSignal resultSignal;
     private LineChart continuousSignalChart;
     private ScatterChart discreteSignalChart;
 
@@ -55,6 +59,12 @@ public class ChartComponent extends HBox {
     public void generateSignal(Signal signal) throws SignalIsNotTransmittedInThisTime {
         generatedSignal = signal;
         generatedSignal.generateChart(data);
+    }
+
+    // method for operation signal
+    public void generateSignal(List<Data> resultPoints) {
+        resultSignal = new OperationSignal();
+        resultSignal.generateChart(data, resultPoints);
     }
 
 }
