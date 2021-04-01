@@ -36,6 +36,7 @@ public class App extends Application {
     private static List<Signal> selectedSignals = new ArrayList<>();
 
     private static String selectedOperation;
+    private int showingSignalCounter = 0;
 
     public static String getSelectedOperation() {
         return selectedOperation;
@@ -115,6 +116,9 @@ public class App extends Application {
     }
 
     private void loadNextDiagram() {
+        mainLayout.initChart(showingSignalCounter % 3);
+        mainLayout.initHistogram(showingSignalCounter % 3);
+        showingSignalCounter ++;
         System.out.println("NEXT");
     }
 
@@ -122,6 +126,8 @@ public class App extends Application {
         //dodanie wykresu na okno
         mainPane.getChildren().remove(mainLayout);
         mainLayout = new MainLayout();
+        mainLayout.initChart(2);
+        mainLayout.initHistogram(2);
         //        System.out.println("Size show" + getSelectedSignals().size());
         mainPane.add(mainLayout, 0, 1);
     }

@@ -38,15 +38,14 @@ public class ChartComponent extends HBox {
     }
 
     public void drawChart() {
+        getChildren().clear();
         if (generatedSignal instanceof ImpulseNoise || generatedSignal instanceof UnitImpulse) {
-//            ScatterChart<Number, Number> scatterChart = new ScatterChart<Number, Number>(xAxis, yAxis);
             discreteSignalChart = new ScatterChart(xAxis, yAxis);
             discreteSignalChart.setTitle("Discrete signals");
             discreteSignalChart.getData().add(series);
             discreteSignalChart.getStyleClass().add("graphStyle.css"); //TODO nie dziala polaczenie z cssem (do zmiany grubosci linii)
             getChildren().add(discreteSignalChart);
         } else {
-//            LineChart<Number, Number> lineChart = new LineChart<Number, Number>(xAxis, yAxis);
             continuousSignalChart = new LineChart(xAxis, yAxis);
             continuousSignalChart.getData().add(series);
             continuousSignalChart.setCreateSymbols(false);
