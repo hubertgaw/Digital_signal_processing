@@ -55,16 +55,30 @@ public class MainLayout extends GridPane {
         } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
             signalIsNotTransmittedInThisTime.printStackTrace();
         }
-        this.histogramComponent = new HistogramComponent();
-        charts.get(2).drawChart();
-//        chartComponentFirstSignal.drawChart();
-        histogramComponent.drawHistogram(charts.get(2).getData());
-        initComponent();
+//        this.histogramComponent = new HistogramComponent();
+//        charts.get(2).drawChart();
+////        chartComponentFirstSignal.drawChart();
+//        histogramComponent.drawHistogram(charts.get(2).getData());
+//        initComponent();
     }
 
-    public void initComponent() {
-        //TU TRZEBA ZMIENIC, CZY CHCEMY HISTOGRAM CZY WYKRES ZOBACZYC
-//        add(chartComponentFirstSignal, 0, 1);
-        add(charts.get(2), 0, 1);
+    public void initChart(int whichSignalToShow) {
+        getChildren().clear();
+//        getChildren().remove(0);
+//        getChildren().remove(1);
+        charts.get(whichSignalToShow).drawChart();
+        add(charts.get(whichSignalToShow), 0, 1);
     }
+
+    public void initHistogram(int whichSignalToShow) {
+        this.histogramComponent = new HistogramComponent();
+        histogramComponent.drawHistogram(charts.get(whichSignalToShow).getData());
+        add(histogramComponent, 0, 2);
+    }
+
+//    public void initComponent() {
+//        //TU TRZEBA ZMIENIC, CZY CHCEMY HISTOGRAM CZY WYKRES ZOBACZYC
+////        add(chartComponentFirstSignal, 0, 1);
+//        add(charts.get(2), 0, 1);
+//    }
 }

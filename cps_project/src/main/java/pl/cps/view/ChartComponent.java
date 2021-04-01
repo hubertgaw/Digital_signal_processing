@@ -38,6 +38,7 @@ public class ChartComponent extends HBox {
     }
 
     public void drawChart() {
+        getChildren().clear();
         if (generatedSignal instanceof ImpulseNoise || generatedSignal instanceof UnitImpulse) {
 //            ScatterChart<Number, Number> scatterChart = new ScatterChart<Number, Number>(xAxis, yAxis);
             discreteSignalChart = new ScatterChart(xAxis, yAxis);
