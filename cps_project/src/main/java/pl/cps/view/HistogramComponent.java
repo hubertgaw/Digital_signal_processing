@@ -35,7 +35,6 @@ public class HistogramComponent extends HBox {
 
         }
 
-        histogram.setTitle("Histogram");
         histogram.getData().addAll(series);
         getChildren().add(histogram);
     }

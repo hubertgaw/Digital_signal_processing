@@ -54,6 +54,14 @@ public class App extends Application {
         App.selectedSignals = selectedSignals;
     }
 
+    public static Menu getSignalOneMenu() {
+        return signalOneMenu;
+    }
+
+    public static Menu getSignalTwoMenu() {
+        return signalTwoMenu;
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
 
@@ -161,7 +169,7 @@ public class App extends Application {
         return ret;
     }
 
-    private static String getSellectdOptionFromMenu(Menu menu) {
+    public static String getSellectdOptionFromMenu(Menu menu) {
         String ret = null;
         for (MenuItem item : menu.getItems()) {
             CheckMenuItem tmp = (CheckMenuItem) item;
