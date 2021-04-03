@@ -179,6 +179,7 @@ public class App extends Application {
 
     private static Signal setParametersDialogShow(Stage stage, String name) {
         Stage dialog = new Stage();
+        dialog.setTitle(name);
         Button saveBtn = new Button("Dalej");
         VBox ampBox = new VBox(), strtBox = new VBox(), durBox = new VBox(), termBox = new VBox(),
                 freqBox = new VBox(), possBox = new VBox(), kwBox = new VBox(), jumpBox = new VBox();
