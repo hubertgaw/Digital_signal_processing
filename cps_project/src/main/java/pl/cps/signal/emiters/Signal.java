@@ -160,4 +160,6 @@ public abstract class Signal {
     public double getEffectiveValue(Signal secondSignal){
         return sqrt(this.getAvaragePower(secondSignal));
     }
+
+
 }

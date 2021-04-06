@@ -71,12 +71,12 @@ public class App extends Application {
         VBox buttonBox = new VBox();
         MenuBar menuBar = new MenuBar();
         Button calculateButton = new Button(), nextButton = new Button(), showButton = new Button();
-        calculateButton.setText("Oblicz");
+        calculateButton.setText("Podaj parametry sygnaloww");
         nextButton.setText("Nastepny wykres");
         showButton.setText("Pokaz");
         mainPane.add(calculateButton, 1, 1);
         mainPane.add(nextButton, 1, 2);
-        mainPane.add(showButton,1,3);
+        mainPane.add(showButton, 1, 3);
         calculateButton.setOnMouseClicked((action) -> {
             startCalculating(stage);
         });
@@ -116,9 +116,9 @@ public class App extends Application {
     }
 
     private void loadNextDiagram() {
+        showingSignalCounter++;
         mainLayout.initChart(showingSignalCounter % 3);
         mainLayout.initHistogram(showingSignalCounter % 3);
-        showingSignalCounter ++;
         System.out.println("NEXT");
     }
 
@@ -133,10 +133,9 @@ public class App extends Application {
     }
 
     private void startCalculating(Stage stage) {
-        System.out.println("OBLICZAM");
         selectedSignals.clear();
-        System.out.println("Operacja" + getSellections(stage)[2].toString());
-//        System.out.println("SIze " + getSelectedSignals().size());
+        getSellections(stage)[2].toString();
+        getSelectedSignals().size();
     }
 
     private void addItemsToMenu(String[] items, Menu menu) {
@@ -187,7 +186,7 @@ public class App extends Application {
                 kw = new TextField("0"), jump = new TextField("0");
         Text ampText = new Text("Amplitude:"), strTimeText = new Text("Start w sekundzie:"),
                 durText = new Text("Czas trwania w sekundach"),
-                termText = new Text("term:"), freqText = new Text("czestotliwosc:"), possText = new Text("Prawdopodobienstwo:"),
+                termText = new Text("Okres:"), freqText = new Text("czestotliwosc:"), possText = new Text("Prawdopodobienstwo:"),
                 kwText = new Text("wspolczynnik wypelnienia"), jumpText = new Text("Informacje odnośnie skoku");
 
         if (name.equals("Szum Gaussowski") || name.equals("Szum o rozkladzie jednostajnym")) {
@@ -252,7 +251,7 @@ public class App extends Application {
         dialogVbox.getChildren().add(kwBox);
         dialogVbox.getChildren().add(jumpBox);
         dialogVbox.getChildren().add(saveBtn);
-        Scene dialogScene = new Scene(dialogVbox, 600, 800);
+        Scene dialogScene = new Scene(dialogVbox, 250, 600);
         dialog.setScene(dialogScene);
         dialog.show();
         final Signal[] sig = {null};
@@ -262,13 +261,13 @@ public class App extends Application {
             sig[0] = generateSignal(name);
             selectedSignals.add(sig[0]);
         });
-        System.out.println(sig[0]);
+//        System.out.println(sig[0]);
         return sig[0];
     }
 
     private static void reloadValues(TextField amp, TextField strTime, TextField dur, TextField term, TextField freq,
                                      TextField poss, TextField kw, TextField jump) {
-        System.out.println("AMP:" + ampValue);
+//        System.out.println("AMP:" + ampValue);
         ampValue = convertStringToDouble(amp.getText());
         strTimeValue = convertStringToDouble(strTime.getText());
         durValue = convertStringToDouble(dur.getText());
@@ -277,8 +276,8 @@ public class App extends Application {
         possValue = convertStringToDouble(poss.getText());
         kwValue = convertStringToDouble(kw.getText());
         jumpValue = convertStringToDouble(jump.getText());
-        System.out.println("AMP:" + ampValue);
-        System.out.println("================");
+//        System.out.println("AMP:" + ampValue);
+//        System.out.println("================");
     }
 
     private static double convertStringToDouble(String str) {

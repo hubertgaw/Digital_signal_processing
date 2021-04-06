@@ -22,10 +22,10 @@ public class ChartComponent extends HBox {
     public ChartComponent() throws SignalIsNotTransmittedInThisTime {
 
         xAxis = new NumberAxis();
-        xAxis.setLabel("x");
+        xAxis.setLabel("X");
 
         yAxis = new NumberAxis();
-        yAxis.setLabel("y");
+        yAxis.setLabel("Y");
 
         series = new XYChart.Series<>();
 

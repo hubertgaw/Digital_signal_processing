@@ -15,7 +15,7 @@ public class HistogramComponent extends HBox {
     private NumberAxis yAxis;
     private XYChart.Series<String, Number> series;
     private SignalGraphToHistogramConverter converter = new SignalGraphToHistogramConverter();
-    private final int NUMBER_OF_BARS = 15;
+    private final int NUMBER_OF_BARS = 15;//TODO umozliwic zmiane ilosci
 
     public HistogramComponent() {
         this.xAxis = new CategoryAxis();

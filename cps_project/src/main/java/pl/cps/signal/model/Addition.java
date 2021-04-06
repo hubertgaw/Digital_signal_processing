@@ -1,84 +1,59 @@
 package pl.cps.signal.model;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+
+
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+
+
+import static pl.cps.signal.model.MathematicalOperation.isEqualWithAccuracy;
 
 public class Addition {
 
     private static List<Data> resultPoints = new ArrayList<>();
+    private static double ITERATIONS_STEP_SIZE = 0.001, COMPARISON_ACCURRACY=ITERATIONS_STEP_SIZE/1000;
 
     public static List<Data> performCalculating(List<Data> pointsFromFirstSignal,
-                                   List<Data> pointsFromSecondSignal) {
+                                                List<Data> pointsFromSecondSignal) {
         boolean firstSignalLonger = pointsFromFirstSignal.size() >= pointsFromSecondSignal.size();
         boolean found = false;
+        double beginX = Double.MAX_VALUE, endX = Double.MIN_VALUE;
+        int firstIterator = 0, secondIterator = 0;
+        double value;
 
-        // todo zrobic dla reszty dziedziny, anie tylko pokrywajacej sie
-        if (firstSignalLonger) {
-            for (Data data1 : pointsFromFirstSignal) {
-                for (Data data2 : pointsFromSecondSignal) {
-                    if (data1.getX().equals(data2.getX())) {
-                        resultPoints.add(new Data(data1.getX(), data1.getY() + data2.getY()));
-                        break;
-                    }
-                }
-            }
-        } else {
-            for (Data data2 : pointsFromSecondSignal) {
-                for (Data data1 : pointsFromFirstSignal) {
-                    if (data2.getX().equals(data1.getX())) {
-                        resultPoints.add(new Data(data2.getX(), data2.getY() + data1.getY()));
-                        break;
-                    }
-                }
-            }
+        Collections.sort(pointsFromFirstSignal);
+        Collections.sort(pointsFromSecondSignal);
+        beginX = pointsFromFirstSignal.get(0).getX();
+        endX = pointsFromFirstSignal.get(pointsFromFirstSignal.size() - 1).getX();
+        if (beginX > pointsFromSecondSignal.get(0).getX()) {
+            beginX = pointsFromSecondSignal.get(0).getX();
         }
+        if (endX < pointsFromSecondSignal.get(pointsFromSecondSignal.size() - 1).getX()) {
+            endX = pointsFromSecondSignal.get(pointsFromSecondSignal.size() - 1).getX();
+        }
+        for (double i = beginX; i < endX; i += ITERATIONS_STEP_SIZE) {
+            value = 0;
+
+            if (isEqualWithAccuracy(pointsFromFirstSignal.get(firstIterator).getX(), i,COMPARISON_ACCURRACY)) {
+                value += pointsFromFirstSignal.get(firstIterator).getY();
+                firstIterator++;
+                firstIterator = firstIterator % pointsFromFirstSignal.size();
+            }
+            if (isEqualWithAccuracy(pointsFromSecondSignal.get(secondIterator).getX(), i,COMPARISON_ACCURRACY)) {
+
+                value += pointsFromSecondSignal.get(secondIterator).getY();
+                secondIterator++;
+                secondIterator = secondIterator % pointsFromSecondSignal.size();
+            }
+
+            resultPoints.add(new Data(i, value));
+        }
+
+
         return resultPoints;
     }
-//
-//        // flagi mowiace, w którym sygnale punkty się zaczynają/kończą
-//        int whichSignalFirst, whichSignalLast;
-//        // Listy są uporządkowane, więc wystarczy, że porownamy pierwszy element, zeby
-//        // znalezc od jakiego X zaczac
-//        if (pointsFromFirstSignal.get(0).getX() <= pointsFromSecondSignal.get(0).getX()) {
-//            firstX = pointsFromFirstSignal.get(0).getX();
-//            whichSignalFirst = 0;
-//        } else {
-//            firstX = pointsFromSecondSignal.get(0).getX();
-//            whichSignalFirst = 1;
-//        }
-//        if (pointsFromFirstSignal.get(pointsFromFirstSignal.size() - 1).getX() >=
-//                pointsFromSecondSignal.get(pointsFromSecondSignal.size() - 1).getX()){
-//            lastX = pointsFromFirstSignal.get(pointsFromFirstSignal.size() - 1).getX();
-//            whichSignalLast = 0;
-//        } else {
-//            lastX = pointsFromSecondSignal.get(pointsFromSecondSignal.size() - 1).getX();
-//            whichSignalLast = 1;
-//        }
-////        for (double x = firstX; x <= lastX; x += 0.001) {
-////            int counter = 0;
-////            double x_3decimalPoints = BigDecimal.valueOf(x)
-////                    .setScale(3, RoundingMode.HALF_UP)
-////                    .doubleValue();
-////            if (whichSignalFirst == 0) {
-//////                resultPoints.add(new Data(pointsFromFirstSignal.get(counter),))
-////            }
-////
-////        }
-//        boolean found = false;
-//        if (whichSignalFirst == 0 && whichSignalLast == 0) {
-//            for (Data data : pointsFromFirstSignal) {
-//                for (Data data2 : pointsFromSecondSignal) {
-//                    if (data2.getX() == data.getX()) {
-//                        resultPoints.add(new Data(data.getX(), data.getY() + data2.getY()));
-//                        found = true;
-//                        break;
-//                    }
-//                }
-//
-//            }
-//        }
 
 
 }
