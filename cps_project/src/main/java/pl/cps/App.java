@@ -10,33 +10,23 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pl.cps.signal.emiters.*;
-import pl.cps.signal.model.Addition;
-import pl.cps.signal.model.Data;
 import pl.cps.view.MainLayout;
-
-import javax.swing.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicReference;
 
 
 public class App extends Application {
 
-
     private String windowTitle;
-
     static Double ampValue, strTimeValue, durValue, termValue, freqValue, possValue, kwValue, jumpValue;
-
     private static MainLayout mainLayout;
     private static GridPane mainPane = new GridPane();
-
-    static Menu signalOneMenu = new Menu(), signalTwoMenu = new Menu(), operationMenu = new Menu();
-
+    static Menu signalOneMenu = new Menu(), signalTwoMenu = new Menu(), operationMenu = new Menu(),
+            barsNumberMenu = new Menu();
     private static List<Signal> selectedSignals = new ArrayList<>();
-
     private static String selectedOperation;
     private int showingSignalCounter = 0;
+
 
     public static String getSelectedOperation() {
         return selectedOperation;
@@ -54,9 +44,20 @@ public class App extends Application {
         App.selectedSignals = selectedSignals;
     }
 
+    public static Menu getSignalOneMenu() {
+        return signalOneMenu;
+    }
+
+    public static Menu getSignalTwoMenu() {
+        return signalTwoMenu;
+    }
+
+    public static Menu getBarsNumberMenu() {
+        return barsNumberMenu;
+    }
+
     @Override
     public void start(Stage stage) throws Exception {
-
         Scene mainScene = new Scene(mainPane);
         notifyPreloader(new Preloader.StateChangeNotification(Preloader.StateChangeNotification.Type.BEFORE_START));
         stage.setTitle(windowTitle);
@@ -89,6 +90,7 @@ public class App extends Application {
         signalOneMenu.setText("Sygnal nr 1");
         signalTwoMenu.setText("Sygnal nr 2");
         operationMenu.setText("Operacja");
+        barsNumberMenu.setText("Liczba słupków");
         String[] signals = {"Szum Gaussowski",
                 "Szum Impulsowy",
                 "Sygnał sinusoidalny wyprostowany jednopolowkowo",
@@ -103,14 +105,17 @@ public class App extends Application {
                 operations = {"Dodawanie",
                         "Odejmowanie",
                         "Mnożenie",
-                        "Dzielenie"};
+                        "Dzielenie"},
+                barsNumber = {"5", "10", "15", "20"};
 
         addItemsToMenu(signals, signalOneMenu);
         addItemsToMenu(signals, signalTwoMenu);
         addItemsToMenu(operations, operationMenu);
+        addItemsToMenu(barsNumber, barsNumberMenu);
         menuBar.getMenus().add(signalOneMenu);
         menuBar.getMenus().add(operationMenu);
         menuBar.getMenus().add(signalTwoMenu);
+        menuBar.getMenus().add(barsNumberMenu);
         VBox vBox = new VBox(menuBar);
         mainPane.add(vBox, 0, 0);
     }
@@ -160,7 +165,7 @@ public class App extends Application {
         return ret;
     }
 
-    private static String getSellectdOptionFromMenu(Menu menu) {
+    public static String getSellectdOptionFromMenu(Menu menu) {
         String ret = null;
         for (MenuItem item : menu.getItems()) {
             CheckMenuItem tmp = (CheckMenuItem) item;
@@ -178,6 +183,7 @@ public class App extends Application {
 
     private static Signal setParametersDialogShow(Stage stage, String name) {
         Stage dialog = new Stage();
+        dialog.setTitle(name);
         Button saveBtn = new Button("Dalej");
         VBox ampBox = new VBox(), strtBox = new VBox(), durBox = new VBox(), termBox = new VBox(),
                 freqBox = new VBox(), possBox = new VBox(), kwBox = new VBox(), jumpBox = new VBox();

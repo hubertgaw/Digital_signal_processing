@@ -22,10 +22,11 @@ public class ChartComponent extends HBox {
     public ChartComponent() throws SignalIsNotTransmittedInThisTime {
 
         xAxis = new NumberAxis();
-        xAxis.setLabel("X");
+        xAxis.setLabel("t[s]");
 
         yAxis = new NumberAxis();
-        yAxis.setLabel("Y");
+        yAxis.setLabel("A");
+
 
         series = new XYChart.Series<>();
 
@@ -37,16 +38,17 @@ public class ChartComponent extends HBox {
         return data;
     }
 
-    public void drawChart() {
+    public void drawChart(String signalName) {
         getChildren().clear();
         if (generatedSignal instanceof ImpulseNoise || generatedSignal instanceof UnitImpulse) {
             discreteSignalChart = new ScatterChart(xAxis, yAxis);
-            discreteSignalChart.setTitle("Discrete signals");
+            discreteSignalChart.setTitle(signalName);
             discreteSignalChart.getData().add(series);
             discreteSignalChart.getStyleClass().add("graphStyle.css"); //TODO nie dziala polaczenie z cssem (do zmiany grubosci linii)
             getChildren().add(discreteSignalChart);
         } else {
             continuousSignalChart = new LineChart(xAxis, yAxis);
+            continuousSignalChart.setTitle(signalName);
             continuousSignalChart.getData().add(series);
             continuousSignalChart.setCreateSymbols(false);
             continuousSignalChart.getStyleClass().add("graphStyle.css"); //TODO nie dziala polaczenie z cssem (do zmiany grubosci linii)
@@ -56,12 +58,14 @@ public class ChartComponent extends HBox {
     }
 
     public void generateSignal(Signal signal) throws SignalIsNotTransmittedInThisTime {
+        data.clear();
         generatedSignal = signal;
         generatedSignal.generateChart(data);
     }
 
     // method for operation signal
     public void generateSignal(List<Data> resultPoints) {
+        data.clear();
         resultSignal = new OperationSignal();
         resultSignal.generateChart(data, resultPoints);
     }

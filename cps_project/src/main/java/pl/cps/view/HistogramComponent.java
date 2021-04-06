@@ -6,6 +6,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.HBox;
+import pl.cps.App;
 import pl.cps.signal.graphs.SignalGraphToHistogramConverter;
 
 import java.util.Map;
@@ -15,7 +16,7 @@ public class HistogramComponent extends HBox {
     private NumberAxis yAxis;
     private XYChart.Series<String, Number> series;
     private SignalGraphToHistogramConverter converter = new SignalGraphToHistogramConverter();
-    private final int NUMBER_OF_BARS = 15;//TODO umozliwic zmiane ilosci
+
 
     public HistogramComponent() {
         this.xAxis = new CategoryAxis();
@@ -26,7 +27,8 @@ public class HistogramComponent extends HBox {
     public void drawHistogram(ObservableList<XYChart.Data<Double, Double>> data) {
         BarChart<String, Number> histogram =
                 new BarChart<String, Number>(xAxis, yAxis);
-        Map<String, Integer> histogramData = converter.convert(data, NUMBER_OF_BARS);
+        Map<String, Integer> histogramData = converter.convert(data,
+                Integer.parseInt(App.getSellectdOptionFromMenu(App.getBarsNumberMenu())));
         for (Map.Entry<String, Integer> entry : histogramData.entrySet()) {
             String tmpString = entry.getKey();
             Integer tmpValue = entry.getValue();
@@ -35,7 +37,6 @@ public class HistogramComponent extends HBox {
 
         }
 
-        histogram.setTitle("Histogram");
         histogram.getData().addAll(series);
         getChildren().add(histogram);
     }

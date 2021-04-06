@@ -54,7 +54,13 @@ public class MainLayout extends GridPane {
 
     public void initChart(int whichSignalToShow) {
         getChildren().clear();
-        charts.get(whichSignalToShow).drawChart();
+        if (whichSignalToShow == 0) {
+            charts.get(whichSignalToShow).drawChart(App.getSellectdOptionFromMenu(App.getSignalTwoMenu()));
+        } else if (whichSignalToShow == 1) {
+            charts.get(whichSignalToShow).drawChart(App.getSellectdOptionFromMenu(App.getSignalOneMenu()));
+        } else if (whichSignalToShow == 2) {
+            charts.get(whichSignalToShow).drawChart("Sygnał wynikowy");
+        }
         add(charts.get(whichSignalToShow), 0, 1);
     }
 

@@ -9,8 +9,8 @@ public class SymmetricalSquareSignal extends SquareSignal {
     public double calculateValue(double time) throws SignalIsNotTransmittedInThisTime {
         checkTimePeriod(time);
         if (shouldReturnZero(time)) {
-            return (-1) * (getAmplitude() / 2);
+            return (-1) * (getAmplitude());
         }
-        return getAmplitude() / 2;
+        return getAmplitude();
     }
 }
