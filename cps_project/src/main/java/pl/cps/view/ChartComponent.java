@@ -27,6 +27,7 @@ public class ChartComponent extends HBox {
         yAxis = new NumberAxis();
         yAxis.setLabel("A");
 
+
         series = new XYChart.Series<>();
 
         data = series.getData();

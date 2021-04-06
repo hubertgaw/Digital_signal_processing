@@ -17,6 +17,7 @@ public class HistogramComponent extends HBox {
     private XYChart.Series<String, Number> series;
     private SignalGraphToHistogramConverter converter = new SignalGraphToHistogramConverter();
 
+
     public HistogramComponent() {
         this.xAxis = new CategoryAxis();
         this.yAxis = new NumberAxis();

@@ -17,7 +17,7 @@ public class AppPreloader extends Preloader {
 
         this.stage = stage;
 
-        Scene scene = new Scene(new ProgressIndicator(-1), 100, 100);
+        Scene scene = new Scene(new ProgressIndicator(-1), 600, 600);
         stage.initStyle(StageStyle.TRANSPARENT);
         stage.setScene(scene);
         stage.show();
