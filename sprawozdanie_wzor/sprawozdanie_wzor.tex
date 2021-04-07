@@ -22,18 +22,12 @@ Cyfrowe Przetwarzanie Sygnalów}
 
 Celem zadania bylo zapoznanie sie z wlasnosciami róznych sygnalów oraz poznanie i zastosowanie podstawowych dzialan na sygnalach. W wyniku zadania powstala aplikacja w technologii Java, która rysuje wykresy przebiegu oraz histogramy dla poszczególnych sygnalów oraz dla sygnalów powstalych w wyniku dzialan na dwóch sygnalach. Oblicz ona i pokazuje wartosci da sygnalów, a takze zezwala za zapis i odczyt sygnalu do/z pliku.
 
-\section{Wstêp teoretyczny}
+\section{Wstep teoretyczny}
 
 Sygnaly uzyte w zadaniu generowane sa na podstawie wzorów znajdujacych sie w instrukcji do zadania \cite{instrukcja}. W instrukcji \cite{instrukcja} znajduja sie takze wzory uzyte w celu obliczenia parametrów funcji, czyli wartosci sredniejm bezwzglednej wartosci sredniej, wariancji, mocy sredniej oraz wartosci skutecznej. Aby przedstawic sygnaly na wykresie, zostaly one poddane próbkowaniu, czyli operacji w wyniku której powstal zbiór punktów, które po polaczeniu utworzyly odpowiedni wykres.
 
-Krótki opis wykorzystywanych metod~\cite{dowolna_etykieta_artykulu}. Proszê nie umieszczaæ ogólnie znanych z literatury
-wzorów oraz definicji. Nale¿y podaæ jaka metoda zosta³a zastosowana, dlaczego oraz podaæ wykorzystan¹ literaturê (korzystaj¹c z odwo³añ do pozycji bibliografii~\cite{dowolna_etykieta_ksiazki}).\\
-Przygotowuj¹c bibliografiê nale¿y korzystaæ z podanego\\ 
-szablonu \BibTeX-owego \texttt{bibliografia-wzor.bib}.
 
 \section{Eksperymenty i wyniki}
-
-Opis wykonywanych eksperymentów. Wymagane jest ilustrowanie przeprowadzanych do?wiadczeñ wykresami oraz tabelami.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PODROZDZIA£ PT. EKSPERYMENT NR 1 
@@ -41,20 +35,47 @@ Opis wykonywanych eksperymentów. Wymagane jest ilustrowanie przeprowadzanych do?
 
 \subsection{Eksperyment nr 1}
 
-Eksperyment nr 1...\\
-Identyczno?ciowa funkcja aktywacji ma postaæ:
-\begin{equation}
- \forall\: s \in \mathbb{R}\:\:\:\: f(s) = s
-%  \label{równanie funkcji identyczno?ciowej}
-\end{equation}
-Jak widaæ z definicji (\ref{równanie funkcji identyczno?ciowej}) funkcja ta...
+Wygenerowanie szumu impulsowego\\
+Celem eksperymentu bylo wygenerowanie szumu impulsowego. Jest to sygnal dyskretny, którego amplituda przyjmuje dwie wartosci, wartosc 0 oraz wartosc A rózna od zera.
 
-\subsubsection{Za³o¿enia}
-
+\subsubsection{Zalozenia}
+Wartosci parametrów, jakie zostaly wprowadzone do wygenerowania sygnalu:
+\begin{itemize}
+    \item Amplituda = 4
+    \item Czas poczatkowy = 0s
+    \item Czas trwania sygnalu = 5s
+    \item Czestotliwosc = 5Hz
+    \item Prawdopodobienstwo = 50%
+\end{itemize}
 \subsubsection{Przebieg}
+Wygenerowany zostal nastepujacy sygnal:
+\begin{figure}[h!]
+    \centering
+    \includegraphics{cps_szum_impulsowy_sygnal.jpg}
+    \caption{Wykres szumu impulsowego dla parametrów:  A=4, t1=0s, d=5s, f=5Hz, p=0.5}
+    \label{wykres dla eksperymentu 1}
+\end{figure}
+\\
+\\
+Histogram do wygenerowanego sygnalu prezentuje sie nastepujaco:
+\begin{figure}[h!]
+    \centering
+    \includegraphics{cps_szum_impulsowy_histogram.jpg}
+    \caption{Histogram dla szumu impulsowego o parametrach:  A=4, t1=0s, d=5s, f=5Hz, p=0.5}
+    \label{histogram dla eksperymentu 1}
+\end{figure}
+
 \newpage
 
 \subsubsection{Rezultat}
+Obliczone parametry dla szumu impulsowego:
+\begin{figure}[h!]
+    \centering
+    \includegraphics{cps_szum_impulsowy_wartosci.jpg}
+    \caption{Obliczone wartosci dla szumu impulsowego o parametrach:  A=4, t1=0s, d=5s, f=5Hz, p=0.5 }
+    \label{Wartosci dla eksperymentu 1}
+\end{figure}
+
 
 Rezultaty badañ eksperymentalnych przedstawione s¹ w Tab. \ref{wyniki eksperymentu pierwszego}.
 \begin{table}[h!]
