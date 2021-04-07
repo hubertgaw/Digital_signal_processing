@@ -28,4 +28,7 @@ pl\cps\view\MainLayout.class
 pl\cps\signal\model\Division.class
 pl\cps\signal\model\Data.class
 pl\cps\signal\emiters\Signal.class
+<<<<<<< Updated upstream
 pl\cps\TestApp.class
+=======
+>>>>>>> Stashed changes
