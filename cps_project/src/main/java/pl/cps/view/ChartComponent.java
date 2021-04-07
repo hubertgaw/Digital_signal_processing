@@ -107,4 +107,6 @@ public class ChartComponent extends HBox {
         generatedSignal.generateChart(data);
     }
 
+
+
 }

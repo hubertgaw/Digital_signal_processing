@@ -4,6 +4,7 @@ public class SquareSignal extends Signal {
 
     private double term;
     private double kw;
+    protected int counter = 0;
 
     public SquareSignal(double amplitude, double startTime, double duration, double term, double kw) {
         super(amplitude, startTime, duration);
@@ -14,9 +15,14 @@ public class SquareSignal extends Signal {
     @Override
     public double calculateValue(double time) throws SignalIsNotTransmittedInThisTime {
         checkTimePeriod(time);
+
+        counter++;
         if (shouldReturnZero(time)) {
+            System.out.print("CV- squareSignal   "+counter);
+            System.out.println("  0");
             return 0.0;
         }
+//        System.out.println("  AMP");
         return getAmplitude();
     }
 
