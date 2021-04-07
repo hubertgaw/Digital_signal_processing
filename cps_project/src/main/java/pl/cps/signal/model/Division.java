@@ -49,7 +49,13 @@ public class Division {
                 foundBothPointsInThisIteration = false;
             }
             if (foundBothPointsInThisIteration) {
-                resultPoints.add(new Data(i, value1/value2));
+                if (value2 == 0) {
+                    Data maxValueData = resultPoints.stream().max(Comparator.comparing(v -> v.getY())).orElse(new Data(0d,0d));
+                    Double maxValue = maxValueData.getY();
+                    resultPoints.add(new Data(i, maxValue));
+                } else {
+                    resultPoints.add(new Data(i, value1 / value2));
+                }
             } else {
                 resultPoints.add(new Data(i, 0.0));
             }
