@@ -2,6 +2,7 @@ package pl.cps.signal.emiters;
 
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
+import pl.cps.signal.model.Data;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -40,7 +41,9 @@ public class ImpulseNoise extends Signal {
             double x_3decimalPoints = BigDecimal.valueOf(x)
                     .setScale(3, RoundingMode.HALF_UP)
                     .doubleValue();
-            data.add(new XYChart.Data<>(x_3decimalPoints, calculateValue(x_3decimalPoints)));
+            double y = calculateValue(x_3decimalPoints);
+            data.add(new XYChart.Data<>(x_3decimalPoints, y));
+            getPoints().add(new Data(x_3decimalPoints, y));
         }
     }
 }
