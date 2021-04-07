@@ -37,6 +37,9 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.6.0</version>
+                <configuration>
+                    <mainClass>pl.cps.App</mainClass>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -64,6 +67,9 @@
                 <groupId>org.openjfx</groupId>
                 <artifactId>javafx-maven-plugin</artifactId>
                 <version>0.0.1</version>
+                <configuration>
+                    <mainClass>pl.cps.App</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>
