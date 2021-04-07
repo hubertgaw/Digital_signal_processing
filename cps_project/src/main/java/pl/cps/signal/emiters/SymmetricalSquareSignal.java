@@ -8,6 +8,8 @@ public class SymmetricalSquareSignal extends SquareSignal {
     @Override
     public double calculateValue(double time) throws SignalIsNotTransmittedInThisTime {
         checkTimePeriod(time);
+        System.out.println("CV-Symmetrical squareSignal"+counter);
+        counter++;
         if (shouldReturnZero(time)) {
             return (-1) * (getAmplitude());
         }

@@ -10,7 +10,9 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pl.cps.signal.emiters.*;
+import pl.cps.signal.model.*;
 import pl.cps.view.MainLayout;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +27,11 @@ public class App extends Application {
             barsNumberMenu = new Menu();
     private static List<Signal> selectedSignals = new ArrayList<>();
     private static String selectedOperation;
-    private int showingSignalCounter = 0;
+    private VBox signalCalculatedDetails = new VBox();
+    private Text avgValue = new Text(), absAvgValue = new Text(), avgPower = new Text(),
+            variation = new Text(), effectiveValue = new Text();
+    private int showingSignalCounter = 1;
+    private List<Data> resultPoints = new ArrayList<Data>();
 
 
     public static String getSelectedOperation() {
@@ -66,18 +72,21 @@ public class App extends Application {
         stage.centerOnScreen();
         setMenu(stage);
         stage.show();
+        stage.setMinHeight(600);
+        stage.setMinWidth(800);
     }
 
     private void setMenu(Stage stage) {
         VBox buttonBox = new VBox();
         MenuBar menuBar = new MenuBar();
         Button calculateButton = new Button(), nextButton = new Button(), showButton = new Button();
-        calculateButton.setText("Podaj parametry sygnaloww");
+        calculateButton.setText("Podaj parametry sygnałów");
         nextButton.setText("Nastepny wykres");
-        showButton.setText("Pokaz");
-        mainPane.add(calculateButton, 1, 1);
-        mainPane.add(nextButton, 1, 2);
-        mainPane.add(showButton, 1, 3);
+        showButton.setText("Oblicz i pokaż");
+        buttonBox.getChildren().add(calculateButton);
+        buttonBox.getChildren().add(nextButton);
+        buttonBox.getChildren().add(showButton);
+        mainPane.add(buttonBox, 1, 1);
         calculateButton.setOnMouseClicked((action) -> {
             startCalculating(stage);
         });
@@ -118,17 +127,89 @@ public class App extends Application {
         menuBar.getMenus().add(barsNumberMenu);
         VBox vBox = new VBox(menuBar);
         mainPane.add(vBox, 0, 0);
+
+
+        signalCalculatedDetails.getChildren().add(avgValue);
+        signalCalculatedDetails.getChildren().add(absAvgValue);
+        signalCalculatedDetails.getChildren().add(avgPower);
+        signalCalculatedDetails.getChildren().add(variation);
+        signalCalculatedDetails.getChildren().add(effectiveValue);
+        setSignalCalculatedDetails("-", "-", "-", "-", "-");
+        mainPane.add(signalCalculatedDetails, 1, 0);
+
     }
 
     private void loadNextDiagram() {
         showingSignalCounter++;
+        if (showingSignalCounter % 3 == 0) {
+            setSignalCalculatedDetails(selectedSignals.get(0).getAvarageValue(),
+                    selectedSignals.get(0).getAbsAvarageValue(),
+                    selectedSignals.get(0).getAvaragePower(),
+                    selectedSignals.get(0).getVariation(),
+                    selectedSignals.get(0).getEffectiveValue());
+        } else if (showingSignalCounter % 3 == 1) {
+            setSignalCalculatedDetails(selectedSignals.get(1).getAvarageValue(),
+                    selectedSignals.get(1).getAbsAvarageValue(),
+                    selectedSignals.get(1).getAvaragePower(),
+                    selectedSignals.get(1).getVariation(),
+                    selectedSignals.get(1).getEffectiveValue());
+
+        } else if (showingSignalCounter % 3 == 2) {
+            calculateResultPoints();
+            setSignalCalculatedDetails(GaussianNoise.getAvarageValue(resultPoints),//Zamiast GaussianNoise moze byc dowolny, chodzi o dostep do metod z Signal
+                    GaussianNoise.getAbsAvarageValue(resultPoints),
+                    GaussianNoise.getAvaragePower(resultPoints),
+                    GaussianNoise.getVariation(resultPoints),
+                    GaussianNoise.getEffectiveValue(resultPoints));
+        }
         mainLayout.initChart(showingSignalCounter % 3);
         mainLayout.initHistogram(showingSignalCounter % 3);
         System.out.println("NEXT");
     }
 
+    private void setSignalCalculatedDetails(double avgValueToSet, double absAvgValueToSet, double avgPowerToSet,
+                                            double variationToSet, double effectiveValueToSet) {
+        setSignalCalculatedDetails(Double.toString(avgValueToSet), Double.toString(absAvgValueToSet),
+                Double.toString(avgPowerToSet), Double.toString(variationToSet), Double.toString(effectiveValueToSet));
+    }
+
+    private void setSignalCalculatedDetails(String avgValueToSet, String absAvgValueToSet, String avgPowerToSet,
+                                            String variationToSet, String effectiveValueToSet) {
+        avgValue.setText("Wartosc srednia: " + avgValueToSet);
+        absAvgValue.setText("Wartosc srednia bezwzgledna: " + absAvgValueToSet);
+        avgPower.setText("Moc srednia: " + avgPowerToSet);
+        variation.setText("Wariacja: " + variationToSet);
+        effectiveValue.setText("Wartosc skuteczna: " + effectiveValueToSet);
+    }
+
+    private void calculateResultPoints() {
+        if (getSellectdOptionFromMenu(operationMenu).equalsIgnoreCase("dodawanie")) {
+            resultPoints.clear();
+            resultPoints.addAll(Addition.performCalculating(
+                    this.getSelectedSignals().get(1).getPoints(),
+                    this.getSelectedSignals().get(0).getPoints()));
+        } else if (getSellectdOptionFromMenu(operationMenu).equalsIgnoreCase("odejmowanie")) {
+            resultPoints.clear();
+            resultPoints.addAll(Subtraction.performCalculating(
+                    this.getSelectedSignals().get(1).getPoints(),
+                    this.getSelectedSignals().get(0).getPoints()));
+        } else if (getSellectdOptionFromMenu(operationMenu).equalsIgnoreCase("mnożenie")) {
+            resultPoints.clear();
+            resultPoints.addAll(Multiplication.performCalculating(
+                    this.getSelectedSignals().get(1).getPoints(),
+                    this.getSelectedSignals().get(0).getPoints()));
+        } else if (getSellectdOptionFromMenu(operationMenu).equalsIgnoreCase("dzielenie")) {
+            resultPoints.clear();
+            resultPoints.addAll(Division.performCalculating(
+                    this.getSelectedSignals().get(1).getPoints(),
+                    this.getSelectedSignals().get(0).getPoints()));
+        }
+
+    }
+
     private void showDiagram() {
         //dodanie wykresu na okno
+
         mainPane.getChildren().remove(mainLayout);
         mainLayout = new MainLayout();
         mainLayout.initChart(2);
@@ -188,7 +269,7 @@ public class App extends Application {
         VBox ampBox = new VBox(), strtBox = new VBox(), durBox = new VBox(), termBox = new VBox(),
                 freqBox = new VBox(), possBox = new VBox(), kwBox = new VBox(), jumpBox = new VBox();
         TextField amp = new TextField("0"), strTime = new TextField("0"), dur = new TextField("0"),
-                term = new TextField("0"), freq = new TextField("0"), poss = new TextField("0"),
+                term = new TextField("1"), freq = new TextField("0"), poss = new TextField("0"),
                 kw = new TextField("0"), jump = new TextField("0");
         Text ampText = new Text("Amplitude:"), strTimeText = new Text("Start w sekundzie:"),
                 durText = new Text("Czas trwania w sekundach"),
@@ -247,7 +328,7 @@ public class App extends Application {
         jumpBox.getChildren().add(jump);
         dialog.initModality(Modality.APPLICATION_MODAL);
         dialog.initOwner(stage);
-        VBox dialogVbox = new VBox(20);
+        VBox dialogVbox = new VBox(10);
         dialogVbox.getChildren().add(ampBox);
         dialogVbox.getChildren().add(strtBox);
         dialogVbox.getChildren().add(durBox);

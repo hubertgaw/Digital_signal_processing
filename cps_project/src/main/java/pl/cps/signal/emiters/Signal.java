@@ -162,4 +162,45 @@ public abstract class Signal {
     }
 
 
+    public static double getAvarageValue(List<Data> datas) {
+        double count = 0, sum = 0;
+        for (Data point : datas) {
+            sum += point.getY();
+            count++;
+        }
+        return sum / count;
+    }
+
+    public static double getAbsAvarageValue(List<Data> datas) {
+        double count = 0, sum = 0;
+        for (Data point : datas) {
+            sum += abs(point.getY());
+            count++;
+        }
+        return sum / count;
+    }
+
+    public static double getAvaragePower(List<Data> datas) {
+        double count = 0, sum = 0;
+        for (Data point : datas) {
+            sum += point.getY() * point.getY();
+            count++;
+        }
+        return sum / count;
+    }
+
+    public static double getVariation(List<Data> datas){
+        double count = 0, sum = 0, avg = getAbsAvarageValue(datas);
+        for (Data point : datas) {
+            sum += abs(point.getY()-avg)*abs(point.getY()-avg);
+            count++;
+        }
+        return sum / count;
+    }
+
+    public static double getEffectiveValue(List<Data> datas){
+        return sqrt(getAvaragePower(datas));
+    }
+
+
 }
