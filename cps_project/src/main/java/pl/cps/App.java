@@ -79,13 +79,18 @@ public class App extends Application {
     private void setMenu(Stage stage) {
         VBox buttonBox = new VBox();
         MenuBar menuBar = new MenuBar();
-        Button calculateButton = new Button(), nextButton = new Button(), showButton = new Button();
+        Button calculateButton = new Button(), nextButton = new Button(), showButton = new Button(),
+                saveBtn = new Button(), loadBtn = new Button();
         calculateButton.setText("Podaj parametry sygnałów");
         nextButton.setText("Nastepny wykres");
         showButton.setText("Oblicz i pokaż");
+        saveBtn.setText("Zapisz");
+        loadBtn.setText("Odczytaj");
         buttonBox.getChildren().add(calculateButton);
         buttonBox.getChildren().add(nextButton);
         buttonBox.getChildren().add(showButton);
+        buttonBox.getChildren().add(saveBtn);
+        buttonBox.getChildren().add(loadBtn);
         mainPane.add(buttonBox, 1, 1);
         calculateButton.setOnMouseClicked((action) -> {
             startCalculating(stage);
