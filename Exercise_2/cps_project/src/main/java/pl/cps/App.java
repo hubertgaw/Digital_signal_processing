@@ -11,6 +11,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pl.cps.signal.emiters.*;
 import pl.cps.signal.model.*;
+import pl.cps.view.ConversionWindowLayout;
 import pl.cps.view.MainLayout;
 
 import java.util.ArrayList;
@@ -80,17 +81,19 @@ public class App extends Application {
         VBox buttonBox = new VBox();
         MenuBar menuBar = new MenuBar();
         Button calculateButton = new Button(), nextButton = new Button(), showButton = new Button(),
-                saveBtn = new Button(), loadBtn = new Button();
+                saveBtn = new Button(), loadBtn = new Button(), sampleBtn = new Button();
         calculateButton.setText("Podaj parametry sygnałów");
         nextButton.setText("Nastepny wykres");
         showButton.setText("Oblicz i pokaż");
         saveBtn.setText("Zapisz");
         loadBtn.setText("Odczytaj");
+        sampleBtn.setText("Wykonaj próbkowanie");
         buttonBox.getChildren().add(calculateButton);
         buttonBox.getChildren().add(nextButton);
         buttonBox.getChildren().add(showButton);
         buttonBox.getChildren().add(saveBtn);
         buttonBox.getChildren().add(loadBtn);
+        buttonBox.getChildren().add(sampleBtn);
         mainPane.add(buttonBox, 1, 1);
         calculateButton.setOnMouseClicked((action) -> {
             startCalculating(stage);
@@ -100,6 +103,13 @@ public class App extends Application {
         });
         showButton.setOnMouseClicked((action) -> {
             showDiagram();
+        });
+        sampleBtn.setOnMouseClicked((action) -> {
+            try {
+                showWindowWithSampledSignal(stage);
+            } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
+                signalIsNotTransmittedInThisTime.printStackTrace();
+            }
         });
         signalOneMenu.setText("Sygnal nr 1");
         signalTwoMenu.setText("Sygnal nr 2");
@@ -265,6 +275,20 @@ public class App extends Application {
 
     private static Signal getSignalFromMenuItemName(String name, Stage stage) {
         return setParametersDialogShow(stage, name);
+    }
+
+    private void showWindowWithSampledSignal(Stage stage) throws SignalIsNotTransmittedInThisTime {
+        Stage conversionStage = new Stage();
+
+        ConversionWindowLayout conversionWindowLayout = new ConversionWindowLayout();
+        conversionWindowLayout.addSampledChart(getSelectedSignals().
+                get(showingSignalCounter % 3));
+
+        conversionStage.initOwner(stage);
+        Scene convertedChartsScene = new Scene(conversionWindowLayout);
+        conversionStage.setScene(convertedChartsScene);
+        conversionStage.show();
+
     }
 
     private static Signal setParametersDialogShow(Stage stage, String name) {
