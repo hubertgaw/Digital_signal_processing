@@ -11,8 +11,7 @@ public class GaussianNoise extends Signal{
     }
 
     @Override
-    public double calculateValue(double time){
-        //rand.nextGaussian zwraca wartosc od 0 do 1
-        return getAmplitude() * (rand.nextGaussian() * 2.0 - 1.0);
+    public double calculateValue(double time) {
+        return getAmplitude() * (((rand.nextGaussian() % 1.0)));
     }
 }
