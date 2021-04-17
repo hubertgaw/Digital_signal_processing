@@ -14,7 +14,7 @@ public class ConversionWindowLayout extends GridPane {
     }
 
     public void addSampledChart(Signal signal) throws SignalIsNotTransmittedInThisTime {
-        //gene
-        sampleChart.generateSignal(signal);
+
+//        sampleChart.generateSignal(signal);
     }
 }

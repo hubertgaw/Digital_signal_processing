@@ -38,29 +38,29 @@ public class ChartComponent extends HBox {
         return data;
     }
 
-    public void drawChart(String signalName) {
+    public void drawContinuousChart(String signalName) {
         getChildren().clear();
-        if (generatedSignal instanceof ImpulseNoise || generatedSignal instanceof UnitImpulse) {
-            discreteSignalChart = new ScatterChart(xAxis, yAxis);
-            discreteSignalChart.setTitle(signalName);
-            discreteSignalChart.getData().add(series);
-            discreteSignalChart.getStyleClass().add("graphStyle.css"); //TODO nie dziala polaczenie z cssem (do zmiany grubosci linii)
-            getChildren().add(discreteSignalChart);
-        } else {
-            continuousSignalChart = new LineChart(xAxis, yAxis);
-            continuousSignalChart.setTitle(signalName);
-            continuousSignalChart.getData().add(series);
-            continuousSignalChart.setCreateSymbols(false);
-            continuousSignalChart.getStyleClass().add("graphStyle.css"); //TODO nie dziala polaczenie z cssem (do zmiany grubosci linii)
-            getChildren().add(continuousSignalChart);
-        }
-
+        continuousSignalChart = new LineChart(xAxis, yAxis);
+        continuousSignalChart.setTitle(signalName);
+        continuousSignalChart.getData().add(series);
+        continuousSignalChart.setCreateSymbols(false);
+        continuousSignalChart.getStyleClass().add("graphStyle.css"); //TODO nie dziala polaczenie z cssem (do zmiany grubosci linii)
+        getChildren().add(continuousSignalChart);
     }
 
-    public void generateSignal(Signal signal) throws SignalIsNotTransmittedInThisTime {
+    public void drawDiscreteChart(String signalName) {
+        getChildren().clear();
+        discreteSignalChart = new ScatterChart(xAxis, yAxis);
+        discreteSignalChart.setTitle(signalName);
+        discreteSignalChart.getData().add(series);
+        discreteSignalChart.getStyleClass().add("graphStyle.css"); //TODO nie dziala polaczenie z cssem (do zmiany grubosci linii)
+        getChildren().add(discreteSignalChart);
+    }
+
+    public void generateSignal(Signal signal, int sampleFrequency) throws SignalIsNotTransmittedInThisTime {
         data.clear();
         generatedSignal = signal;
-        generatedSignal.generateChart(data);
+        generatedSignal.generateChart(data, sampleFrequency);
     }
 
     // method for operation signal

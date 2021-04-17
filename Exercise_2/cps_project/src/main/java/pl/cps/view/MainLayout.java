@@ -14,6 +14,8 @@ public class MainLayout extends GridPane {
     // list of chartComponents - one component - one signal
     private List<ChartComponent> charts = new ArrayList<>(3);
     private HistogramComponent histogramComponent;
+    //sample frequency for Continuous Signals:
+    private static final int sampleFrequency = 1000;
 
 
     public MainLayout() {
@@ -26,8 +28,8 @@ public class MainLayout extends GridPane {
         }
         try {
             //TU ZMIANA GENEROWANEGO SYGNALU
-            charts.get(0).generateSignal(App.getSelectedSignals().get(0));
-            charts.get(1).generateSignal(App.getSelectedSignals().get(1));
+            charts.get(0).generateSignal(App.getSelectedSignals().get(0), sampleFrequency);
+            charts.get(1).generateSignal(App.getSelectedSignals().get(1), sampleFrequency);
             List<Data> resultsPoints = null;
             if (App.getSelectedOperation().equalsIgnoreCase("dodawanie")) {
                 resultsPoints = Addition.performCalculating(
@@ -55,11 +57,21 @@ public class MainLayout extends GridPane {
     public void initChart(int whichSignalToShow) {
         getChildren().clear();
         if (whichSignalToShow == 0) {
-            charts.get(whichSignalToShow).drawChart(App.getSellectdOptionFromMenu(App.getSignalTwoMenu()));
+            String name = App.getSellectdOptionFromMenu(App.getSignalTwoMenu());
+            if (name.equals("Szum Impulsowy") || name.equals("Impuls jednostkowy")) {
+                charts.get(whichSignalToShow).drawDiscreteChart(name);
+            } else {
+                charts.get(whichSignalToShow).drawContinuousChart(name);
+            }
         } else if (whichSignalToShow == 1) {
-            charts.get(whichSignalToShow).drawChart(App.getSellectdOptionFromMenu(App.getSignalOneMenu()));
+            String name = App.getSellectdOptionFromMenu(App.getSignalOneMenu());
+            if (name.equals("Szum Impulsowy") || name.equals("Impuls jednostkowy")) {
+                charts.get(whichSignalToShow).drawDiscreteChart(name);
+            } else {
+                charts.get(whichSignalToShow).drawContinuousChart(name);
+            }
         } else if (whichSignalToShow == 2) {
-            charts.get(whichSignalToShow).drawChart("Sygnał wynikowy");
+            charts.get(whichSignalToShow).drawContinuousChart("Sygnał wynikowy");
         }
         add(charts.get(whichSignalToShow), 0, 1);
     }
