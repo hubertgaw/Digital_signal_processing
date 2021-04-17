@@ -15,7 +15,7 @@ public class MainLayout extends GridPane {
     private List<ChartComponent> charts = new ArrayList<>(3);
     private HistogramComponent histogramComponent;
     //sample frequency for Continuous Signals:
-    private static final int sampleFrequency = 1000;
+    private static final double sampleFrequency = 1000.0;
 
 
     public MainLayout() {

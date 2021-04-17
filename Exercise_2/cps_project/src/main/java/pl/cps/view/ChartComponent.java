@@ -57,7 +57,7 @@ public class ChartComponent extends HBox {
         getChildren().add(discreteSignalChart);
     }
 
-    public void generateSignal(Signal signal, int sampleFrequency) throws SignalIsNotTransmittedInThisTime {
+    public void generateSignal(Signal signal, double sampleFrequency) throws SignalIsNotTransmittedInThisTime {
         data.clear();
         generatedSignal = signal;
         generatedSignal.generateChart(data, sampleFrequency);

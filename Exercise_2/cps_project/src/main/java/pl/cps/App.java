@@ -11,7 +11,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pl.cps.signal.emiters.*;
 import pl.cps.signal.model.*;
-import pl.cps.view.ConversionWindowLayout;
+import pl.cps.view.SamplingWindowLayout;
 import pl.cps.view.MainLayout;
 
 import java.util.ArrayList;
@@ -22,6 +22,7 @@ public class App extends Application {
 
     private String windowTitle;
     static Double ampValue, strTimeValue, durValue, termValue, freqValue, possValue, kwValue, jumpValue;
+    private Double sampleFreq;
     private static MainLayout mainLayout;
     private static GridPane mainPane = new GridPane();
     static Menu signalOneMenu = new Menu(), signalTwoMenu = new Menu(), operationMenu = new Menu(),
@@ -31,7 +32,7 @@ public class App extends Application {
     private VBox signalCalculatedDetails = new VBox();
     private Text avgValue = new Text(), absAvgValue = new Text(), avgPower = new Text(),
             variation = new Text(), effectiveValue = new Text();
-    private int showingSignalCounter = 1;
+    private static int showingSignalCounter = 1;
     private List<Data> resultPoints = new ArrayList<Data>();
 
 
@@ -105,11 +106,8 @@ public class App extends Application {
             showDiagram();
         });
         sampleBtn.setOnMouseClicked((action) -> {
-            try {
-                showWindowWithSampledSignal(stage);
-            } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
-                signalIsNotTransmittedInThisTime.printStackTrace();
-            }
+            askSampleFrequency(stage);
+
         });
         signalOneMenu.setText("Sygnal nr 1");
         signalTwoMenu.setText("Sygnal nr 2");
@@ -152,6 +150,36 @@ public class App extends Application {
         setSignalCalculatedDetails("-", "-", "-", "-", "-");
         mainPane.add(signalCalculatedDetails, 1, 0);
 
+    }
+
+    private static void askSampleFrequency(Stage stage) {
+        Stage askFreqStage = new Stage();
+        askFreqStage.setTitle("Częstotliwość próbkowania");
+
+        Text askFreqText = new Text("Podaj częstotliwość próbkowania");
+        TextField sampleFreqField = new TextField("0");
+        Button nextBtn = new Button("Dalej");
+        nextBtn.setOnMouseClicked((action) -> {
+            freqValue = convertStringToDouble(sampleFreqField.getText());
+            try {
+                showWindowWithSampledSignal(stage);
+            } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
+                signalIsNotTransmittedInThisTime.printStackTrace();
+            }
+        });
+
+
+        VBox askFreqHBox = new VBox(15);
+        askFreqHBox.getChildren().add(askFreqText);
+        askFreqHBox.getChildren().add(sampleFreqField);
+        askFreqHBox.getChildren().add(nextBtn);
+
+        Scene askFreqScene = new Scene(askFreqHBox, 200,100);
+
+        askFreqStage.initModality(Modality.APPLICATION_MODAL);
+        askFreqStage.initOwner(stage);
+        askFreqStage.setScene(askFreqScene);
+        askFreqStage.show();
     }
 
     private void loadNextDiagram() {
@@ -277,15 +305,17 @@ public class App extends Application {
         return setParametersDialogShow(stage, name);
     }
 
-    private void showWindowWithSampledSignal(Stage stage) throws SignalIsNotTransmittedInThisTime {
+    private static void showWindowWithSampledSignal(Stage stage) throws SignalIsNotTransmittedInThisTime {
         Stage conversionStage = new Stage();
 
-        ConversionWindowLayout conversionWindowLayout = new ConversionWindowLayout();
-        conversionWindowLayout.addSampledChart(getSelectedSignals().
-                get(showingSignalCounter % 3));
+        SamplingWindowLayout samplingWindowLayout = new SamplingWindowLayout();
+        samplingWindowLayout.addSampledChart(getSelectedSignals().
+                get(showingSignalCounter % 3), freqValue);
+        samplingWindowLayout.initSampledChart();
 
         conversionStage.initOwner(stage);
-        Scene convertedChartsScene = new Scene(conversionWindowLayout);
+        Scene convertedChartsScene = new Scene(samplingWindowLayout);
+
         conversionStage.setScene(convertedChartsScene);
         conversionStage.show();
 

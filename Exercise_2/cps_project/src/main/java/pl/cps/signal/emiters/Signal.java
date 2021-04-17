@@ -66,7 +66,7 @@ public abstract class Signal {
         }
     }
 
-    public void generateChart(ObservableList<XYChart.Data<Double, Double>> data, int sampleFrequency) throws SignalIsNotTransmittedInThisTime {
+    public void generateChart(ObservableList<XYChart.Data<Double, Double>> data, double sampleFrequency) throws SignalIsNotTransmittedInThisTime {
         double jumpRange = 1.0/sampleFrequency;
         double jumpRange_3decimalPoints = BigDecimal.valueOf(jumpRange)
                 .setScale(3, RoundingMode.HALF_UP)

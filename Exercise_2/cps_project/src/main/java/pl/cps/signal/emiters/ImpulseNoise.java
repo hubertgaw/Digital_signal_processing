@@ -36,7 +36,7 @@ public class ImpulseNoise extends Signal {
     }
 
     @Override
-    public void generateChart(ObservableList<XYChart.Data<Double, Double>> data, int sampleFrequency) throws SignalIsNotTransmittedInThisTime {
+    public void generateChart(ObservableList<XYChart.Data<Double, Double>> data, double sampleFrequency) throws SignalIsNotTransmittedInThisTime {
         for (double x = getStartTime(); x < getStartTime() + getDuration(); x += 1/getFrequency()) {
             double x_3decimalPoints = BigDecimal.valueOf(x)
                     .setScale(3, RoundingMode.HALF_UP)
