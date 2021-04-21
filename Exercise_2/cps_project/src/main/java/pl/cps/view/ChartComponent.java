@@ -6,6 +6,7 @@ import javafx.scene.layout.HBox;
 import pl.cps.signal.emiters.*;
 import pl.cps.signal.model.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -57,10 +58,10 @@ public class ChartComponent extends HBox {
         getChildren().add(discreteSignalChart);
     }
 
-    public void generateSignal(Signal signal, double sampleFrequency) throws SignalIsNotTransmittedInThisTime {
+    public List<Data> generateSignal(Signal signal, double sampleFrequency) throws SignalIsNotTransmittedInThisTime {
         data.clear();
         generatedSignal = signal;
-        generatedSignal.generateChart(data, sampleFrequency);
+        return generatedSignal.generateChart(data, sampleFrequency);
     }
 
     // method for operation signal

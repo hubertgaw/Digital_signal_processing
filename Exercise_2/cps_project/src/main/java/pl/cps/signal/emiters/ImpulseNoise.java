@@ -6,6 +6,7 @@ import pl.cps.signal.model.Data;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 import java.util.Random;
 
 public class ImpulseNoise extends Signal {
@@ -36,7 +37,7 @@ public class ImpulseNoise extends Signal {
     }
 
     @Override
-    public void generateChart(ObservableList<XYChart.Data<Double, Double>> data, double sampleFrequency) throws SignalIsNotTransmittedInThisTime {
+    public List<Data> generateChart(ObservableList<XYChart.Data<Double, Double>> data, double sampleFrequency) throws SignalIsNotTransmittedInThisTime {
         for (double x = getStartTime(); x < getStartTime() + getDuration(); x += 1/getFrequency()) {
             double x_3decimalPoints = BigDecimal.valueOf(x)
                     .setScale(3, RoundingMode.HALF_UP)
@@ -45,5 +46,6 @@ public class ImpulseNoise extends Signal {
             data.add(new XYChart.Data<>(x_3decimalPoints, y));
             getPoints().add(new Data(x_3decimalPoints, y));
         }
+        return getPoints();
     }
 }

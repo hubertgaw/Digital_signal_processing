@@ -21,7 +21,7 @@ import java.util.List;
 public class App extends Application {
 
     private String windowTitle;
-    static Double ampValue, strTimeValue, durValue, termValue, freqValue, possValue, kwValue, jumpValue;
+    static Double ampValue, strTimeValue, durValue, termValue, valueForCalculations, possValue, kwValue, jumpValue;
     private Double sampleFreq;
     private static MainLayout mainLayout;
     private static GridPane mainPane = new GridPane();
@@ -34,6 +34,7 @@ public class App extends Application {
             variation = new Text(), effectiveValue = new Text();
     private static int showingSignalCounter = 1;
     private List<Data> resultPoints = new ArrayList<Data>();
+    private static List<Data> sampledSignalPoints = new ArrayList<>();
 
 
     public static String getSelectedOperation() {
@@ -106,7 +107,7 @@ public class App extends Application {
             showDiagram();
         });
         sampleBtn.setOnMouseClicked((action) -> {
-            askSampleFrequency(stage);
+            askWindow(stage, "Częstotliwość próbkowania");
 
         });
         signalOneMenu.setText("Sygnal nr 1");
@@ -152,34 +153,39 @@ public class App extends Application {
 
     }
 
-    private static void askSampleFrequency(Stage stage) {
-        Stage askFreqStage = new Stage();
-        askFreqStage.setTitle("Częstotliwość próbkowania");
+    private static void askWindow(Stage stage, String title) {
+        Stage askValueStage = new Stage();
+        askValueStage.setTitle(title);
 
-        Text askFreqText = new Text("Podaj częstotliwość próbkowania");
-        TextField sampleFreqField = new TextField("0");
+        Text askValueText = new Text("Podaj " + title);
+        TextField valueField = new TextField("0");
         Button nextBtn = new Button("Dalej");
         nextBtn.setOnMouseClicked((action) -> {
-            freqValue = convertStringToDouble(sampleFreqField.getText());
+            valueForCalculations = convertStringToDouble(valueField.getText());
             try {
-                showWindowWithSampledSignal(stage);
+                if (title.equals("Częstotliwość próbkowania")) {
+                    showWindowWithSampledSignal(stage);
+                } else if (title.equals("Poziomy kwantowania")) {
+                    showWindowWithQuantiziedSignal(stage);
+                }
             } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
                 signalIsNotTransmittedInThisTime.printStackTrace();
             }
+            askValueStage.close();
         });
 
 
         VBox askFreqHBox = new VBox(15);
-        askFreqHBox.getChildren().add(askFreqText);
-        askFreqHBox.getChildren().add(sampleFreqField);
+        askFreqHBox.getChildren().add(askValueText);
+        askFreqHBox.getChildren().add(valueField);
         askFreqHBox.getChildren().add(nextBtn);
 
-        Scene askFreqScene = new Scene(askFreqHBox, 200,100);
+        Scene askFreqScene = new Scene(askFreqHBox, 200, 100);
 
-        askFreqStage.initModality(Modality.APPLICATION_MODAL);
-        askFreqStage.initOwner(stage);
-        askFreqStage.setScene(askFreqScene);
-        askFreqStage.show();
+        askValueStage.initModality(Modality.APPLICATION_MODAL);
+        askValueStage.initOwner(stage);
+        askValueStage.setScene(askFreqScene);
+        askValueStage.show();
     }
 
     private void loadNextDiagram() {
@@ -307,17 +313,26 @@ public class App extends Application {
 
     private static void showWindowWithSampledSignal(Stage stage) throws SignalIsNotTransmittedInThisTime {
         Stage conversionStage = new Stage();
+        Button quantBtn = new Button("Kwantyzuj");
+        quantBtn.setOnMouseClicked((action) -> {
+            askWindow(stage, "Poziomy kwantyzacji");
+        });
 
         SamplingWindowLayout samplingWindowLayout = new SamplingWindowLayout();
-        samplingWindowLayout.addSampledChart(getSelectedSignals().
-                get(showingSignalCounter % 3), freqValue);
+        sampledSignalPoints = samplingWindowLayout.addSampledChart(getSelectedSignals().
+                get(showingSignalCounter % 3), valueForCalculations);
         samplingWindowLayout.initSampledChart();
+        samplingWindowLayout.add(quantBtn, 0, 2);
+
 
         conversionStage.initOwner(stage);
         Scene convertedChartsScene = new Scene(samplingWindowLayout);
 
         conversionStage.setScene(convertedChartsScene);
         conversionStage.show();
+    }
+
+    private static void showWindowWithQuantiziedSignal(Stage stage) {
 
     }
 
@@ -418,7 +433,7 @@ public class App extends Application {
         strTimeValue = convertStringToDouble(strTime.getText());
         durValue = convertStringToDouble(dur.getText());
         termValue = convertStringToDouble(term.getText());
-        freqValue = convertStringToDouble(freq.getText());
+        valueForCalculations = convertStringToDouble(freq.getText());
         possValue = convertStringToDouble(poss.getText());
         kwValue = convertStringToDouble(kw.getText());
         jumpValue = convertStringToDouble(jump.getText());
@@ -436,7 +451,7 @@ public class App extends Application {
         if (name == "Szum Gaussowski")
             ret = new GaussianNoise(ampValue, strTimeValue, durValue);
         if (name == "Szum Impulsowy")
-            ret = new ImpulseNoise(ampValue, strTimeValue, durValue, freqValue, possValue);
+            ret = new ImpulseNoise(ampValue, strTimeValue, durValue, valueForCalculations, possValue);
         if (name == "Sygnał sinusoidalny wyprostowany jednopolowkowo")
             ret = new OneHalfSinusoidalSignal(ampValue, strTimeValue, durValue, termValue);
         if (name == "Sygnał sinusoidalny wyprostowany dwopolowkowo")
@@ -452,7 +467,7 @@ public class App extends Application {
         if (name == "Szum o rozkladzie jednostajnym")
             ret = new UniformlyDistributedNoise(ampValue, strTimeValue, durValue);
         if (name == "Impuls jednostkowy")
-            ret = new UnitImpulse(ampValue, strTimeValue, durValue, freqValue, jumpValue.intValue());
+            ret = new UnitImpulse(ampValue, strTimeValue, durValue, valueForCalculations, jumpValue.intValue());
         if (name == "Skok jednostkowy")
             ret = new UnitJump(ampValue, strTimeValue, durValue, jumpValue);
         System.out.println("SIGNAL: " + ret);

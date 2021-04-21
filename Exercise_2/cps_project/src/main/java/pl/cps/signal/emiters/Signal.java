@@ -66,7 +66,7 @@ public abstract class Signal {
         }
     }
 
-    public void generateChart(ObservableList<XYChart.Data<Double, Double>> data, double sampleFrequency) throws SignalIsNotTransmittedInThisTime {
+    public List<Data> generateChart(ObservableList<XYChart.Data<Double, Double>> data, double sampleFrequency) throws SignalIsNotTransmittedInThisTime {
         double jumpRange = 1.0/sampleFrequency;
         double jumpRange_3decimalPoints = BigDecimal.valueOf(jumpRange)
                 .setScale(3, RoundingMode.HALF_UP)
@@ -79,7 +79,7 @@ public abstract class Signal {
             data.add(new XYChart.Data<>(x_2decimalPoints, y));
             points.add(new Data(x_2decimalPoints, y));
         }
-
+        return points;
     }
 
     public double getAvarageValue() {
