@@ -58,6 +58,7 @@ class ReconstructorsTest {
         }
         resultData = Reconstructors.zeroOrderInterpolation(data, 100);
         resultData.stream().forEach(i ->
-                assertEquals(Math.floor(i.getX())%3.0,i.getY()));
+                assertEquals(Math.floor(i.getX()) % 3.0, i.getY()));
     }
+
 }
