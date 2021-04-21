@@ -79,8 +79,8 @@ public class Quantizer {
         return pointsAfterQuantization;
     }
 
-    public List<Data> cutQuantization(List<Data> pointsFromSampledSignal,
-                                      int numberOfLevels) {
+    public List<Data> truncatedQuantization(List<Data> pointsFromSampledSignal,
+                                            int numberOfLevels) {
         List<Data> result = new ArrayList<Data>();
         try {
             createLevels(pointsFromSampledSignal, numberOfLevels);

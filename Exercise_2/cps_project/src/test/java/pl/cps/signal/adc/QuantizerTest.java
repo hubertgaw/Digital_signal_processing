@@ -1,10 +1,7 @@
 package pl.cps.signal.adc;
 
-import org.junit.Assert;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
-
 import pl.cps.signal.emiters.SignalIsNotTransmittedInThisTime;
 import pl.cps.signal.model.Data;
 
@@ -31,7 +28,7 @@ public class QuantizerTest {
     }
 
     @Test
-    public void cutQuantizationTest() {
+    public void truncatedQuantizationTest() {
         List<Data> data = new ArrayList<>(), resultData = new ArrayList<>();
         for (int i = 0; i < 100; i++) { //trwa 10s, amplituda 0-10
             data.add(new Data(i % 10.0, i / 10.0));
@@ -44,9 +41,9 @@ public class QuantizerTest {
             signalIsNotTransmittedInThisTime.printStackTrace();
         }
         for (int i = 0; i < 99; i++) { //trwa 10s, amplituda 0-10
-            assertEquals(quantizer.getLevels().get((int) Math.floor(i / 10)), quantizer.cutQuantization(data, 11).get(i).getY());
+            assertEquals(quantizer.getLevels().get((int) Math.floor(i / 10)), quantizer.truncatedQuantization(data, 11).get(i).getY());
         }
-        assertEquals(quantizer.getLevels().get(10), quantizer.cutQuantization(data, 11).get(99).getY());
+        assertEquals(quantizer.getLevels().get(10), quantizer.truncatedQuantization(data, 11).get(99).getY());
 
     }
 }
