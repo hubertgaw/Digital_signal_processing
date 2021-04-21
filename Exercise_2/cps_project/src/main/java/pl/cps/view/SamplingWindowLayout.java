@@ -3,6 +3,9 @@ package pl.cps.view;
 import javafx.scene.layout.GridPane;
 import pl.cps.signal.emiters.Signal;
 import pl.cps.signal.emiters.SignalIsNotTransmittedInThisTime;
+import pl.cps.signal.model.Data;
+
+import java.util.List;
 
 // layout for window which appears after clicking sampleBtn
 public class SamplingWindowLayout extends GridPane {
@@ -13,8 +16,8 @@ public class SamplingWindowLayout extends GridPane {
         sampleChart = new ChartComponent();
     }
 
-    public void addSampledChart(Signal signal, Double freqValue) throws SignalIsNotTransmittedInThisTime {
-        sampleChart.generateSignal(signal, freqValue);
+    public List<Data> addSampledChart(Signal signal, Double freqValue) throws SignalIsNotTransmittedInThisTime {
+        return sampleChart.generateSignal(signal, freqValue);
     }
 
     public void initSampledChart() {

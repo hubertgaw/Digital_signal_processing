@@ -6,6 +6,7 @@ import pl.cps.signal.model.Data;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 public class UnitImpulse extends Signal {
 
@@ -38,7 +39,7 @@ public class UnitImpulse extends Signal {
     }
 
     @Override
-    public void generateChart(ObservableList<XYChart.Data<Double, Double>> data, double sampleFrequency) throws SignalIsNotTransmittedInThisTime {
+    public List<Data> generateChart(ObservableList<XYChart.Data<Double, Double>> data, double sampleFrequency) throws SignalIsNotTransmittedInThisTime {
         int sampleCounter = 0;
         for (double x = getStartTime(); x < getStartTime() + getDuration(); x += 1/getFrequency()) {
             double x_3decimalPoints = BigDecimal.valueOf(x)
@@ -49,5 +50,6 @@ public class UnitImpulse extends Signal {
             getPoints().add(new Data(x_3decimalPoints, y));
             sampleCounter ++;
         }
+        return getPoints();
     }
 }
