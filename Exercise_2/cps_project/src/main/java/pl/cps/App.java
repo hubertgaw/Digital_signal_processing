@@ -9,8 +9,10 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import pl.cps.signal.adc.Quantizer;
 import pl.cps.signal.emiters.*;
 import pl.cps.signal.model.*;
+import pl.cps.view.QuantizingWindowLayout;
 import pl.cps.view.SamplingWindowLayout;
 import pl.cps.view.MainLayout;
 
@@ -21,7 +23,14 @@ import java.util.List;
 public class App extends Application {
 
     private String windowTitle;
-    static Double ampValue, strTimeValue, durValue, termValue, valueForCalculations, possValue, kwValue, jumpValue;
+    static Double ampValue;
+    static Double strTimeValue;
+    static Double durValue;
+    static Double termValue;
+    static Double valueForCalculations;
+    static Double possValue;
+    static Double kwValue;
+    static Double jumpValue;
     private Double sampleFreq;
     private static MainLayout mainLayout;
     private static GridPane mainPane = new GridPane();
@@ -35,6 +44,7 @@ public class App extends Application {
     private static int showingSignalCounter = 1;
     private List<Data> resultPoints = new ArrayList<Data>();
     private static List<Data> sampledSignalPoints = new ArrayList<>();
+    private static List<Data> quantizedSignalPoints = new ArrayList<>();
 
 
     public static String getSelectedOperation() {
@@ -107,7 +117,11 @@ public class App extends Application {
             showDiagram();
         });
         sampleBtn.setOnMouseClicked((action) -> {
-            askWindow(stage, "Częstotliwość próbkowania");
+            try {
+                askWindow(stage, "Częstotliwość próbkowania");
+            } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
+                signalIsNotTransmittedInThisTime.printStackTrace();
+            }
 
         });
         signalOneMenu.setText("Sygnal nr 1");
@@ -153,32 +167,57 @@ public class App extends Application {
 
     }
 
-    private static void askWindow(Stage stage, String title) {
+    private static void askWindow(Stage stage, String title) throws SignalIsNotTransmittedInThisTime {
         Stage askValueStage = new Stage();
         askValueStage.setTitle(title);
 
         Text askValueText = new Text("Podaj " + title);
         TextField valueField = new TextField("0");
-        Button nextBtn = new Button("Dalej");
-        nextBtn.setOnMouseClicked((action) -> {
-            valueForCalculations = convertStringToDouble(valueField.getText());
-            try {
-                if (title.equals("Częstotliwość próbkowania")) {
-                    showWindowWithSampledSignal(stage);
-                } else if (title.equals("Poziomy kwantowania")) {
-                    showWindowWithQuantiziedSignal(stage);
-                }
-            } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
-                signalIsNotTransmittedInThisTime.printStackTrace();
-            }
-            askValueStage.close();
-        });
-
 
         VBox askFreqHBox = new VBox(15);
         askFreqHBox.getChildren().add(askValueText);
         askFreqHBox.getChildren().add(valueField);
-        askFreqHBox.getChildren().add(nextBtn);
+
+
+        if (title.equals("Częstotliwość próbkowania")) {
+            Button nextBtn = new Button("Dalej");
+            askFreqHBox.getChildren().add(nextBtn);
+            nextBtn.setOnMouseClicked((action) -> {
+                try {
+                    valueForCalculations = convertStringToDouble(valueField.getText());
+                    showWindowWithSampledSignal(stage);
+                    askValueStage.close();
+                } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
+                    signalIsNotTransmittedInThisTime.printStackTrace();
+                }
+            });
+        } else if (title.equals("Poziomy kwantyzacji")) {
+            Button truncatedBtn = new Button("Z obcięciem");
+            Button roundedBtn = new Button("Z zaokrągleniem");
+            askFreqHBox.getChildren().add(truncatedBtn);
+            askFreqHBox.getChildren().add(roundedBtn);
+            truncatedBtn.setOnMouseClicked((action) -> {
+                valueForCalculations = convertStringToDouble(valueField.getText());
+                try {
+                    showWindowWithQuantiziedSignal(stage, "truncated");
+                } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
+                    signalIsNotTransmittedInThisTime.printStackTrace();
+                }
+                askValueStage.close();
+
+            });
+            roundedBtn.setOnMouseClicked((action) -> {
+                valueForCalculations = convertStringToDouble(valueField.getText());
+                try {
+                    showWindowWithQuantiziedSignal(stage, "rounded");
+                } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
+                    signalIsNotTransmittedInThisTime.printStackTrace();
+                }
+                askValueStage.close();
+            });
+
+        }
+
 
         Scene askFreqScene = new Scene(askFreqHBox, 200, 100);
 
@@ -315,7 +354,11 @@ public class App extends Application {
         Stage conversionStage = new Stage();
         Button quantBtn = new Button("Kwantyzuj");
         quantBtn.setOnMouseClicked((action) -> {
-            askWindow(stage, "Poziomy kwantyzacji");
+            try {
+                askWindow(stage, "Poziomy kwantyzacji");
+            } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
+                signalIsNotTransmittedInThisTime.printStackTrace();
+            }
         });
 
         SamplingWindowLayout samplingWindowLayout = new SamplingWindowLayout();
@@ -332,8 +375,26 @@ public class App extends Application {
         conversionStage.show();
     }
 
-    private static void showWindowWithQuantiziedSignal(Stage stage) {
+    private static void showWindowWithQuantiziedSignal(Stage stage, String type)
+            throws SignalIsNotTransmittedInThisTime {
+        Stage quantizationStage = new Stage();
+        QuantizingWindowLayout quantizingWindowLayout = new QuantizingWindowLayout();
+        Quantizer quantizer = new Quantizer();
+        if (type.equals("truncated")) {
+            quantizedSignalPoints =
+                    quantizer.truncatedQuantization(sampledSignalPoints, valueForCalculations.intValue());
+        } else {
+            quantizedSignalPoints =
+                    quantizer.roundedQuantization(sampledSignalPoints, valueForCalculations.intValue());
+        }
+        quantizingWindowLayout.addQuantizedChart(quantizedSignalPoints);
+        quantizingWindowLayout.initQuantizedChart();
 
+        quantizationStage.initOwner(stage);
+        Scene quantizationScene = new Scene(quantizingWindowLayout);
+
+        quantizationStage.setScene(quantizationScene);
+        quantizationStage.show();
     }
 
     private static Signal setParametersDialogShow(Stage stage, String name) {
