@@ -14,7 +14,7 @@
 \title{{\bf Zadanie nr 1 - Generacja sygnału i szumu}\linebreak
 Cyfrowe Przetwarzanie Sygnałów}
 \author{Dawid Jakubik, 224307 \and Hubert Gawłowski, 224298}
-\date{08.04.2021}
+\date{22.04.2021}
 
 \begin{document}
 \clearpage\maketitle
@@ -23,11 +23,11 @@ Cyfrowe Przetwarzanie Sygnałów}
 \setcounter{page}{1}
 \section{Cel zadania}
 
-Celem zadania było zapoznanie się z własnościami różnych sygnałów oraz poznanie i zastosowanie podstawowych działań na sygnałach. W wyniku zadania powstała aplikacja w technologii Java, która rysuje wykresy przebiegu oraz histogramy dla poszczególnych sygnałów oraz dla sygnałów powstałych w wyniku działań na dwóch sygnałach. Oblicza ona i pokazuje wartości dla sygnałów, a także zezwala za zapis i odczyt sygnału do/z pliku.
+Celem zadania było zapoznanie się z procesem konwersji A/C oraz C/A sygnałów jednocześnie poznając kilka metod na przeprowadzenie obu procesów jak i zaiplementowanie ich w aplikacji. 
 
 \section{Wstęp teoretyczny}
 
-Sygnały użyte w zadaniu generowane są na podstawie wzorów znajdujących się w instrukcji do zadania \cite{instrukcja}. W instrukcji \cite{instrukcja} znajdują się także wzory użyte w celu obliczenia parametrów funkcji, czyli wartości średniej, bezwzględnej wartości średniej, wariancji, mocy średniej oraz wartości skutecznej. Aby przedstawić sygnały na wykresie, zostały one poddane próbkowaniu, czyli operacji w wyniku której powstał zbiór punktów, które po połączeniu utworzyły odpowiedni wykres.
+Sygnały, które podlegaja kwantyzacji oraz rekonstrukcji generowane są na podstawie wzorów znajdujących się w instrukcji do zadania nr 1 \cite{instrukcja1}. W instrukcji \cite{instrukcji2} znajdują się wzory oraz opisy metod konwersji A/C oraz C/A użyte w celu kwantyzacji, rekonstrukcji oraz do obliczenia błędu średniokwadratowego, stosunku sygnał-szum, szczytowego stosunku sygnał-szum oraz maksymalnej różnicy.
 
 
 \section{Eksperymenty i wyniki}
@@ -35,45 +35,39 @@ Sygnały użyte w zadaniu generowane są na podstawie wzorów znajdujących się
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % PODROZDZIA£ PT. EKSPERYMENT NR 1 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+W każdym z eksperymantów jako sygnał ciągły posłużył nam sygnał sinusoidalny o następujących parametrach: 
+\begin{itemize}
+	\item Amplituda: 4
+	\item Czas początkowy: 0s
+	\item Czas trwania sygnału: 2s
+	\item Okres: 1s
+\end{itemize}
 
-\subsection{Eksperyment nr 1 : Szum impulsowy}
+\subsection{Eksperyment nr 1 Kwantyzacja równomierna z obcięciem}
 
-Celem eksperymentu było wygenerowanie szumu impulsowego. Jest to sygnał dyskretny, którego amplituda przyjmuje dwie wartości, wartość 0 oraz wartość A różną od zera.
+Celem eksperymentu było przeprowadzenie kwantyzacji sygnału ciągłego z obcięciem.
 
 \subsubsection{Założenia}
-Wartości parametrów, jakie zostały wprowadzone do wygenerowania sygnału:
+
 \begin{itemize}
-    \item Amplituda = 4
-    \item Czas początkowy = 0s
-    \item Czas trwania sygnału = 5s
-    \item Częstotliwość = 5Hz
-    \item Prawdopodobieństwo = 50%
+    \item Częstotliwość próbkowania:
+    \item Liczba bitów zapisu poziomów kwantyzacji:
 \end{itemize}
 \subsubsection{Przebieg}
-Wygenerowany został następujący sygnał:
+Wygenerowany sygnał oraz jego skwantyzowana postać prezentują sie następująco:
 \begin{figure}[H]
     \centering
-    \includegraphics{cps_szum_impulsowy_sygnal.jpg}
-    \caption{Wykres szumu impulsowego dla parametrów:  A=4, t1=0s, d=5s, f=5Hz, p=0.5}
+    \includegraphics{cps_kwantyzacja_z_obcieciem.jpg}
+    \caption{Kwantyzacja równomierna z obcięciem sygnału sinusoidalnego}
     \label{wykres dla eksperymentu 1}
 \end{figure}
 
-Histogram do wygenerowanego sygnału prezentuje się następująco:
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_szum_impulsowy_histogram.jpg}
-    \caption{Histogram dla szumu impulsowego o parametrach:  A=4, t1=0s, d=5s, f=5Hz, p=0.5}
-    \label{histogram dla eksperymentu 1}
-\end{figure}
-
-\newpage
-
 \subsubsection{Rezultat}
-Obliczone parametry dla szumu impulsowego:
+Obliczone miary dla procesu kwantyzacji:
 \begin{figure}[H]
     \centering
-    \includegraphics{cps_szum_impulsowy_wartosci.jpg}
-    \caption{Obliczone wartości dla szumu impulsowego o parametrach:  A=4, t1=0s, d=5s, f=5Hz, p=0.5 }
+    \includegraphics{cps_kwantyzacja_z_obcieciem_miary.jpg}
+    \caption{Miary obliczone dla kwantyzacji równomiernej z obcięciem sygnału sinusoidalnego}
     \label{Wartości dla eksperymentu 1}
 \end{figure}
 
@@ -83,57 +77,42 @@ Obliczone parametry dla szumu impulsowego:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \newpage
-\subsection{Eksperyment nr 2 : Szum o rozkładzie jednostajnym}
+\subsection{Eksperyment nr 2 : Kwantyzacja równomierna z zaokrąglaniem}
 
-Eksperyment nr 2 polegał na wygenerowaniu szumu o rozkładzie jednostajnym. Jest to szum dla którego amplitudy są losowo wybierane z jednakowym prawdopodobieństwem z przedziału $<-A_{max},A_{max}>$.
+Celem eksperymentu było przeprowadzenie kwantyzacji sygnału ciągłego z zaokrągleniem.
 
 \subsubsection{Założenia}
 
-W eksperymencie szum wygenerowany został dla następujących parametrów:
 \begin{itemize}
-    \item Amplituda: 1
-    \item Czas początkowy: 0s
-    \item Czas trwania sygnału: 1s
+	\item Częstotliwość próbkowania:
+	\item Liczba bitów zapisu poziomów kwantyzacji:
 \end{itemize}
-
 \subsubsection{Przebieg}
-Wygenerowany sygnał prezentuje się następująco:
-
+Wygenerowany sygnał oraz jego skwantyzowana postać prezentują sie następująco:
 \begin{figure}[H]
-    \centering
-    \includegraphics{cps_szum_o_rozkladzie_jednostajnym_syg.png}
-    \caption{Wykres szumu o rozkładzie jednostajnym dla parametrów:  A=1, t1=0s, d=1s}
-    \label{wykres dla eksperymentu 2}
+	\centering
+	\includegraphics{cps_kwantyzacja_z_zaokrągleniem.jpg}
+	\caption{Kwantyzacja równomierna z zaokrągleniem sygnału sinusoidalnego}
+	\label{wykres dla eksperymentu 2}
 \end{figure}
-\newpage
-Histogram dla powyższego szumu prezentuje się następująco:
-
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_szum_o_rozkladzie_jednostajnym_hist.png}
-    \caption{Histogram dla szumu o rozkładzie jednostajnym dla parametrów:  A=1, t1=0s, d=1s}
-    \label{histogram dla eksperymentu 2}
-\end{figure}
-
 
 \subsubsection{Rezultat}
-Obliczone parametry dla szumu o rozkładzie jednostajnym:
+Obliczone miary dla procesu kwantyzacji:
 \begin{figure}[H]
-    \centering
-    \includegraphics{cps_szum_o_rozkladzie_jednostajnym_wart.png}
-    \caption{Wartości obliczone dla szumu o rozkładzie jednostajnym dla parametrów:  A=1, t1=0s, d=1s}
-    \label{wartości dla eksperymentu 2}
+	\centering
+	\includegraphics{cps_kwantyzacja_z_zaokrągleniem_miary.jpg}
+	\caption{Miary obliczone dla kwantyzacji równomiernej z zaokrągleniem sygnału sinusoidalnego}
+	\label{Wartości dla eksperymentu 2}
 \end{figure}
-Wygenerowany szum widoczny na rysunku nr \ref{wykres dla eksperymentu 2} posiada rozkład jednostajny co obrazują wartości zawarte w histogramie z rysunku nr \ref{histogram dla eksperymentu 2}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\subsection{Eksperyment nr 3: Impuls jednostkowy}
+\subsection{Eksperyment nr 3: Ekstrapolacja zerowego rzędu}
 
-Eksperyment nr 3 polegał na wygenerowaniu impulsu jednostkowego. Impuls jednostkowy jest sygnałem dyskretnym który dla prawie wszystkich próbek przyjmuje wartości równe 0, jedynie dla jednej sprecyzowanej próbki przyjmuje wartość amplitudy.
+Eksperyment nr 3 polegał na ekstrapolacji zerowego rzędu spróbkowanego sygnału ciągłego.
 \subsubsection{Założenia}
 W eksperymencie impuls jednostkowy został wygenerowany dla następujących parametrów:
 \begin{itemize}
@@ -175,7 +154,7 @@ Obliczone parametry dla impulsu jednostkowego:
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\subsection{Eksperyment nr 4: Dodawanie szumu gaussowskiego oraz sygnału sinusoidalnego}
+\subsection{Eksperyment nr 4: Interpolacja pierwszego rzędu}
 
 Eksperyment nr 4 polegał na wygenerowaniu dwóch sygnałów (szumu gaussowskiego oraz sygnału sinusoidalnego) i dodaniu ich do siebie. Szum Gaussowski jest sygnałem którego amplituda przyjmuje losowe wartości z przedziału $<-A_{Gmax},A_{Gmax}>$ których rozkład prawdopodobieństwa jest rozkładem normalnym. Sygnał sinusoidalny opisuje funkcja:
 \begin{equation}
@@ -189,6 +168,12 @@ W eksperymencie szum został wygenerowany dla parametrów:
     \item Czas trwania sygnału: 2s
 \end{itemize}
 Sygnał sinusoidalny został wygenerowany dla parametrów:
+\begin{itemize}
+	\item Amplituda: 1
+	\item Czas początkowy: 0s
+	\item Czas trwania sygnału: 2s
+	\item Okres: 1s
+\end{itemize}
 \begin{itemize}
     \item Amplituda: 1
     \item Czas początkowy: 0s
@@ -261,7 +246,8 @@ W wyniku dodania do siebie szumu gaussowskiego oraz sygnału sinusoidalnego otrz
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\subsection{Eksperyment nr 5: Odejmowanie od sygnału sinusoidalnego wyprostowanego jednopołówkowo sygnału prostokątnego}
+\subsection{Eksperyment nr 5: Rekonstrukcja w oparciu o funkcję sinc 
+ prostokątnego}
 Eksperyment nr 5 polegał na wygenerowaniu dwóch sygnałów(sygnału sinusoidalnego wyprostowanego jednopołówkowo oraz sygnału prostokątnego) a następnie na obliczeniu różnicy tych sygnałów. Sygnał sinusoidalny wyprostowany jednopołówkowo posiada jedynie wartości nieujemne amplitudy i można opisać go funkcją:
 \begin{equation}
     x(t)= 1 \over 2 A[sin({2\PI} \over {T} (t-t_1))+|sin({2\PI} \over {T} (t-t_1))|].
@@ -347,225 +333,6 @@ W wyniku odjęcia od sygnału sinusoidalnego wyprostowanego jednopołówkowo syg
     \label{wartosci dla odejmowania}
 \end{figure}
 
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-\subsection{Eksperyment nr 6: Mnożenie sygnału sinusoidalnego wyprostowanego dwupołówkowo oraz sygnału symetrycznego prostokątnego}
-Eksperyment nr 6 polegał na pomnożeniu przez siebie sygnału sinusoidalnego wyprostowanego dwupołówkowo z sygnałem symetrycznym prostokątnego, w wyniku czego otrzymany został sygnał wynikowy.\\
-Funkcja opisująca sygnał sinusoidalny wyprostowany dwupołówkowo wygląda tak:
-\begin{equation}
-    x(t) = A\left | sin(\frac{2\pi}{T}(t-t_1)) \right |
-\end{equation}
-Natomiast funkcja opisująca sygnał prostokątny symetryczny prezentuje się następująco:
-\begin{equation}
-    x(t) = \left\{\begin{matrix} A \: dla \: t\in \left \langle kT+t_1,k_wT+kT+t_1 \right )\\ -A \: dla \: t \in \left \langle k_2T+t_1+kT,T+kT+t_1 \right) \end{matrix}\right. dla \: k\in C\
-\end{equation}
-
-
-\subsubsection{Założenia}
-W eksperymencie sygnały zostały wygenerowane dla następujących parametrów:
-\\
-Dla sygnału sinusoidalnego wyprostowanego dwupołówkowo:
-\begin{itemize}
-    \item Amplituda = 1
-    \item Czas początkowy = 2s
-    \item Czas trwania sygnału = 5s
-    \item Okres podstawowy = 3s
-\end{itemize}
-Dla sygnału prostokątnego symetrycznego:
-\begin{itemize}
-    \item Amplituda = 2
-    \item Czas początkowy = 3s
-    \item Czas trwania sygnału = 6s
-    \item Okres podstawowy = 2s
-    \item Współczynnik wypełnienia = 0.43
-\end{itemize}
-\subsubsection{Przebieg}
-Wygenerowany wykres sygnału sinusoidalnego wyprostowanego dwupołówkowo wygląda następująco:
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_sin_dwupolowkowy_sygnal.jpg}
-    \caption{Wykres sygnału sinusoidalnego wyprostowanego dwupołówkowo dla parametrów:  A=1, t1=2s, d=5s, T=3s.}
-    \label{Wykres dla sygnału sinusoidalnego dwupołówkowego}
-\end{figure}
-
-Histogram dla powyższego wykresu prezentuje się następująco:
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_sin_dwupolowkowy_histogram.jpg}
-    \caption{Histogram dla sygnału sinusoidalnego wyprostowanego dwupołówkowo dla parametrów:  A=1, t1=2s, d=5s, T=3s.}
-    \label{Histogram dla sygnału sinusoidalnego dwupołówkowego}
-\end{figure}
-
-Natomiast obliczone wartości dla sygnału sinusoidalnego wyprostowanego dwupołówkowo są następujące:
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_sin_dwupolowkowy_wartosci.jpg}
-    \caption{Wartości obliczone dla sygnału sinusoidalnego wyprostowanego dwupołówkowo dla parametrów:  A=1, t1=2s, d=5s, T=3s.}
-    \label{Wartości dla sygnału sinusoidalnego dwupołówkowego}
-\end{figure}
-
-Dla drugiego sygnału, czyli sygnału protokątnego symetrycznego został uzyskany następujący wykres:
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_prost_symetryczny_sygnal.jpg}
-    \caption{Wykres sygnału prostokątnego symetrycznego dla parametrów:  A=2, t1=3s, d=6s, T=2s, k=0.43.}
-    \label{Histogram dla sygnału prostokątnego symetrycznego}
-\end{figure}
-
-Histogram dla powyższego wykresu wygląda następująco:
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_prost_symetryczny_histogram.jpg}
-    \caption{Histogram dla sygnału prostokątnego symetrycznego dla parametrów:  A=2, t1=3s, d=6s, T=2s, k=0.43.}
-    \label{Wykres dla sygnału prostokątnego symetrycznego}
-\end{figure}
-
-Obliczone wartości dla sygnału prostokątnego symetrycznego prezentują się następująco:
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_prost_symetryczny_wartosci.jpg}
-    \caption{Wartości obliczone dla sygnału prostokątnego symetrycznego dla parametrów:  A=2, t1=3s, d=6s, T=2s, k=0.43.}
-    \label{Wartości dla sygnału prostokątnego symetrycznego}
-\end{figure}
-\subsubsection{Rezultat}
-W wyniku przeprowadzonego eksperymentu powstał następujący sygnał wynikowy:
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_mnozenie_wykres.jpg}
-    \caption{Wykres sygnału będącego wynikiem mnożenia sygnału sinusoidalnego wyprostowanego dwupółkowo i sygnału prostokątnego symetrycznego.}
-    \label{Wykres dla mnożenia}
-\end{figure}
-
-Histogram dla powyższego wykresu wygląda tak:
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_mnozenie_histogram.jpg}
-    \caption{Histogram dla sygnału będącego wynikiem mnożenia sygnału sinusoidalnego wyprostowanego dwupółkowo i sygnału prostokątnego symetrycznego.}
-    \label{Histogram dla mnożenia}
-\end{figure}
-
-Natomiast obliczone wartości prezentują się w następujący sposób:
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_mnozenie_wartosci.jpg}
-    \caption{Wartości obliczone sygnału będącego wynikiem mnożenia sygnału sinusoidalnego wyprostowanego dwupółkowo i sygnału prostokątnego symetrycznego.}
-    \label{Wartości dla mnożenia}
-\end{figure}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-\subsection{Eksperyment nr 7: Dzielenie sygnału trójkątnego przez skok jednostkowy}
-Celem eksperymentu nr 7 było wygenerowanie sygnału będącego wynikiem dzielenia sygnału trójkątnego przez skok jednostkowy.
-Funkcja opisująca sygnał trójkątny prezentuje się następująco:
- \begin{equation}
-    x(t) = \left\{\begin{matrix} \frac{A}{k_wT}(t-kT-t_1)\: dla \: t\in \left \langle kT + t_1,k_wT + kT + t_1 \right) \\ \frac{-A}{T(1-k_w)}(t - kT - t_1) + \frac{A}{1-k_w}\: dla \: t\in \left \langle k_wT + t_1 + kT, T + kT + t_1 \right) \end{matrix}\right. dla \: k\in C\    
- \end{equation}
-Natomiast funkcja opisująca skok jednostkowy wygląda następująco:
-\begin{equation}
-    x(t) = \left\{\begin{matrix} A \: dla \: t>t_s \\ \frac{1}{2} \: dla \: t=t_s \\ 0 \: dla \: t<t_s \end{matrix}\right.\    
-\end{equation}
-
-
-
-\subsubsection{Założenia}
-W eksperymencie sygnały zostały wygenerowane dla następujących parametrów:\\
-Dla sygnału trójkątnego:
-\begin{itemize}
-    \item Amplituda = 5
-    \item Czas początkowy = 0s
-    \item Czas trwania sygnału = 4s
-    \item Okres podstawowy = 1s
-    \item Współczynnik wypełnienia = 0.2
-\end{itemize}
-
-Dla skoku jednostkowego:
-\begin{itemize}
-    \item Amplituda = 4
-    \item Czas początkowy = 0s
-    \item Czas trwania sygnału = 4s
-    \item Czas skoku = 3s
-\end{itemize}
-
-
-\subsubsection{Przebieg}
-Wygenerowany sygnał trójkątny prezentuje się następująco:
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_trojkatny_sygnal.jpg}
-    \caption{Wykres sygnału trójkątnego dla parametrów:  A=5, t1=0s, d=4s, T=1s, k=0.2.}
-    \label{Wykres dla sygnału trójkątnego}
-\end{figure}
-
-Histogram dla powyższego sygnału trójkątnego ma postać:
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_trojkatny_histogram.jpg}
-    \caption{Histogram dla sygnału trójkątnego dla parametrów:  A=5, t1=0s, d=4s, T=1s, k=0.2.}
-    \label{histogram dla sygnału trójkątnego}
-\end{figure}
-
-Natomiast obliczone wartości dla sygnału trójkątnego są następujące:
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_trojkatny_wartosci.jpg}
-    \caption{Wartości obliczone dla sygnału trójkątnego dla parametrów:  A=5, t1=0s, d=4s, T=1s, k=0.2.}
-    \label{Wartości dla sygnalu trójkątnego}
-\end{figure}
-
-
-Dla skoku jednostkowego, przez który dzieliliśmy sygnał trójkątny wykres wygląda następująco:
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_jednostkowy_sygnal.jpg}
-    \caption{Wykres skoku jednostkowego dla parametrów:  A=4, t1=0s, d=4s, ts=3s.}
-    \label{wykres dla skoku jednostkowego}
-\end{figure}
-
-Histogram dla powyższego wykresu skoku jednostkowego ma postać:
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_jednostkowy_histogram.jpg}
-    \caption{Histogram dla jednostkowego dla parametrów:  A=4, t1=0s, d=4s, ts=3s.}
-    \label{histogram dla skoku jednostkowego}
-\end{figure}
-
-Obliczone wartości dla skoku jednostkowego są następujące:
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_jednostkowy_wartosci.jpg}
-    \caption{Wartości obliczone dla skoku jednostkowego dla parametrów:  A=4, t1=0s, d=4s, ts=3s.}
-    \label{wartości dla skoku jednostkowego}
-\end{figure}
-\subsubsection{Rezultat}
-W wyniku przeprowadzonego eksperymentu powstał sygnał wynikowy, który wygląda następująco:
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_dzielenie_sygnal.jpg}
-    \caption{Wykres sygnału, będącego wynikiem dzielenia sygnału trójkątnego przez skok jednostkowy.}
-    \label{wykres dla dzielenia}
-\end{figure}
-
-Histogram dla powyższego sygnału wynikowego wygląda tak:
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_dzielenie_histogram.jpg}
-    \caption{Histogram dla sygnału, będącego wynikiem dzielenia sygnału trójkątnego przez skok jednostkowy.}
-    \label{histogram dla dzielenia}
-\end{figure}
-
-Natomiast wartości, jakie otrzymaliśmy w ramach tej operacji prezentują się następująco:
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_dzielenie_wartosci.jpg}
-    \caption{Wartości obliczone dla dzielenia sygnału trójkątnego przez skok jednostkowy.}
-    \label{wartości dla dzielenia}
-\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
