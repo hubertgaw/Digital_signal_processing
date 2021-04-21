@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.function.Predicate;
 
 public class Quantizer {
 
-    private List<Double> levels;
+    private List<Double> levels = new ArrayList<>();
 
     public List<Double> getLevels() {
         return levels;
@@ -18,6 +19,7 @@ public class Quantizer {
 
     public void createLevels(List<Data> pointsFromSampledSignal, int numberOfLevels)
             throws SignalIsNotTransmittedInThisTime {
+        levels.clear();
         List<Data> pointsAfterQuantization = new ArrayList<>();
         Data minY = pointsFromSampledSignal
                 .stream()
@@ -49,6 +51,21 @@ public class Quantizer {
         return nearestNeighbour;
     }
 
+    public double findNearestLowerNeighbourInLevels(double point) {
+        return levels.stream()
+                .filter(new Predicate<Double>() {
+                    @Override
+                    public boolean test(Double aDouble) {
+                        if (aDouble > point) {
+                            return false;
+                        }
+                        return true;
+                    }
+                })
+                .min(Comparator.comparingDouble(i -> Math.abs(i - point)))
+                .orElseThrow(NoSuchElementException::new);
+    }
+
     public List<Data> roundedQuantization(List<Data> pointsFromSampledSignal,
                                           int numberOfLevels) throws SignalIsNotTransmittedInThisTime {
         List<Data> pointsAfterQuantization = new ArrayList<>();
@@ -61,6 +78,20 @@ public class Quantizer {
         }
         return pointsAfterQuantization;
     }
+
+    public List<Data> cutQuantization(List<Data> pointsFromSampledSignal,
+                                      int numberOfLevels) {
+        List<Data> result = new ArrayList<Data>();
+        try {
+            createLevels(pointsFromSampledSignal, numberOfLevels);
+        } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
+            signalIsNotTransmittedInThisTime.printStackTrace();
+        }
+        pointsFromSampledSignal.stream()
+                .forEach(i -> result.add(new Data(i.getX(), findNearestLowerNeighbourInLevels(i.getY()))));
+        return result;
+    }
+
 
     //todo implement
 //    public List<Data> truncatedQuantization(List<Data> pointsFromSampledSignal,
