@@ -57,7 +57,8 @@ Celem eksperymentu było przeprowadzenie kwantyzacji sygnału ciągłego z obci�
 Wygenerowany sygnał oraz jego skwantyzowana postać prezentują sie następująco:
 \begin{figure}[H]
     \centering
-    \includegraphics{cps_kwantyzacja_z_obcieciem.jpg}
+    %\includegraphics{cps_kwantyzacja_z_obcieciem.jpg}
+	\includegraphics[width=\linewidth]{tmp.jpg}
     \caption{Kwantyzacja równomierna z obcięciem sygnału sinusoidalnego}
     \label{wykres dla eksperymentu 1}
 \end{figure}
@@ -66,7 +67,8 @@ Wygenerowany sygnał oraz jego skwantyzowana postać prezentują sie następują
 Obliczone miary dla procesu kwantyzacji:
 \begin{figure}[H]
     \centering
-    \includegraphics{cps_kwantyzacja_z_obcieciem_miary.jpg}
+    %\includegraphics{cps_kwantyzacja_z_obcieciem_miary.jpg}
+	\includegraphics[width=\linewidth]{tmp.jpg}
     \caption{Miary obliczone dla kwantyzacji równomiernej z obcięciem sygnału sinusoidalnego}
     \label{Wartości dla eksperymentu 1}
 \end{figure}
@@ -91,7 +93,8 @@ Celem eksperymentu było przeprowadzenie kwantyzacji sygnału ciągłego z zaokr
 Wygenerowany sygnał oraz jego skwantyzowana postać prezentują sie następująco:
 \begin{figure}[H]
 	\centering
-	\includegraphics{cps_kwantyzacja_z_zaokrągleniem.jpg}
+	%\includegraphics{cps_kwantyzacja_z_zaokrągleniem.jpg}
+	\includegraphics[width=\linewidth]{tmp.jpg}
 	\caption{Kwantyzacja równomierna z zaokrągleniem sygnału sinusoidalnego}
 	\label{wykres dla eksperymentu 2}
 \end{figure}
@@ -100,7 +103,8 @@ Wygenerowany sygnał oraz jego skwantyzowana postać prezentują sie następują
 Obliczone miary dla procesu kwantyzacji:
 \begin{figure}[H]
 	\centering
-	\includegraphics{cps_kwantyzacja_z_zaokrągleniem_miary.jpg}
+	%\includegraphics{cps_kwantyzacja_z_zaokrągleniem_miary.jpg}
+	\includegraphics[width=\linewidth]{tmp.jpg}
 	\caption{Miary obliczone dla kwantyzacji równomiernej z zaokrągleniem sygnału sinusoidalnego}
 	\label{Wartości dla eksperymentu 2}
 \end{figure}
@@ -112,40 +116,28 @@ Obliczone miary dla procesu kwantyzacji:
 \newpage
 \subsection{Eksperyment nr 3: Ekstrapolacja zerowego rzędu}
 
-Eksperyment nr 3 polegał na ekstrapolacji zerowego rzędu spróbkowanego sygnału ciągłego.
+
 \subsubsection{Założenia}
-W eksperymencie impuls jednostkowy został wygenerowany dla następujących parametrów:
-\begin{itemize}
-    \item Amplituda 4
-    \item Czas początkowy 1s
-    \item Czas trwania 5s
-    \item Częstotliwość 4 Hz
-    \item Numer próbki, dla której następuje skok 12
-\end{itemize}
+Eksperyment nr 3 polegał na ekstrapolacji zerowego rzędu spróbkowanego sygnału ciągłego.
 \subsubsection{Przebieg}
 Wygenerowany sygnał prezentuje się następująco:
 \begin{figure}[H]
     \centering
-    \includegraphics{cps_impuls_sygnal.jpg}
-    \caption{Wykres impulsu jednostkowego dla parametrów:  A=1, t1=1s, d=5s, f=4Hz, ns=12}
+    %\includegraphics{cps_ekstrapolacja_0.jpg}
+	\includegraphics[width=\linewidth]{tmp.jpg}
+    \caption{Wykres Ekstrapolacji zerowego rzędu sygnału sinusoidalnego}
     \label{wykres dla eksperymentu 3}
 \end{figure}
 
-Histogram dla powyższego impulsu wygląda następująco:
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_impuls_histogram.jpg}
-    \caption{Histogram dla impulsu jednostkowego dla parametrów:  A=1, t1=1s, d=5s, f=4Hz, ns=12}
-    \label{histogram dla eksperymentu 3}
-\end{figure}
 
 
 \subsubsection{Rezultat}
-Obliczone parametry dla impulsu jednostkowego:
+Obliczone parametry dla otrzymanego w rezuntacie sygnału ciągłego:
 \begin{figure}[H]
     \centering
-    \includegraphics{cps_impuls_wartosci.jpg}
-    \caption{Wartości obliczone dla impulsu jednostkowego dla parametrów:  A=1, t1=1s, d=5s, f=4Hz, ns=12}
+    %\includegraphics{cps_ekstrapolacja_0_miary.jpg}
+	\includegraphics[width=\linewidth]{tmp.jpg}
+    \caption{Oblicznone miary dla Ekstrapolacji zerowego rzędu sygnału sinusoidalnego}
     \label{wartości dla eksperymentu 3}
 \end{figure}
 
@@ -156,195 +148,123 @@ Obliczone parametry dla impulsu jednostkowego:
 \newpage
 \subsection{Eksperyment nr 4: Interpolacja pierwszego rzędu}
 
-Eksperyment nr 4 polegał na wygenerowaniu dwóch sygnałów (szumu gaussowskiego oraz sygnału sinusoidalnego) i dodaniu ich do siebie. Szum Gaussowski jest sygnałem którego amplituda przyjmuje losowe wartości z przedziału $<-A_{Gmax},A_{Gmax}>$ których rozkład prawdopodobieństwa jest rozkładem normalnym. Sygnał sinusoidalny opisuje funkcja:
-\begin{equation}
-    x(t)=Asin({2\PI}over{T}(t-t_1))
-\end{equation}
 \subsubsection{Założenia}
-W eksperymencie szum został wygenerowany dla parametrów:
-\begin{itemize}
-    \item Amplituda: 0.1
-    \item Czas początkowy: 0s
-    \item Czas trwania sygnału: 2s
-\end{itemize}
-Sygnał sinusoidalny został wygenerowany dla parametrów:
-\begin{itemize}
-	\item Amplituda: 1
-	\item Czas początkowy: 0s
-	\item Czas trwania sygnału: 2s
-	\item Okres: 1s
-\end{itemize}
-\begin{itemize}
-    \item Amplituda: 1
-    \item Czas początkowy: 0s
-    \item Czas trwania sygnału: 2s
-    \item Okres: 1s
-\end{itemize}
+Eksperyment nr 4 polegał naiInterpolacji pierwszego rzędu spróbkowanego sygnału ciągłego.
 \subsubsection{Przebieg}
+Wygenerowany sygnał prezentuje się następująco:
+\begin{figure}[H]
+	\centering
+	%\includegraphics{cps_interpolacja_1.jpg}
+	\includegraphics[width=\linewidth]{tmp.jpg}
+	\caption{Wykres Interpolacji pierwszego rzędu sygnału sinusoidalnego}
+	\label{wykres dla eksperymentu 4}
+\end{figure}
 
-W trakcie tego eksperymentu jako składniki dodawania wygenerowane zostały sygnały których wykresy, histogramy oraz obliczone wartości zostały pokazane na rysunkach od \ref{wykres dla sinusa} do \ref{wartosci dla szumu gausowskiego}
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_sinus_syg.PNG}
-    \caption{Wykres sygnału sinusoidalnego dla parametrów:  A=1, t1=0s, d=1s, T=1s}
-    \label{wykres dla sinusa}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_sinus_hist.PNG}
-    \caption{Histogram sygnału sinusoidalnego dla parametrów:  A=1, t1=0s, d=1s, T=1s}
-    \label{histogram dla sinusa}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_sinus_wart.PNG}
-    \caption{Wartości obliczone dla sygnału sinusoidalnego dla parametrów:  A=1, t1=0s, d=1s, T=1s}
-    \label{wartosci dla sinusa}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_szum_gaussowski_syg.PNG}
-    \caption{Wykres dla szumu gaussowskiego dla parametrów:  A=0.1, t1=0s, d=1s}
-    \label{wykres dla szumu gausowskiego}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_szum_gaussowski_hist.PNG}
-    \caption{Histogram dla szumu gaussowskiego dla parametrów:  A=0.1, t1=0s, d=1s}
-    \label{histogram dla szumu gausowskiego}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_szum_gaussowski_wart.PNG}
-    \caption{Wartości obliczone dla szumu gaussowskiego dla parametrów:  A=0.1, t1=0s, d=1s}
-    \label{wartosci dla szumu gausowskiego}
-\end{figure}
+
 
 \subsubsection{Rezultat}
-W wyniku dodania do siebie szumu gaussowskiego oraz sygnału sinusoidalnego otrzymaliśmy następujące wyniki:
+Obliczone parametry dla otrzymanego w rezuntacie sygnału ciągłego:
 \begin{figure}[H]
-    \centering
-    \includegraphics{cps_dodawanie_syg.PNG}
-    \caption{Wartości obliczone dla sumy powyższych dwóch sygnałów}
-    \label{wykres dodawania}
+	\centering
+	%\includegraphics{cps_interpolacja_1_miary.jpg}
+	\includegraphics[width=\linewidth]{tmp.jpg}
+	\caption{Oblicznone miary dla Interpolacja pierwszego rzędu sygnału sinusoidalnego}
+	\label{wartości dla eksperymentu 4}
 \end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_dodawanie_hist.PNG}
-    \caption{Wartości obliczone dla sumy powyższych dwóch sygnałów}
-    \label{histogram dodawania}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_dodawanie_wart.PNG}
-    \caption{Wartości obliczone dla sumy powyższych dwóch sygnałów}
-    \label{wartosci dodawania}
-\end{figure}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \newpage
-\subsection{Eksperyment nr 5: Rekonstrukcja w oparciu o funkcję sinc 
- prostokątnego}
-Eksperyment nr 5 polegał na wygenerowaniu dwóch sygnałów(sygnału sinusoidalnego wyprostowanego jednopołówkowo oraz sygnału prostokątnego) a następnie na obliczeniu różnicy tych sygnałów. Sygnał sinusoidalny wyprostowany jednopołówkowo posiada jedynie wartości nieujemne amplitudy i można opisać go funkcją:
-\begin{equation}
-    x(t)= 1 \over 2 A[sin({2\PI} \over {T} (t-t_1))+|sin({2\PI} \over {T} (t-t_1))|].
-\end{equation}
-Dla sygnału prostokątnego amplituda przyjmuje wartość zero lub $A_max$ i można go opisać wzorem:
-\begin{equation}
-    x(t)=\left\{\begin{matrix}A \: dla\: t\in \left \langle <kT+t_1, k_wT+kT+t_1)\right\\
-    0 \: dla \: t\in \left \langle<k_wT-kT+t_1, T+kT+t_1\right\end{matrix} .\right
-\end{equation}
+\subsection{Eksperyment nr 5: Rekonstrukcja w oparciu o funkcję sinc }
 \subsubsection{Założenia}
-W eksperymencie sygnał sinusoidalny wyprostowany jednopołówkowo został wygenerowany dla parametrów:
-\begin{itemize}
-    \item Amplituda: 1
-    \item Czas początkowy: 0s
-    \item Czas trwania sygnału: 2s
-    \item Okres: 1s
-\end{itemize}
-Sygnał prostokątny został wygenerowany dla parametrów:
-\begin{itemize}
-    \item Amplituda: 2
-    \item Czas początkowy: 0s
-    \item Czas trwania sygnału: 2s
-    \item Okres: 1s
-    \item Współczynnnik wypełnienia: 0.5
-\end{itemize}
+Eksperyment nr 3 polegał na rekonstrukcji w oparciu o funkcję sinc spróbkowanego sygnału ciągłego.
 \subsubsection{Przebieg}
-W trakcie tego eksperymentu wygenerowane zostały sygnały których wykresy, histogramy oraz obliczone wartości zostały pokazane na rysunkach od \ref{wykres dla sinusa jednopolowkowego} do \ref{wartosci dla prostokatnego}
+Wygenerowany sygnał prezentuje się następująco:
 \begin{figure}[H]
-    \centering
-    \includegraphics{cps_sinus_jednopolowkowy_syg.PNG}
-    \caption{Wykres sygnału sinusoidalnego wyprostowanego jednopołówkowo dla parametrów:  A=1, t1=0s, d=2s, T=1s}
-    \label{wykres dla sinusa jednopolowkowego}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_sinus_jednopolowkowy_hist.PNG}
-    \caption{histogram sygnału sinusoidalnego wyprostowanego jednopołówkowo dla parametrów:  A=1, t1=0s, d=2s, T=1s}
-    \label{histogram dla sinusa jednopolowkowego}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_sinus_jednopolowkowy_wart.PNG}
-    \caption{Wartości obliczone dla sygnału sinusoidalnego wyprostowanego jednopołówkowo dla parametrów:  A=1, t1=0s, d=2s, T=1s}
-    \label{wartosci dla sinusa jednopolowkowego}
+	\centering
+	%\includegraphics{cps_rekonstrukcja_sinc.jpg}
+	\includegraphics[width=\linewidth]{tmp.jpg}
+	\caption{Wykres rekonstrukcji w oparciu o funkcję sinc sygnału sinusoidalnego}
+	\label{wykres dla eksperymentu 5}
 \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_sygnal_prostokatny_syg.PNG}
-    \caption{Wykres sygnału prostokątnego dla parametrów:  A=2, t1=0s, d=2s, T=1s, k_w=0.5}
-    \label{wykres dla prostokatnego}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_sygnal_prostokatny_hist.PNG}
-    \caption{histogram sygnału prostokątnego dla parametrów:  A=2, t1=0s, d=2s, T=1s, k_w=0.5}
-    \label{histogram dla prostokatnego}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_sygnal_prostokatny_wart.PNG}
-    \caption{Wykres sygnału prostokątnego dla parametrów:  A=2, t1=0s, d=2s, T=1s, k_w=0.5}
-    \label{wartosci dla prostokatnego}
-\end{figure}
+
+
 \subsubsection{Rezultat}
-W wyniku odjęcia od sygnału sinusoidalnego wyprostowanego jednopołówkowo sygnału prostokątnego otrzymaliśmy widoczne poniżej wyniki.
+Obliczone parametry dla otrzymanego w rezuntacie sygnału ciągłego:
 \begin{figure}[H]
-    \centering
-    \includegraphics{cps_odejmowanie_syg.PNG}
-    \caption{Wykres sygnału wynikowego operacji odejmowania}
-    \label{wykres dla odejmowania}
+	\centering
+	%\includegraphics{cps_rekonstrukcja_sincmiary.jpg}
+	\includegraphics[width=\linewidth]{tmp.jpg}
+	\caption{Oblicznone miary dla rekonstrukcji w oparciu o funkcję sinc sygnału sinusoidalnego}
+	\label{wartości dla eksperymentu 5}
 \end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_odejmowanie_hist.PNG}
-    \caption{Histogram sygnału wynikowego operacji odejmowania}
-    \label{histogram dla odejmowania}
-\end{figure}
-\begin{figure}[H]
-    \centering
-    \includegraphics{cps_odejmowanie_wart.PNG}
-    \caption{Wartości obliczone dla sygnału wynikowego operacji odejmowania}
-    \label{wartosci dla odejmowania}
-\end{figure}
-
-
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newpage
+\subsection{Eksperyment nr 6: Zjawisko aliasingu }
+\subsubsection{Założenia}
+Eksperyment nr 6 polegał na rekonstrukcji w oparciu o funkcję sinc spróbkowanego sygnału ciągłego z tak dobranymi parametrami by uzyskac zjawisko aliasingu.
+\subsubsection{Przebieg}
+Wygenerowane sygnały sinusoidalne o częstotliwościach 100Hz, 220Hz oraz 440Hz  zostały spróbkowane kolejno z częstotliwościami  1 000Hz, 44 100Hz oraz22 050Hz a następnie sygnały zostały zrekonstruowane za pomocą finkcji sinc.
 
+\subsubsection{Rezultat}
+\begin{figure}[H]
+	\centering
+	%\includegraphics{cps_aliasing_1.jpg}
+	\includegraphics[width=\linewidth]{tmp.jpg}
+	\caption{Wykres rekonstrukcji w oparciu o funkcję sinc sygnału sinusoidalnego z wystąpieniem aliasingu dla częstotliwości $f_0$=100Hz oraz $f_s$=1 000Hz}
+	\label{wykres dla eksperymentu 6}
+\end{figure}
+Obliczone parametry dla otrzymanego w rezuntacie sygnału ciągłego:
+\begin{figure}[H]
+	\centering
+	%\includegraphics{cps_aliasing_1_miary.jpg}
+	\includegraphics[width=\linewidth]{tmp.jpg}
+	\caption{Oblicznone miary dla rekonstrukcji w oparciu o funkcję sinc sygnału sinusoidalnego z wystąpieniem aliasingu dla częstotliwości $f_0$=100Hz oraz $f_s$=1 000Hz} 
+	\label{wartości dla eksperymentu 6}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	%\includegraphics{cps_aliasing_2.jpg}
+	\includegraphics[width=\linewidth]{tmp.jpg}
+	\caption{Wykres rekonstrukcji w oparciu o funkcję sinc sygnału sinusoidalnego z wystąpieniem aliasingu dla częstotliwości $f_0$=220Hz oraz $f_s$=44 100Hz}
+	\label{wykres dla eksperymentu 6.2}
+\end{figure}
+Obliczone parametry dla otrzymanego w rezuntacie sygnału ciągłego:
+\begin{figure}[H]
+	\centering
+	%\includegraphics{cps_aliasing_2_miary.jpg}
+	\includegraphics[width=\linewidth]{tmp.jpg}
+	\caption{Oblicznone miary dla rekonstrukcji w oparciu o funkcję sinc sygnału sinusoidalnego z wystąpieniem aliasingu dla częstotliwości $f_0$=220Hz oraz $f_s$=44 100Hz} 
+	\label{wartości dla eksperymentu 6.2}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	%\includegraphics{cps_aliasing_3.jpg}
+	\includegraphics[width=\linewidth]{tmp.jpg}
+	\caption{Wykres rekonstrukcji w oparciu o funkcję sinc sygnału sinusoidalnego z wystąpieniem aliasingu dla częstotliwości $f_0$=440Hz oraz $f_s$=22 050Hz}
+	\label{wykres dla eksperymentu 6.3}
+\end{figure}
+Obliczone parametry dla otrzymanego w rezuntacie sygnału ciągłego:
+\begin{figure}[H]
+	\centering
+	%\includegraphics{cps_aliasing_3_miary.jpg}
+	\includegraphics[width=\linewidth]{tmp.jpg}
+	\caption{Oblicznone miary dla rekonstrukcji w oparciu o funkcję sinc sygnału sinusoidalnego z wystąpieniem aliasingu dla częstotliwości $f_0$=440Hz oraz $f_s$=22 050Hz}
+	\label{wartości dla eksperymentu 6.3}
+\end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Wnioski}
 \begin{itemize}
-    \item Każdy sygnał ciągły można zdyskretyzować poprzez próbkowanie.
-    \item Program poprawnie generuje zaimplementowane sygnały.
-    \item Program pozwala na proste działania na sygnałach.
-    \item Na podstawie histogramów w prosty sposób można dowiedzieć się o rozkładzie wartości.
+    \item Każdy sygnał ciągły można zdyskretyzować poprzez próbkowanie a następnie te próbki skwantyzować by ograniczyć dokładność zapisu oraz ilość pamięci potrzebnej do zapisu sygnału zdyskrekretyzowanego.
+    \item Program poprawnie kwantyzuje oraz rekonstruuje sygnały.
+    \item Program pozwala obliczenie 4 miar dla każdego skwantyzowanego sygnału.
+    \item Przy odpowiednich warunkach może wystąpić zjawisko aliasingu.
 \end{itemize}
  
 
@@ -354,6 +274,9 @@ W wyniku odjęcia od sygnału sinusoidalnego wyprostowanego jednopołówkowo syg
 
 \renewcommand\refname{Bibliografia}
 \bibliographystyle{plain}
-\bibliography{bibliografia_wzor}
+
+
+\bibliography{instrukcja1} Instrukcja do zadania 1 dostępna na platformie WIKAMP, na stronie porzedmiotu Cyfrowe Przetwarzanie sygnału.
+\bibliography{instrukcja2} Instrukcja do zadania 2 dostępna na platformie WIKAMP, na stronie porzedmiotu Cyfrowe Przetwarzanie sygnału.
 
 \end{document}
