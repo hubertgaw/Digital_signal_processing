@@ -443,10 +443,24 @@ public class App extends Application {
         quantizingWindowLayout.initQuantizedChart();
         addReconstructiveButtons(stage, quantizingWindowLayout, quantizedSignalPoints);
 
+        VBox comparedValuesVBox = new VBox();
+
+        comparedValuesVBox.getChildren().add(new Text("Błąd średniokwadaratowy: " +
+                Reconstructors.meanSquareError(sampledSignalPoints, quantizedSignalPoints)));
+        comparedValuesVBox.getChildren().add(new Text("Stosunek sygnał - szum: " +
+                Reconstructors.signalToNoiseRatio(sampledSignalPoints, quantizedSignalPoints)));
+        comparedValuesVBox.getChildren().add(new Text("Szczytowy stosunek sygnał - szum: " +
+                Reconstructors.peakSignalToNoiseRatio(sampledSignalPoints, quantizedSignalPoints)));
+        comparedValuesVBox.getChildren().add(new Text("Maksymalna różnica: " +
+                Reconstructors.maximumDifference(sampledSignalPoints, quantizedSignalPoints)));
+
+        quantizingWindowLayout.add(comparedValuesVBox, 1, 1);
+
         quantizationStage.initOwner(stage);
         Scene quantizationScene = new Scene(quantizingWindowLayout);
 
         quantizationStage.setScene(quantizationScene);
+
         quantizationStage.show();
     }
 
@@ -491,14 +505,31 @@ public class App extends Application {
         if (type == 0) {
             reconstructedPoints = Reconstructors.zeroOrderInterpolation(pointsToReconstruct, sampleFreq.intValue());
         } else if (type == 1) {
-            reconstructedPoints = Reconstructors.firstOrderInterpolation(pointsToReconstruct,sampleFreq.intValue());
+            reconstructedPoints = Reconstructors.firstOrderInterpolation(pointsToReconstruct, sampleFreq.intValue());
         } else if (type == 2) {
             reconstructedPoints = Reconstructors.sincReconstruction
-                    (pointsToReconstruct,sampleFreq.intValue(),sincValue);
+                    (pointsToReconstruct, sampleFreq.intValue(), sincValue);
         }
         reconstructingWindowLayout.addReconstructedChart(reconstructedPoints);
         reconstructingWindowLayout.initReconstructedChart();
 
+        VBox comparedValuesVBox = new VBox();
+
+        //calculate measures
+        comparedValuesVBox.getChildren().add(new Text("Błąd średniokwadaratowy: " +
+                Reconstructors.meanSquareError(getSelectedSignals().
+                        get(showingSignalCounter % 3), reconstructedPoints)));
+        comparedValuesVBox.getChildren().add(new Text("Stosunek sygnał - szum: " +
+                Reconstructors.signalToNoiseRatio(getSelectedSignals().
+                        get(showingSignalCounter % 3), reconstructedPoints)));
+        comparedValuesVBox.getChildren().add(new Text("Szczytowy stosunek sygnał - szum: " +
+                Reconstructors.peakSignalToNoiseRatio(getSelectedSignals().
+                        get(showingSignalCounter % 3), reconstructedPoints)));
+        comparedValuesVBox.getChildren().add(new Text("Maksymalna różnica: " +
+                Reconstructors.maximumDifference(getSelectedSignals().
+                        get(showingSignalCounter % 3), reconstructedPoints)));
+
+        reconstructingWindowLayout.add(comparedValuesVBox, 1,1);
         reconstructionStage.initOwner(stage);
         Scene reconstructedChartScene = new Scene(reconstructingWindowLayout);
 

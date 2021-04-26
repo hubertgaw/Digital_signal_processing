@@ -132,6 +132,15 @@ public class Reconstructors {
         return errorValue / approxDatas.size();
     }
 
+    public static double meanSquareError(List<Data> originalPoints, List<Data> quantizedPoints) {
+        double errorValue = 0d;
+        for (int i = 0; i < originalPoints.size(); i++) {
+            errorValue += (originalPoints.get(i).getY() - quantizedPoints.get(i).getY()) *
+                    (originalPoints.get(i).getY() - quantizedPoints.get(i).getY());
+        }
+        return errorValue / originalPoints.size();
+    }
+
     public static double signalToNoiseRatio(Signal signal, List<Data> approxDatas) {
         double errorValue = approxDatas.stream().mapToDouble(i ->
                 i.getY() * i.getY()).sum() / approxDatas.stream().mapToDouble(i ->
@@ -146,12 +155,35 @@ public class Reconstructors {
         return 10 * Math.log10(errorValue);
     }
 
+    public static double signalToNoiseRatio(List<Data> originalPoints, List<Data> quantizedPoints) {
+        double errorValue = 0d;
+        double nominator = 0d;
+        double denominator = 0d;
+        for (Data originalPoint : originalPoints) {
+            nominator += originalPoint.getY() *
+                    originalPoint.getY();
+        }
+        for (int i = 0; i < originalPoints.size(); i++) {
+            denominator += (originalPoints.get(i).getY() - quantizedPoints.get(i).getY()) *
+                    (originalPoints.get(i).getY() - quantizedPoints.get(i).getY());
+        }
+        errorValue = 10 * Math.log10(nominator/denominator);
+        return errorValue;
+    }
+
     public static double peakSignalToNoiseRatio(Signal signal, List<Data> approxDatas) {
         double errorValue = approxDatas.stream().max(Comparator.comparing(Data::getY)).get().getY() / meanSquareError(signal, approxDatas);
         return 10 * Math.log10(errorValue);
     }
 
-    public static double maximumDiffrence(Signal signal, List<Data> approxDatas) {
+    public static double peakSignalToNoiseRatio(List<Data> originalPoints, List<Data> quantizedPoints) {
+        double errorValue = originalPoints.stream().max(Comparator.comparing(Data::getY)).get().getY() /
+                meanSquareError(originalPoints, quantizedPoints);
+        return 10 * Math.log10(errorValue);
+
+    }
+
+    public static double maximumDifference(Signal signal, List<Data> approxDatas) {
         return approxDatas.stream().mapToDouble(i -> {
             try {
                 return Math.abs(i.getY() - signal.calculateValue(i.getX()));
@@ -160,5 +192,13 @@ public class Reconstructors {
             return 0;
         }).max().getAsDouble();
 
+    }
+
+    public static double maximumDifference(List<Data> originalPoints, List<Data> quantizedPoints) {
+        List<Double> distances = new ArrayList<>();
+        for (int i = 0; i < originalPoints.size(); i++) {
+            distances.add(Math.abs(originalPoints.get(i).getY() - quantizedPoints.get(i).getY()));
+        }
+        return distances.stream().mapToDouble(Double::doubleValue).max().getAsDouble();
     }
 }
