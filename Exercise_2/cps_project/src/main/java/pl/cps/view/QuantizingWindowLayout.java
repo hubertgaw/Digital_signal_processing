@@ -21,7 +21,7 @@ public class QuantizingWindowLayout extends GridPane {
     }
 
     public void initQuantizedChart() {
-        quantizedChart.drawDiscreteChart("Sygnał po kwantyzacji");
+        quantizedChart.drawContinuousChart("Sygnał po kwantyzacji");
         add(quantizedChart, 0, 1);
     }
 }

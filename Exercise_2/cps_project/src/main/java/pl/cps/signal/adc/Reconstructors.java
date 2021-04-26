@@ -92,13 +92,13 @@ public class Reconstructors {
         List<Data> resultData = new ArrayList<Data>();
         int n = numberOfSamplesUsedToGetFormula;
         double lowerPointX = data.stream()
-                .max(Comparator.comparing(i -> i.getX())).get().getX(),
+                .min(Comparator.comparing(i -> i.getX())).get().getX(),
                 greaterPointX = data.stream()
-                        .min(Comparator.comparing(i -> i.getX())).get().getX();
+                        .max(Comparator.comparing(i -> i.getX())).get().getX();
         if (n > data.size()) {
             n = data.size();
         }
-        for (double i = lowerPointX; i < greaterPointX; i += 1 / samplesPerSecond) {
+        for (double i = lowerPointX; i < greaterPointX; i += 1.0 / samplesPerSecond) {
             resultData.add(new Data(i, Reconstructors.sincReconstructionForPoint(data, i, n)));
         }
         return resultData;

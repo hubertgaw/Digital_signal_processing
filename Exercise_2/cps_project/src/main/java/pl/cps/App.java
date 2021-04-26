@@ -5,14 +5,17 @@ import javafx.application.Preloader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pl.cps.signal.adc.Quantizer;
+import pl.cps.signal.adc.Reconstructors;
 import pl.cps.signal.emiters.*;
 import pl.cps.signal.model.*;
 import pl.cps.view.QuantizingWindowLayout;
+import pl.cps.view.ReconstructingWindowLayout;
 import pl.cps.view.SamplingWindowLayout;
 import pl.cps.view.MainLayout;
 
@@ -27,11 +30,13 @@ public class App extends Application {
     static Double strTimeValue;
     static Double durValue;
     static Double termValue;
-    static Double valueForCalculations;
+    static Double signalFreqValue;
     static Double possValue;
     static Double kwValue;
     static Double jumpValue;
-    private Double sampleFreq;
+    static Double sampleFreq;
+    static Double numberOfLevels;
+    static Integer sincValue;
     private static MainLayout mainLayout;
     private static GridPane mainPane = new GridPane();
     static Menu signalOneMenu = new Menu(), signalTwoMenu = new Menu(), operationMenu = new Menu(),
@@ -117,11 +122,7 @@ public class App extends Application {
             showDiagram();
         });
         sampleBtn.setOnMouseClicked((action) -> {
-            try {
-                askWindow(stage, "Częstotliwość próbkowania");
-            } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
-                signalIsNotTransmittedInThisTime.printStackTrace();
-            }
+            askWindowForSamplingFrequency(stage);
 
         });
         signalOneMenu.setText("Sygnal nr 1");
@@ -167,63 +168,117 @@ public class App extends Application {
 
     }
 
-    private static void askWindow(Stage stage, String title) throws SignalIsNotTransmittedInThisTime {
+    private static void askWindowForSamplingFrequency(Stage stage) {
         Stage askValueStage = new Stage();
-        askValueStage.setTitle(title);
+        askValueStage.setTitle("Częstotliwość próbkowania");
 
-        Text askValueText = new Text("Podaj " + title);
+        Text askValueText = new Text("Podaj Częstotliwość próbkowania");
         TextField valueField = new TextField("0");
 
-        VBox askFreqHBox = new VBox(15);
-        askFreqHBox.getChildren().add(askValueText);
-        askFreqHBox.getChildren().add(valueField);
+        VBox askFreqVBox = new VBox(15);
+        askFreqVBox.getChildren().add(askValueText);
+        askFreqVBox.getChildren().add(valueField);
 
 
-        if (title.equals("Częstotliwość próbkowania")) {
-            Button nextBtn = new Button("Dalej");
-            askFreqHBox.getChildren().add(nextBtn);
-            nextBtn.setOnMouseClicked((action) -> {
-                try {
-                    valueForCalculations = convertStringToDouble(valueField.getText());
-                    showWindowWithSampledSignal(stage);
-                    askValueStage.close();
-                } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
-                    signalIsNotTransmittedInThisTime.printStackTrace();
-                }
-            });
-        } else if (title.equals("Poziomy kwantyzacji")) {
-            Button truncatedBtn = new Button("Z obcięciem");
-            Button roundedBtn = new Button("Z zaokrągleniem");
-            askFreqHBox.getChildren().add(truncatedBtn);
-            askFreqHBox.getChildren().add(roundedBtn);
-            truncatedBtn.setOnMouseClicked((action) -> {
-                valueForCalculations = convertStringToDouble(valueField.getText());
-                try {
-                    showWindowWithQuantiziedSignal(stage, "truncated");
-                } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
-                    signalIsNotTransmittedInThisTime.printStackTrace();
-                }
+        Button nextBtn = new Button("Dalej");
+        askFreqVBox.getChildren().add(nextBtn);
+        nextBtn.setOnMouseClicked((action) -> {
+            try {
+                sampleFreq = convertStringToDouble(valueField.getText());
+                showWindowWithSampledSignal(stage);
                 askValueStage.close();
-
-            });
-            roundedBtn.setOnMouseClicked((action) -> {
-                valueForCalculations = convertStringToDouble(valueField.getText());
-                try {
-                    showWindowWithQuantiziedSignal(stage, "rounded");
-                } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
-                    signalIsNotTransmittedInThisTime.printStackTrace();
-                }
-                askValueStage.close();
-            });
-
-        }
+            } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
+                signalIsNotTransmittedInThisTime.printStackTrace();
+            }
+        });
 
 
-        Scene askFreqScene = new Scene(askFreqHBox, 200, 100);
+        Scene askFreqScene = new Scene(askFreqVBox, 300, 150);
 
         askValueStage.initModality(Modality.APPLICATION_MODAL);
         askValueStage.initOwner(stage);
         askValueStage.setScene(askFreqScene);
+        askValueStage.show();
+    }
+
+    private static void askWindowForQuantizationLevels(Stage stage) {
+        Stage askValueStage = new Stage();
+        askValueStage.setTitle("Poziomy kwantyzacji");
+
+        Text askValueText = new Text("Podaj liczbę poziomów kwantyzacji");
+        TextField valueField = new TextField("0");
+
+        VBox askFreqVBox = new VBox(15);
+        askFreqVBox.getChildren().add(askValueText);
+        askFreqVBox.getChildren().add(valueField);
+
+        Button truncatedBtn = new Button("Z obcięciem");
+        Button roundedBtn = new Button("Z zaokrągleniem");
+
+        HBox buttonsHBox = new HBox(20);
+        buttonsHBox.getChildren().add(truncatedBtn);
+        buttonsHBox.getChildren().add(roundedBtn);
+
+        askFreqVBox.getChildren().add(buttonsHBox);
+
+        truncatedBtn.setOnMouseClicked((action) -> {
+            numberOfLevels = convertStringToDouble(valueField.getText());
+            try {
+                showWindowWithQuantiziedSignal(stage, "truncated");
+            } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
+                signalIsNotTransmittedInThisTime.printStackTrace();
+            }
+            askValueStage.close();
+
+        });
+        roundedBtn.setOnMouseClicked((action) -> {
+            numberOfLevels = convertStringToDouble(valueField.getText());
+            try {
+                showWindowWithQuantiziedSignal(stage, "rounded");
+            } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
+                signalIsNotTransmittedInThisTime.printStackTrace();
+            }
+            askValueStage.close();
+        });
+
+        Scene askLevelsScene = new Scene(askFreqVBox, 300, 150);
+
+        askValueStage.initModality(Modality.APPLICATION_MODAL);
+        askValueStage.initOwner(stage);
+        askValueStage.setScene(askLevelsScene);
+        askValueStage.show();
+    }
+
+    private static void askWindowForSincValue(Stage stage, List<Data> points) {
+        Stage askValueStage = new Stage();
+        askValueStage.setTitle("Wartość sinc");
+
+        Text askValueText = new Text("Podaj wartość dla funkcji sinc");
+        TextField valueField = new TextField("0");
+
+        VBox askValueVBox = new VBox(15);
+        askValueVBox.getChildren().add(askValueText);
+        askValueVBox.getChildren().add(valueField);
+
+        Button reconstructBtn = new Button("Rekonstrukcja");
+
+        askValueVBox.getChildren().add(reconstructBtn);
+
+        reconstructBtn.setOnMouseClicked((action) -> {
+            sincValue = Integer.parseInt(valueField.getText());
+            try {
+                showWindowWithReconstructedSignal(stage, 2, points);
+            } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
+                signalIsNotTransmittedInThisTime.printStackTrace();
+            }
+            askValueStage.close();
+        });
+
+        Scene askSincScene = new Scene(askValueVBox, 300, 150);
+
+        askValueStage.initModality(Modality.APPLICATION_MODAL);
+        askValueStage.initOwner(stage);
+        askValueStage.setScene(askSincScene);
         askValueStage.show();
     }
 
@@ -354,18 +409,15 @@ public class App extends Application {
         Stage conversionStage = new Stage();
         Button quantBtn = new Button("Kwantyzuj");
         quantBtn.setOnMouseClicked((action) -> {
-            try {
-                askWindow(stage, "Poziomy kwantyzacji");
-            } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
-                signalIsNotTransmittedInThisTime.printStackTrace();
-            }
+            askWindowForQuantizationLevels(stage);
         });
 
         SamplingWindowLayout samplingWindowLayout = new SamplingWindowLayout();
         sampledSignalPoints = samplingWindowLayout.addSampledChart(getSelectedSignals().
-                get(showingSignalCounter % 3), valueForCalculations);
+                get(showingSignalCounter % 3), sampleFreq);
         samplingWindowLayout.initSampledChart();
         samplingWindowLayout.add(quantBtn, 0, 2);
+        addReconstructiveButtons(stage, samplingWindowLayout, sampledSignalPoints);
 
 
         conversionStage.initOwner(stage);
@@ -382,19 +434,76 @@ public class App extends Application {
         Quantizer quantizer = new Quantizer();
         if (type.equals("truncated")) {
             quantizedSignalPoints =
-                    quantizer.truncatedQuantization(sampledSignalPoints, valueForCalculations.intValue());
+                    quantizer.truncatedQuantization(sampledSignalPoints, numberOfLevels.intValue());
         } else {
             quantizedSignalPoints =
-                    quantizer.roundedQuantization(sampledSignalPoints, valueForCalculations.intValue());
+                    quantizer.roundedQuantization(sampledSignalPoints, numberOfLevels.intValue());
         }
         quantizingWindowLayout.addQuantizedChart(quantizedSignalPoints);
         quantizingWindowLayout.initQuantizedChart();
+        addReconstructiveButtons(stage, quantizingWindowLayout, quantizedSignalPoints);
 
         quantizationStage.initOwner(stage);
         Scene quantizationScene = new Scene(quantizingWindowLayout);
 
         quantizationStage.setScene(quantizationScene);
         quantizationStage.show();
+    }
+
+    private static void addReconstructiveButtons(Stage stage, GridPane windowLayout, List<Data> points) {
+        Button zeroReconstructBtn = new Button("Interpolacja zerowego rzędu");
+        Button firstReconstructBtn = new Button("Interpolacja pierwszego rzędu");
+        Button sincReconstructBtn = new Button("W oparciu o funkcje sinc");
+
+        zeroReconstructBtn.setOnMouseClicked((action) -> {
+            try {
+                showWindowWithReconstructedSignal(stage, 0, points);
+            } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
+                signalIsNotTransmittedInThisTime.printStackTrace();
+            }
+        });
+
+        firstReconstructBtn.setOnMouseClicked((action) -> {
+            try {
+                showWindowWithReconstructedSignal(stage, 1, points);
+            } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
+                signalIsNotTransmittedInThisTime.printStackTrace();
+            }
+        });
+
+        sincReconstructBtn.setOnMouseClicked((action) -> {
+            askWindowForSincValue(stage, points);
+//                showWindowWithReconstructedSignal(stage, 2, points);
+        });
+
+        windowLayout.add(zeroReconstructBtn, 0, 3);
+        windowLayout.add(firstReconstructBtn, 0, 4);
+        windowLayout.add(sincReconstructBtn, 0, 5);
+
+    }
+
+    // type 0 - zero order, 1 - first order, 2- sinc
+    private static void showWindowWithReconstructedSignal(Stage stage, int type, List<Data> pointsToReconstruct)
+            throws SignalIsNotTransmittedInThisTime {
+        Stage reconstructionStage = new Stage();
+        ReconstructingWindowLayout reconstructingWindowLayout = new ReconstructingWindowLayout();
+        List<Data> reconstructedPoints = new ArrayList<>();
+        if (type == 0) {
+            reconstructedPoints = Reconstructors.zeroOrderInterpolation(pointsToReconstruct, sampleFreq.intValue());
+        } else if (type == 1) {
+            reconstructedPoints = Reconstructors.firstOrderInterpolation(pointsToReconstruct,sampleFreq.intValue());
+        } else if (type == 2) {
+            reconstructedPoints = Reconstructors.sincReconstruction
+                    (pointsToReconstruct,sampleFreq.intValue(),sincValue);
+        }
+        reconstructingWindowLayout.addReconstructedChart(reconstructedPoints);
+        reconstructingWindowLayout.initReconstructedChart();
+
+        reconstructionStage.initOwner(stage);
+        Scene reconstructedChartScene = new Scene(reconstructingWindowLayout);
+
+        reconstructionStage.setScene(reconstructedChartScene);
+        reconstructionStage.show();
     }
 
     private static Signal setParametersDialogShow(Stage stage, String name) {
@@ -494,7 +603,7 @@ public class App extends Application {
         strTimeValue = convertStringToDouble(strTime.getText());
         durValue = convertStringToDouble(dur.getText());
         termValue = convertStringToDouble(term.getText());
-        valueForCalculations = convertStringToDouble(freq.getText());
+        signalFreqValue = convertStringToDouble(freq.getText());
         possValue = convertStringToDouble(poss.getText());
         kwValue = convertStringToDouble(kw.getText());
         jumpValue = convertStringToDouble(jump.getText());
@@ -512,7 +621,7 @@ public class App extends Application {
         if (name == "Szum Gaussowski")
             ret = new GaussianNoise(ampValue, strTimeValue, durValue);
         if (name == "Szum Impulsowy")
-            ret = new ImpulseNoise(ampValue, strTimeValue, durValue, valueForCalculations, possValue);
+            ret = new ImpulseNoise(ampValue, strTimeValue, durValue, signalFreqValue, possValue);
         if (name == "Sygnał sinusoidalny wyprostowany jednopolowkowo")
             ret = new OneHalfSinusoidalSignal(ampValue, strTimeValue, durValue, termValue);
         if (name == "Sygnał sinusoidalny wyprostowany dwopolowkowo")
@@ -528,7 +637,7 @@ public class App extends Application {
         if (name == "Szum o rozkladzie jednostajnym")
             ret = new UniformlyDistributedNoise(ampValue, strTimeValue, durValue);
         if (name == "Impuls jednostkowy")
-            ret = new UnitImpulse(ampValue, strTimeValue, durValue, valueForCalculations, jumpValue.intValue());
+            ret = new UnitImpulse(ampValue, strTimeValue, durValue, signalFreqValue, jumpValue.intValue());
         if (name == "Skok jednostkowy")
             ret = new UnitJump(ampValue, strTimeValue, durValue, jumpValue);
         System.out.println("SIGNAL: " + ret);
