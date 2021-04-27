@@ -92,9 +92,9 @@ public class Reconstructors {
         //return lowerPoint.getY() + ((xValueToCalculateYValue - lowerPoint.getX()) * (greaterPoint.getY() - lowerPoint.getY()));//y1+(x−x1)*(y2−y1)
     }
 
-    public static List<Data> sincReconstruction(List<Data> data, int samplesPerSecond, int numberOfSamplesUsedToGetFormula) {
+    public static List<Data> sincReconstruction(List<Data> data, int samplesPerSecond/*, int numberOfSamplesUsedToGetFormula*/) {
         List<Data> resultData = new ArrayList<Data>();
-        int n = numberOfSamplesUsedToGetFormula;
+        int n = data.size();//numberOfSamplesUsedToGetFormula;
         double lowerPointX = data.stream()
                 .min(Comparator.comparing(i -> i.getX())).get().getX(),
                 greaterPointX = data.stream()

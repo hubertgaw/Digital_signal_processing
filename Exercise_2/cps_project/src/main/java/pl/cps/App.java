@@ -505,12 +505,12 @@ public class App extends Application {
         ReconstructingWindowLayout reconstructingWindowLayout = new ReconstructingWindowLayout();
         List<Data> reconstructedPoints = new ArrayList<>();
         if (type == 0) {
-            reconstructedPoints = Reconstructors.zeroOrderInterpolation(pointsToReconstruct, sampleFreq.intValue());
+            reconstructedPoints = Reconstructors.zeroOrderInterpolation(pointsToReconstruct, 1000/*sampleFreq.intValue()*/);
         } else if (type == 1) {
-            reconstructedPoints = Reconstructors.firstOrderInterpolation(pointsToReconstruct, sampleFreq.intValue());
+            reconstructedPoints = Reconstructors.firstOrderInterpolation(pointsToReconstruct, 1000);
         } else if (type == 2) {
             reconstructedPoints = Reconstructors.sincReconstruction
-                    (pointsToReconstruct, sampleFreq.intValue(), sincValue);
+                    (pointsToReconstruct, 1000/*, sincValue*/);
         }
         reconstructingWindowLayout.addReconstructedChart(reconstructedPoints);
         reconstructingWindowLayout.initReconstructedChart();
