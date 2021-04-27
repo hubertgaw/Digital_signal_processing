@@ -92,7 +92,32 @@ public class Quantizer {
         return result;
     }
 
+    public List<Data> truncatedQuantizationToDrawChart(List<Data> pointsFromSampledSignal,
+                                                       int numberOfLevels) {
+        double PRECISION = 0.00001;
+        List<Data> quatization = truncatedQuantization(pointsFromSampledSignal, numberOfLevels),
+                chartData = new ArrayList<>();
+        for (int i = 0; i < quatization.size() - 1; i++) {
+            chartData.add(quatization.get(i));
+            chartData.add(new Data(quatization.get(1 + i).getX() - PRECISION, quatization.get(i).getY()));
+        }
+        chartData.add(quatization.get(quatization.size() - 1));
+        return chartData;
+    }
 
+    public List<Data> roundedQuantizationToDrawChart(List<Data> pointsFromSampledSignal,
+                                                     int numberOfLevels) throws SignalIsNotTransmittedInThisTime {
+        double PRECISION = 0.00001;
+        List<Data> quatization = roundedQuantization(pointsFromSampledSignal, numberOfLevels),
+                chartData = new ArrayList<>();
+        for (int i = 0; i < quatization.size() - 1; i++) {
+            chartData.add(quatization.get(i));
+            chartData.add(new Data(quatization.get(1 + i).getX() - PRECISION, quatization.get(i).getY()));
+        }
+        chartData.add(quatization.get(quatization.size() - 1));
+        return chartData;
+
+    }
     //todo implement
 //    public List<Data> truncatedQuantization(List<Data> pointsFromSampledSignal,
 //                                            int numberOfLevels) throws SignalIsNotTransmittedInThisTime {

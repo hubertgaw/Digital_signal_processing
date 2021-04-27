@@ -434,10 +434,10 @@ public class App extends Application {
         Quantizer quantizer = new Quantizer();
         if (type.equals("truncated")) {
             quantizedSignalPoints =
-                    quantizer.truncatedQuantization(sampledSignalPoints, numberOfLevels.intValue());
+                    quantizer.truncatedQuantizationToDrawChart(sampledSignalPoints, numberOfLevels.intValue());
         } else {
             quantizedSignalPoints =
-                    quantizer.roundedQuantization(sampledSignalPoints, numberOfLevels.intValue());
+                    quantizer.roundedQuantizationToDrawChart(sampledSignalPoints, numberOfLevels.intValue());
         }
         quantizingWindowLayout.addQuantizedChart(quantizedSignalPoints);
         quantizingWindowLayout.initQuantizedChart();
