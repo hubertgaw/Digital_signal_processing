@@ -118,11 +118,5 @@ public class Quantizer {
         return chartData;
 
     }
-    //todo implement
-//    public List<Data> truncatedQuantization(List<Data> pointsFromSampledSignal,
-//                                            int numberOfLevels) throws SignalIsNotTransmittedInThisTime {
-//        createLevels(pointsFromSampledSignal, numberOfLevels);
-//
-//    }
 
 }

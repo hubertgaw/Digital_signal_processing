@@ -49,7 +49,7 @@ public class App extends Application {
     private static int showingSignalCounter = 1;
     private List<Data> resultPoints = new ArrayList<Data>();
     private static List<Data> sampledSignalPoints = new ArrayList<>();
-    private static List<Data> quantizedSignalPoints = new ArrayList<>();
+    private static List<Data> quantizedSignalPointsToDrawChart = new ArrayList<>();
 
 
     public static String getSelectedOperation() {
@@ -419,7 +419,6 @@ public class App extends Application {
         samplingWindowLayout.add(quantBtn, 0, 2);
         addReconstructiveButtons(stage, samplingWindowLayout, sampledSignalPoints);
 
-
         conversionStage.initOwner(stage);
         Scene convertedChartsScene = new Scene(samplingWindowLayout);
 
@@ -432,27 +431,30 @@ public class App extends Application {
         Stage quantizationStage = new Stage();
         QuantizingWindowLayout quantizingWindowLayout = new QuantizingWindowLayout();
         Quantizer quantizer = new Quantizer();
+        List<Data> quantizedSignalPoints;
         if (type.equals("truncated")) {
-            quantizedSignalPoints =
+            quantizedSignalPointsToDrawChart =
                     quantizer.truncatedQuantizationToDrawChart(sampledSignalPoints, numberOfLevels.intValue());
+            quantizedSignalPoints = quantizer.truncatedQuantization(sampledSignalPoints, numberOfLevels.intValue());
         } else {
-            quantizedSignalPoints =
+            quantizedSignalPointsToDrawChart =
                     quantizer.roundedQuantizationToDrawChart(sampledSignalPoints, numberOfLevels.intValue());
+            quantizedSignalPoints = quantizer.roundedQuantization(sampledSignalPoints, numberOfLevels.intValue());
         }
-        quantizingWindowLayout.addQuantizedChart(quantizedSignalPoints);
+        quantizingWindowLayout.addQuantizedChart(quantizedSignalPointsToDrawChart);
         quantizingWindowLayout.initQuantizedChart();
         addReconstructiveButtons(stage, quantizingWindowLayout, quantizedSignalPoints);
 
         VBox comparedValuesVBox = new VBox();
 
         comparedValuesVBox.getChildren().add(new Text("Błąd średniokwadaratowy: " +
-                Reconstructors.meanSquareError(sampledSignalPoints, quantizedSignalPoints)));
+                Reconstructors.meanSquareError(sampledSignalPoints, quantizedSignalPointsToDrawChart)));
         comparedValuesVBox.getChildren().add(new Text("Stosunek sygnał - szum: " +
-                Reconstructors.signalToNoiseRatio(sampledSignalPoints, quantizedSignalPoints)));
+                Reconstructors.signalToNoiseRatio(sampledSignalPoints, quantizedSignalPointsToDrawChart)));
         comparedValuesVBox.getChildren().add(new Text("Szczytowy stosunek sygnał - szum: " +
-                Reconstructors.peakSignalToNoiseRatio(sampledSignalPoints, quantizedSignalPoints)));
+                Reconstructors.peakSignalToNoiseRatio(sampledSignalPoints, quantizedSignalPointsToDrawChart)));
         comparedValuesVBox.getChildren().add(new Text("Maksymalna różnica: " +
-                Reconstructors.maximumDifference(sampledSignalPoints, quantizedSignalPoints)));
+                Reconstructors.maximumDifference(sampledSignalPoints, quantizedSignalPointsToDrawChart)));
 
         quantizingWindowLayout.add(comparedValuesVBox, 1, 1);
 

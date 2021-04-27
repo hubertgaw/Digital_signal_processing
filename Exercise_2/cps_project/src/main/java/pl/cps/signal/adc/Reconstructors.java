@@ -57,6 +57,8 @@ public class Reconstructors {
         for (double i = minX; i <= maxX; i += 1.0 / (double) samplesPerSecond) {
             resultData.add(new Data(i, firstOrderInterpolationForPoint(data, i)));
         }
+        System.out.println(data);
+        System.out.println(resultData);
         return resultData;
     }
 
