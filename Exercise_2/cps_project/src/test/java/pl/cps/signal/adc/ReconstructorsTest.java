@@ -1,6 +1,9 @@
 package pl.cps.signal.adc;
 
 import org.junit.jupiter.api.Test;
+import pl.cps.signal.emiters.SignalIsNotTransmittedInThisTime;
+import pl.cps.signal.emiters.SquareSignal;
+import pl.cps.signal.emiters.TriangularSignal;
 import pl.cps.signal.model.Data;
 
 import java.util.ArrayList;
@@ -11,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ReconstructorsTest {
     @Test
-    public void firstOrderInterpolationForPointTest() {
+    void firstOrderInterpolationForPointTest() {
         List<Data> data = new ArrayList<Data>(), minusData = new ArrayList<Data>();
         data.add(new Data(0.0, 0.0));
         data.add(new Data(1.0, 1.0));
@@ -24,7 +27,7 @@ class ReconstructorsTest {
     }
 
     @Test
-    public void firstOrderInterpolationTest() {
+    void firstOrderInterpolationTest() {
         List<Data> reconstructedData = Reconstructors.firstOrderInterpolation(
                 Arrays.asList(new Data(0.0, 0.0), new Data(1.0, 1.0)), 100);
         for (int i = 0; i < 100; i++) {
@@ -32,9 +35,30 @@ class ReconstructorsTest {
             assertEquals(i / 100.0, reconstructedData.get(i).getY(), 0.0001);
         }
     }
+    @Test
+    void firstOrderInterpolationTestWithSignal() {
+        TriangularSignal signal = new TriangularSignal(2,0,2,1,0.5);
+        List<Data> data = new ArrayList<>();
+        for (double i = 0; i < 2; i+=0.1) {
+            try {
+                data.add(new Data(i,signal.calculateValue(i)));
+            } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
+                signalIsNotTransmittedInThisTime.printStackTrace();
+            }
+        }
+
+        List<Data> reconstructed=Reconstructors.firstOrderInterpolation(data,100);
+        reconstructed.stream().forEach(x -> {
+            try {
+                assertEquals(signal.calculateValue(x.getX()),x.getY(),0.001);
+            } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
+                signalIsNotTransmittedInThisTime.printStackTrace();
+            }
+        });
+    }
 
     @Test
-    public void zeroOrderInterpolationForPointTest() {
+    void zeroOrderInterpolationForPointTest() {
         List<Data> data = new ArrayList<Data>();
         for (int i = 0; i < 11; i++) {
             data.add(new Data((double) i, i % 3.0));
@@ -51,7 +75,7 @@ class ReconstructorsTest {
     }
 
     @Test
-    public void zeroOrderInterpolation() {
+    void zeroOrderInterpolation() {
         List<Data> data = new ArrayList<Data>(), resultData;
         for (int i = 0; i < 11; i++) {
             data.add(new Data((double) i, i % 3.0));

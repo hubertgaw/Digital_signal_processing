@@ -57,8 +57,7 @@ public class Reconstructors {
         for (double i = minX; i <= maxX; i += 1.0 / (double) samplesPerSecond) {
             resultData.add(new Data(i, firstOrderInterpolationForPoint(data, i)));
         }
-        System.out.println(data);
-        System.out.println(resultData);
+
         return resultData;
     }
 
@@ -87,7 +86,10 @@ public class Reconstructors {
         if ((xValueToCalculateYValue < lowerPoint.getX()) || (xValueToCalculateYValue > greaterPoint.getX())) {
             return 0.0;
         }
-        return lowerPoint.getY() + ((xValueToCalculateYValue - lowerPoint.getX()) * (greaterPoint.getY() - lowerPoint.getY()));//y1+(x−x1)*(y2−y1)
+
+        double tmp = (lowerPoint.getY() - greaterPoint.getY()) / (lowerPoint.getX() - greaterPoint.getX());
+        return tmp * xValueToCalculateYValue + (lowerPoint.getY() - (tmp * lowerPoint.getX()));
+        //return lowerPoint.getY() + ((xValueToCalculateYValue - lowerPoint.getX()) * (greaterPoint.getY() - lowerPoint.getY()));//y1+(x−x1)*(y2−y1)
     }
 
     public static List<Data> sincReconstruction(List<Data> data, int samplesPerSecond, int numberOfSamplesUsedToGetFormula) {
@@ -169,7 +171,7 @@ public class Reconstructors {
             denominator += (originalPoints.get(i).getY() - quantizedPoints.get(i).getY()) *
                     (originalPoints.get(i).getY() - quantizedPoints.get(i).getY());
         }
-        errorValue = 10 * Math.log10(nominator/denominator);
+        errorValue = 10 * Math.log10(nominator / denominator);
         return errorValue;
     }
 

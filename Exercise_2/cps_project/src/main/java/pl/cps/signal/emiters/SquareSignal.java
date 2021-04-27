@@ -15,14 +15,10 @@ public class SquareSignal extends Signal {
     @Override
     public double calculateValue(double time) throws SignalIsNotTransmittedInThisTime {
         checkTimePeriod(time);
-
         counter++;
         if (shouldReturnZero(time)) {
-            System.out.print("CV- squareSignal   "+counter);
-            System.out.println("  0");
             return 0.0;
         }
-//        System.out.println("  AMP");
         return getAmplitude();
     }
 
