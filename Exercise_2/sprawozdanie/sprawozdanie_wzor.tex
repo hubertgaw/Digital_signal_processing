@@ -27,7 +27,7 @@ Celem zadania było zapoznanie się z procesem konwersji A/C oraz C/A sygnałów
 
 \section{Wstęp teoretyczny}
 
-Sygnały, które podlegaja kwantyzacji oraz rekonstrukcji generowane są na podstawie wzorów znajdujących się w instrukcji do zadania nr 1 \cite{instrukcja1}. W instrukcji \cite{instrukcji2} znajdują się wzory oraz opisy metod konwersji A/C oraz C/A użyte w celu kwantyzacji, rekonstrukcji oraz do obliczenia błędu średniokwadratowego, stosunku sygnał-szum, szczytowego stosunku sygnał-szum oraz maksymalnej różnicy.
+Sygnały, które podlegaja kwantyzacji oraz rekonstrukcji generowane są na podstawie wzorów znajdujących się w instrukcji do zadania nr 1 \cite{instrukcja1}. W instrukcji \cite{instrukcja2} znajdują się wzory oraz opisy metod konwersji A/C oraz C/A użyte w celu kwantyzacji, rekonstrukcji oraz do obliczenia błędu średniokwadratowego, stosunku sygnał-szum, szczytowego stosunku sygnał-szum oraz maksymalnej różnicy.
 
 
 \section{Eksperymenty i wyniki}
@@ -69,7 +69,7 @@ Skwantyzowana postać sygnału prezentuje się następująco:
     %\includegraphics{cps_kwantyzacja_z_obcieciem.jpg}
 	\includegraphics[width=\linewidth]{kwantyzacja_z_obcieciem.jpg}
     \caption{Kwantyzacja równomierna z obcięciem sygnału sinusoidalnego}
-    \label{wykres dla eksperymentu 1}
+    \label{wykres dla eksperymentu 1.1}
 \end{figure}
 
 \subsubsection{Rezultat}
@@ -113,7 +113,7 @@ Obliczone miary dla procesu kwantyzacji:
 \begin{figure}[H]
 	\centering
 	%\includegraphics{cps_kwantyzacja_z_zaokrągleniem_miary.jpg}
-	\includegraphics[width=\linewidth]{sygnal_kwantyzacja_z_zaokragleniem.jpg}
+	\includegraphics[width=\linewidth]{wyniki_kwantyzacja_z_zaokragleniem.jpg}
 	\caption{Miary obliczone dla kwantyzacji równomiernej z zaokrągleniem sygnału sinusoidalnego}
 	\label{Wartości dla eksperymentu 2}
 \end{figure}
@@ -158,13 +158,13 @@ Obliczone parametry dla otrzymanego w rezuntacie sygnału ciągłego:
 \subsection{Eksperyment nr 4: Interpolacja pierwszego rzędu}
 
 \subsubsection{Założenia}
-Eksperyment nr 4 polegał naiInterpolacji pierwszego rzędu spróbkowanego sygnału ciągłego.
+Eksperyment nr 4 polegał na Interpolacji pierwszego rzędu spróbkowanego sygnału ciągłego. Sygnał sinusoidalny został spróbowany z częstoliwością 30 Hz
 \subsubsection{Przebieg}
 Wygenerowany sygnał prezentuje się następująco:
 \begin{figure}[H]
 	\centering
 	%\includegraphics{cps_interpolacja_1.jpg}
-	\includegraphics[width=\linewidth]{tmp.jpg}
+	\includegraphics[width=\linewidth]{sygnal_interpolacja_pierwszy.jpg}
 	\caption{Wykres Interpolacji pierwszego rzędu sygnału sinusoidalnego}
 	\label{wykres dla eksperymentu 4}
 \end{figure}
@@ -172,11 +172,11 @@ Wygenerowany sygnał prezentuje się następująco:
 
 
 \subsubsection{Rezultat}
-Obliczone parametry dla otrzymanego w rezuntacie sygnału ciągłego:
+Obliczone parametry dla otrzymanego w rezultacie sygnału ciągłego:
 \begin{figure}[H]
 	\centering
 	%\includegraphics{cps_interpolacja_1_miary.jpg}
-	\includegraphics[width=\linewidth]{tmp.jpg}
+	\includegraphics[width=\linewidth]{wyniki_interpolacja_pierwszy.jpg}
 	\caption{Oblicznone miary dla Interpolacja pierwszego rzędu sygnału sinusoidalnego}
 	\label{wartości dla eksperymentu 4}
 \end{figure}
@@ -187,13 +187,13 @@ Obliczone parametry dla otrzymanego w rezuntacie sygnału ciągłego:
 \newpage
 \subsection{Eksperyment nr 5: Rekonstrukcja w oparciu o funkcję sinc }
 \subsubsection{Założenia}
-Eksperyment nr 3 polegał na rekonstrukcji w oparciu o funkcję sinc spróbkowanego sygnału ciągłego.
+Eksperyment nr 3 polegał na rekonstrukcji w oparciu o funkcję sinc spróbkowanego sygnału ciągłego. Parametr dla funkcji sinc wynosił tyle, ile częstotliwość sygnału wejściowego, a więc 1000 Hz. Sygnał był spróbkowany z częstotliwością 20 Hz.
 \subsubsection{Przebieg}
 Wygenerowany sygnał prezentuje się następująco:
 \begin{figure}[H]
 	\centering
 	%\includegraphics{cps_rekonstrukcja_sinc.jpg}
-	\includegraphics[width=\linewidth]{tmp.jpg}
+	\includegraphics[width=\linewidth]{sygnal_sinc.jpg}
 	\caption{Wykres rekonstrukcji w oparciu o funkcję sinc sygnału sinusoidalnego}
 	\label{wykres dla eksperymentu 5}
 \end{figure}
@@ -205,7 +205,7 @@ Obliczone parametry dla otrzymanego w rezuntacie sygnału ciągłego:
 \begin{figure}[H]
 	\centering
 	%\includegraphics{cps_rekonstrukcja_sincmiary.jpg}
-	\includegraphics[width=\linewidth]{tmp.jpg}
+	\includegraphics[width=\linewidth]{wyniki_sinc.jpg}
 	\caption{Oblicznone miary dla rekonstrukcji w oparciu o funkcję sinc sygnału sinusoidalnego}
 	\label{wartości dla eksperymentu 5}
 \end{figure}
@@ -273,6 +273,8 @@ Obliczone parametry dla otrzymanego w rezuntacie sygnału ciągłego:
     \item Każdy sygnał ciągły można zdyskretyzować poprzez próbkowanie a następnie te próbki skwantyzować by ograniczyć dokładność zapisu oraz ilość pamięci potrzebnej do zapisu sygnału zdyskrekretyzowanego.
     \item Program poprawnie kwantyzuje oraz rekonstruuje sygnały.
     \item Program pozwala obliczenie 4 miar dla każdego skwantyzowanego sygnału.
+    \item Najbardziej przypominający kształtem sygnał zrekonstruowany powstaje po rekonstrukcji z wykorzystaniem funkcji sinc.
+    \item Kwantyzacja pozwala w efektywny sposób przedstawić sygnał w postaci cyfrowej
     \item Przy odpowiednich warunkach może wystąpić zjawisko aliasingu.
 \end{itemize}
  
@@ -280,12 +282,12 @@ Obliczone parametry dla otrzymanego w rezuntacie sygnału ciągłego:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BIBLIOGRAFIA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{thebibliography}{}
+\bibitem{instrukcja1} Instrukcja do zadania 1 na stronie przedmiotu. [przeglądany 28.04.2021], Dostępny w: https://ftims.edu.p.lodz.pl/file.php/154/zadanie120101011.pdf
+\bibitem{instrukcja2} Instrukcja do zadania 2 na stronie przedmiotu. [przeglądany 28.04.2021], Dostępny w: {https://ftims.edu.p.lodz.pl/pluginfile.php/13449/modresource/content/0/zadanie2.pdf}
 
-\renewcommand\refname{Bibliografia}
-\bibliographystyle{plain}
+\end{thebibliography}
 
 
-\bibliography{instrukcja1} Instrukcja do zadania 1 dostępna na platformie WIKAMP, na stronie porzedmiotu Cyfrowe Przetwarzanie sygnału.
-\bibliography{instrukcja2} Instrukcja do zadania 2 dostępna na platformie WIKAMP, na stronie porzedmiotu Cyfrowe Przetwarzanie sygnału.
 
 \end{document}
