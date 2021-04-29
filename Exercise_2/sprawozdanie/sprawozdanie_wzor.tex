@@ -212,62 +212,7 @@ Obliczone parametry dla otrzymanego w rezuntacie sygnału ciągłego:
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newpage
-\subsection{Eksperyment nr 6: Zjawisko aliasingu }
-\subsubsection{Założenia}
-Eksperyment nr 6 polegał na rekonstrukcji w oparciu o funkcję sinc spróbkowanego sygnału ciągłego z tak dobranymi parametrami by uzyskac zjawisko aliasingu.
-\subsubsection{Przebieg}
-Wygenerowane sygnały sinusoidalne o częstotliwościach 100Hz, 220Hz oraz 440Hz  zostały spróbkowane kolejno z częstotliwościami  1 000Hz, 44 100Hz oraz22 050Hz a następnie sygnały zostały zrekonstruowane za pomocą finkcji sinc.
 
-\subsubsection{Rezultat}
-\begin{figure}[H]
-	\centering
-	%\includegraphics{cps_aliasing_1.jpg}
-	\includegraphics[width=\linewidth]{tmp.jpg}
-	\caption{Wykres rekonstrukcji w oparciu o funkcję sinc sygnału sinusoidalnego z wystąpieniem aliasingu dla częstotliwości $f_0$=100Hz oraz $f_s$=1 000Hz}
-	\label{wykres dla eksperymentu 6}
-\end{figure}
-Obliczone parametry dla otrzymanego w rezuntacie sygnału ciągłego:
-\begin{figure}[H]
-	\centering
-	%\includegraphics{cps_aliasing_1_miary.jpg}
-	\includegraphics[width=\linewidth]{tmp.jpg}
-	\caption{Oblicznone miary dla rekonstrukcji w oparciu o funkcję sinc sygnału sinusoidalnego z wystąpieniem aliasingu dla częstotliwości $f_0$=100Hz oraz $f_s$=1 000Hz} 
-	\label{wartości dla eksperymentu 6}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	%\includegraphics{cps_aliasing_2.jpg}
-	\includegraphics[width=\linewidth]{tmp.jpg}
-	\caption{Wykres rekonstrukcji w oparciu o funkcję sinc sygnału sinusoidalnego z wystąpieniem aliasingu dla częstotliwości $f_0$=220Hz oraz $f_s$=44 100Hz}
-	\label{wykres dla eksperymentu 6.2}
-\end{figure}
-Obliczone parametry dla otrzymanego w rezuntacie sygnału ciągłego:
-\begin{figure}[H]
-	\centering
-	%\includegraphics{cps_aliasing_2_miary.jpg}
-	\includegraphics[width=\linewidth]{tmp.jpg}
-	\caption{Oblicznone miary dla rekonstrukcji w oparciu o funkcję sinc sygnału sinusoidalnego z wystąpieniem aliasingu dla częstotliwości $f_0$=220Hz oraz $f_s$=44 100Hz} 
-	\label{wartości dla eksperymentu 6.2}
-\end{figure}
-\begin{figure}[H]
-	\centering
-	%\includegraphics{cps_aliasing_3.jpg}
-	\includegraphics[width=\linewidth]{tmp.jpg}
-	\caption{Wykres rekonstrukcji w oparciu o funkcję sinc sygnału sinusoidalnego z wystąpieniem aliasingu dla częstotliwości $f_0$=440Hz oraz $f_s$=22 050Hz}
-	\label{wykres dla eksperymentu 6.3}
-\end{figure}
-Obliczone parametry dla otrzymanego w rezuntacie sygnału ciągłego:
-\begin{figure}[H]
-	\centering
-	%\includegraphics{cps_aliasing_3_miary.jpg}
-	\includegraphics[width=\linewidth]{tmp.jpg}
-	\caption{Oblicznone miary dla rekonstrukcji w oparciu o funkcję sinc sygnału sinusoidalnego z wystąpieniem aliasingu dla częstotliwości $f_0$=440Hz oraz $f_s$=22 050Hz}
-	\label{wartości dla eksperymentu 6.3}
-\end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Wnioski}
 \begin{itemize}
     \item Każdy sygnał ciągły można zdyskretyzować poprzez próbkowanie a następnie te próbki skwantyzować by ograniczyć dokładność zapisu oraz ilość pamięci potrzebnej do zapisu sygnału zdyskrekretyzowanego.
@@ -277,7 +222,6 @@ Obliczone parametry dla otrzymanego w rezuntacie sygnału ciągłego:
     \item Kwantyzacja pozwala w efektywny sposób przedstawić sygnał w postaci cyfrowej
     \item Im większa częstotliwość próbkowania, tym jakość rekonstrukcji jest lepsza
     \item Im więcej więcej poziomów kwantyzacji, tym błąd kwantyzacji jest mniejszy.
-    \item Przy odpowiednich warunkach może wystąpić zjawisko aliasingu.
 \end{itemize}
  
 
