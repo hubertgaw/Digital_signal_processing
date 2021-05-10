@@ -176,12 +176,13 @@ public class Reconstructors {
     }
 
     public static double peakSignalToNoiseRatio(Signal signal, List<Data> approxDatas) {
-        double errorValue = approxDatas.stream().max(Comparator.comparing(Data::getY)).get().getY() / meanSquareError(signal, approxDatas);
+        double errorValue = Math.pow(approxDatas.stream().max(Comparator.comparing(Data::getY)).get().getY(),2) /
+                meanSquareError(signal, approxDatas);
         return 10 * Math.log10(errorValue);
     }
 
     public static double peakSignalToNoiseRatio(List<Data> originalPoints, List<Data> quantizedPoints) {
-        double errorValue = originalPoints.stream().max(Comparator.comparing(Data::getY)).get().getY() /
+        double errorValue = Math.pow(originalPoints.stream().max(Comparator.comparing(Data::getY)).get().getY(), 2) /
                 meanSquareError(originalPoints, quantizedPoints);
         return 10 * Math.log10(errorValue);
 
