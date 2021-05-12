@@ -59,8 +59,8 @@ Celem eksperymentu było przeprowadzenie kwantyzacji sygnału ciągłego z obci�
 \subsubsection{Założenia}
 
 \begin{itemize}
-    \item Częstotliwość próbkowania: 15 Hz
-    \item Liczba poziomów kwantyzacji: 5
+    \item Częstotliwość próbkowania: 20 Hz
+    \item Liczba poziomów kwantyzacji: 8
 \end{itemize}
 \subsubsection{Przebieg}
 Skwantyzowana postać sygnału prezentuje się następująco:
@@ -129,7 +129,8 @@ Obliczone miary dla procesu kwantyzacji:
 \subsubsection{Założenia}
 Eksperyment nr 3 polegał na ekstrapolacji zerowego rzędu spróbkowanego sygnału ciągłego.
 \subsubsection{Przebieg}
-Wygenerowany sygnał prezentuje się następująco:
+Sygnał ciągły został spróbkowany z częstotliwościa 10Hz a następnie zrekonstruowany.
+Wygenerowana rekonstrukcja sygnału prezentuje się następująco:
 \begin{figure}[H]
     \centering
     %\includegraphics{cps_ekstrapolacja_0.jpg}
@@ -160,7 +161,8 @@ Obliczone parametry dla otrzymanego w rezuntacie sygnału ciągłego:
 \subsubsection{Założenia}
 Eksperyment nr 4 polegał na Interpolacji pierwszego rzędu spróbkowanego sygnału ciągłego.
 \subsubsection{Przebieg}
-Wygenerowany sygnał prezentuje się następująco:
+Sygnał ciągły został spróbkowany z częstotliwościa 10Hz a następnie zrekonstruowany.
+Wygenerowana rekonstrukcja sygnału prezentuje się następująco:
 \begin{figure}[H]
 	\centering
 	%\includegraphics{cps_interpolacja_1.jpg}
@@ -187,9 +189,10 @@ Obliczone parametry dla otrzymanego w rezultacie sygnału ciągłego:
 \newpage
 \subsection{Eksperyment nr 5: Rekonstrukcja w oparciu o funkcję sinc }
 \subsubsection{Założenia}
-Eksperyment nr 3 polegał na rekonstrukcji w oparciu o funkcję sinc spróbkowanego sygnału ciągłego.
+Eksperyment nr 5 polegał na rekonstrukcji w oparciu o funkcję sinc spróbkowanego sygnału ciągłego.
 \subsubsection{Przebieg}
-Wygenerowany sygnał prezentuje się następująco:
+Sygnał ciągły został spróbkowany z częstotliwościa 10Hz a następnie zrekonstruowany.
+Wygenerowana rekonstrukcja sygnału prezentuje się następująco:
 \begin{figure}[H]
 	\centering
 	%\includegraphics{cps_rekonstrukcja_sinc.jpg}
@@ -209,8 +212,35 @@ Obliczone parametry dla otrzymanego w rezuntacie sygnału ciągłego:
 	\caption{Oblicznone miary dla rekonstrukcji w oparciu o funkcję sinc sygnału sinusoidalnego}
 	\label{wartości dla eksperymentu 5}
 \end{figure}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+-\subsection{Eksperyment nr 6: Zjawisko aliasingu }
+\subsubsection{Założenia}
+Eksperyment nr 6 polegał na rekonstrukcji w oparciu o funkcję sinc spróbkowanego sygnału ciągłego z tak dobranymi parametrami by uzyskac zjawisko aliasingu.
+\subsubsection{Przebieg}
+Wygenerowany został sygnał sinusoidalny, którego okres wynosił 0.03s a następnie sygnał ten został spróbkowany z częstotliwością 15Hz. Na podstawie tych próbek w oparciu o funkcje sinc sygnał został zrekonstruowany.
+\begin{figure}[H]
+	\centering
+	\includegraphics{cps_aliasing_wejsciowy.jpg}
+	\caption{Wygenerowany sygnał sinusoidalny}
+	\label{sygnał wejściowy dla eksperymentu 6}
+\end{figure}
+\begin{figure}[H]
+	\centering
+	\includegraphics{cps_aliasing_probki.jpg}
+	\caption{Wygenerowany sygnał sinusoidalny}
+	\label{spróbkowany sygnał dla eksperymentu 6}
+\end{figure}
+
+\subsubsection{Rezultat}
+\begin{figure}[H]
+	\centering
+	\includegraphics{cps_aliasing.jpg}
+	\caption{Wykres rekonstrukcji w oparciu o funkcję sinc sygnału sinusoidalnego z wystąpieniem aliasingu}
+	\label{wykres dla eksperymentu 6}
+\end{figure}
+
+Jak można zauważyć w wyniku wystąpienia aliasingu zrekonstruowany sygnał znacząco różni sie od sygnału wejściowego.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Wnioski}
@@ -222,6 +252,7 @@ Obliczone parametry dla otrzymanego w rezuntacie sygnału ciągłego:
     \item Kwantyzacja pozwala w efektywny sposób przedstawić sygnał w postaci cyfrowej
     \item Im większa częstotliwość próbkowania, tym jakość rekonstrukcji jest lepsza
     \item Im więcej więcej poziomów kwantyzacji, tym błąd kwantyzacji jest mniejszy.
+    \item Przy zbyt małej częstotliwości próbkowania może wystąpić zjawisko aliasingu.
 \end{itemize}
  
 
