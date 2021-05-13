@@ -27,7 +27,25 @@ Celem zadania było zapoznanie się z procesem konwersji A/C oraz C/A sygnałów
 
 \section{Wstęp teoretyczny}
 
-Sygnały, które podlegaja kwantyzacji oraz rekonstrukcji generowane są na podstawie wzorów znajdujących się w instrukcji do zadania nr 1 \cite{instrukcja1}. W instrukcji \cite{instrukcja2} znajdują się wzory oraz opisy metod konwersji A/C oraz C/A użyte w celu kwantyzacji, rekonstrukcji oraz do obliczenia błędu średniokwadratowego, stosunku sygnał-szum, szczytowego stosunku sygnał-szum oraz maksymalnej różnicy.
+Sygnały, które podlegaja kwantyzacji oraz rekonstrukcji generowane są na podstawie wzorów znajdujących się w instrukcji do zadania nr 1 \cite{instrukcja1}. W instrukcji \cite{instrukcja2} znajdują się wzory oraz opisy metod konwersji A/C oraz C/A użyte w celu kwantyzacji, rekonstrukcji oraz do obliczenia błędu średniokwadratowego, stosunku sygnał-szum, szczytowego stosunku sygnał-szum oraz maksymalnej różnicy. Do sprawdzenia jakości rekonstruowanych sygnałów oraz sygnałów poddanych kwantyzacji użyjemy następujących miar:
+\begin{itemize}
+    \item Błąd średniokwadratowy (MSE ang. Mean Squared Error)
+    \begin{equation}
+        MSE = \frac{1}{N}\sum_{i=0}^{N-1}[x(i) - \hat{x}(i)]^2
+    \end{equation}
+    \item Stosunek sygnał - szum (SNR, ang. Signal to Noise Ratio)
+    \begin{equation}
+        SNR_{db}= 10log_{10}( \frac{\sum_{i=0}^{N-1} x^2(i)}{ \sum_{i=0}^{N-1}[x(i) - \hat{x}(i)]^2})
+    \end{equation}
+    \item Szczytowy stosunek sygnał-szum (PSNR, ang. PeakSignaltoNoiseRatio)
+    \begin{equation}
+        PSNR_{db}= 10log_{10}( \frac{\underset{i=0,...,N}{max}x(i)}{MSE})
+    \end{equation}
+    \item Maksymalna różnica (MD, ang. Maximum Difference)
+    \begin{equation}
+        MD = \underset{i=0,1,...,N}{max}|x(i) - \hat{x}(i)|
+    \end{equation}
+\end{itemize}
 
 
 \section{Eksperymenty i wyniki}
