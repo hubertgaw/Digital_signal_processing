@@ -8,7 +8,7 @@ import java.util.List;
 
 public class LowPassFiltration {
 
-    public static List<Data> calculate(List<Data> pointsToFilter, int M, double fo, double fp, Window window) {
+    public List<Data> calculate(List<Data> pointsToFilter, int M, double fo, double fp, Window window) {
         double K = fp/fo;
         int firstCondition = (M - 1) / 2;
         List<Data> pointsAfterFiltration = new ArrayList<>();
