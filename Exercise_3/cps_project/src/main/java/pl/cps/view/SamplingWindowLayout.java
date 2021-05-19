@@ -20,6 +20,11 @@ public class SamplingWindowLayout extends GridPane {
         return sampleChart.generateSignal(signal, freqValue);
     }
 
+    //method whew we have points instead of Signal
+    public void addSampledChart(List<Data> points) {
+        sampleChart.generateSignal(points);
+    }
+
     public void initSampledChart() {
         sampleChart.drawDiscreteChart("Sygnał po próbkowaniu");
         add(sampleChart, 0, 1);
