@@ -20,7 +20,7 @@ public class ChartComponent extends HBox {
     private LineChart continuousSignalChart;
     private ScatterChart discreteSignalChart;
 
-    public ChartComponent() throws SignalIsNotTransmittedInThisTime {
+    public ChartComponent() {
 
         xAxis = new NumberAxis();
         xAxis.setLabel("t[s]");

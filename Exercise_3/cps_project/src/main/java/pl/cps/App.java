@@ -51,7 +51,7 @@ public class App extends Application {
     private static List<Data> resultPoints = new ArrayList<Data>();
     private static List<Data> sampledSignalPoints = new ArrayList<>();
     private static List<Data> quantizedSignalPointsToDrawChart = new ArrayList<>();
-
+    private Exercise3View ex3View = null;
 
     public static String getSelectedOperation() {
         return selectedOperation;
@@ -99,19 +99,20 @@ public class App extends Application {
         VBox buttonBox = new VBox();
         MenuBar menuBar = new MenuBar();
         Button calculateButton = new Button(), nextButton = new Button(), showButton = new Button(),
-                saveBtn = new Button(), loadBtn = new Button(), sampleBtn = new Button();
-        calculateButton.setText("Podaj parametry sygnałów");
+                saveBtn = new Button(), loadBtn = new Button(), sampleBtn = new Button(), filtrationCorrelationBtn = new Button();        calculateButton.setText("Podaj parametry sygnałów");
         nextButton.setText("Nastepny wykres");
         showButton.setText("Oblicz i pokaż");
         saveBtn.setText("Zapisz");
         loadBtn.setText("Odczytaj");
         sampleBtn.setText("Wykonaj próbkowanie");
+        filtrationCorrelationBtn.setText("Filtracja/korelacja");
         buttonBox.getChildren().add(calculateButton);
         buttonBox.getChildren().add(nextButton);
         buttonBox.getChildren().add(showButton);
         buttonBox.getChildren().add(saveBtn);
         buttonBox.getChildren().add(loadBtn);
         buttonBox.getChildren().add(sampleBtn);
+        buttonBox.getChildren().add(filtrationCorrelationBtn);
         mainPane.add(buttonBox, 1, 1);
         calculateButton.setOnMouseClicked((action) -> {
             startCalculating(stage);
@@ -125,6 +126,10 @@ public class App extends Application {
         sampleBtn.setOnMouseClicked((action) -> {
             askWindowForSamplingFrequency(stage);
 
+        });
+        filtrationCorrelationBtn.setOnMouseClicked((action) -> {
+            ex3View = new Exercise3View(stage);
+            ex3View.init();
         });
         signalOneMenu.setText("Sygnal nr 1");
         signalTwoMenu.setText("Sygnal nr 2");
