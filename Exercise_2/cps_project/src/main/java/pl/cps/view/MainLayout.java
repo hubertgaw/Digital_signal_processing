@@ -19,13 +19,12 @@ public class MainLayout extends GridPane {
 
 
     public MainLayout() {
-        try {
+
             charts.add(new ChartComponent());
             charts.add(new ChartComponent());
             charts.add(new ChartComponent());
-        } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
-            signalIsNotTransmittedInThisTime.printStackTrace();
-        }
+
+
         try {
             //TU ZMIANA GENEROWANEGO SYGNALU
             charts.get(0).generateSignal(App.getSelectedSignals().get(0), sampleFrequency);

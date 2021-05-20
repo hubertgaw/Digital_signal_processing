@@ -66,6 +66,19 @@ public abstract class Signal {
         }
     }
 
+    public List<Data> calculateAndReturnPoints(int samplesPreSecond){
+        List<Data> result = new ArrayList<Data>();
+        for(double i = this.startTime;i<(this.startTime+this.duration);i=i+(1.0/samplesPreSecond)){
+            System.out.println("I==========================="+i);
+            try {
+                result.add(new Data(i,calculateValue(i)));
+            } catch (SignalIsNotTransmittedInThisTime signalIsNotTransmittedInThisTime) {
+                signalIsNotTransmittedInThisTime.printStackTrace();
+            }
+        }
+        return result;
+    }
+
     public List<Data> generateChart(ObservableList<XYChart.Data<Double, Double>> data, double sampleFrequency) throws SignalIsNotTransmittedInThisTime {
         points.clear();
         double jumpRange = 1.0/sampleFrequency;

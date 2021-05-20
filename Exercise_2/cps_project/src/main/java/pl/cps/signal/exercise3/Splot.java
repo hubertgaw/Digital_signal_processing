@@ -25,7 +25,7 @@ public class Splot {
                 }
             }
             results.add(new Data(xP,yP));
-            yP+=jump;
+            xP+=jump;
         }
         return results;
     }
