@@ -12,6 +12,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import pl.cps.signal.adc.Quantizer;
 import pl.cps.signal.adc.Reconstructors;
+import pl.cps.signal.adc.Sampler;
 import pl.cps.signal.emiters.*;
 import pl.cps.signal.model.*;
 import pl.cps.view.QuantizingWindowLayout;
@@ -47,7 +48,7 @@ public class App extends Application {
     private Text avgValue = new Text(), absAvgValue = new Text(), avgPower = new Text(),
             variation = new Text(), effectiveValue = new Text();
     private static int showingSignalCounter = 1;
-    private List<Data> resultPoints = new ArrayList<Data>();
+    private static List<Data> resultPoints = new ArrayList<Data>();
     private static List<Data> sampledSignalPoints = new ArrayList<>();
     private static List<Data> quantizedSignalPointsToDrawChart = new ArrayList<>();
 
@@ -413,8 +414,13 @@ public class App extends Application {
         });
 
         SamplingWindowLayout samplingWindowLayout = new SamplingWindowLayout();
-        sampledSignalPoints = samplingWindowLayout.addSampledChart(getSelectedSignals().
-                get(showingSignalCounter % 3), sampleFreq);
+        if (showingSignalCounter % 3 == 2) { // to sygnał wynikowy
+            sampledSignalPoints = Sampler.sampling(resultPoints, sampleFreq);
+            samplingWindowLayout.addSampledChart(sampledSignalPoints);
+        } else {
+            sampledSignalPoints = samplingWindowLayout.addSampledChart(getSelectedSignals().
+                    get(showingSignalCounter % 3), sampleFreq);
+        }
         samplingWindowLayout.initSampledChart();
         samplingWindowLayout.add(quantBtn, 0, 2);
         addReconstructiveButtons(stage, samplingWindowLayout, sampledSignalPoints);
