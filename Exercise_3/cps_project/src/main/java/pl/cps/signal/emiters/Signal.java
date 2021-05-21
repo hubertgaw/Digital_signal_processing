@@ -66,7 +66,7 @@ public abstract class Signal {
         }
     }
 
-    public List<Data> calculateAndReturnPoints(int samplesPreSecond){
+    public List<Data> calculateAndReturnPoints(double samplesPreSecond){
         List<Data> result = new ArrayList<Data>();
         for(double i = this.startTime;i<(this.startTime+this.duration);i=i+(1.0/samplesPreSecond)){
             System.out.println("I==========================="+i);

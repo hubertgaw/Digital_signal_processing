@@ -12,7 +12,7 @@ public class LowPassFiltration {
         double K = fp/fo;
         int firstCondition = (M - 1) / 2;
         List<Data> pointsAfterFiltration = new ArrayList<>();
-        for (int n = 0; n < pointsToFilter.size() - 1; n++) {
+        for (int n = 0; n < M - 1; n++) {
             double w = window.value(n, M);
             double h;
             if (n == firstCondition) {

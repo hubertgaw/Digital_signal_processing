@@ -57,19 +57,20 @@ public class MainLayout extends GridPane {
         if (whichSignalToShow == 0) {
             String name = App.getSellectdOptionFromMenu(App.getSignalTwoMenu());
             if (name.equals("Szum Impulsowy") || name.equals("Impuls jednostkowy")) {
-                charts.get(whichSignalToShow).drawDiscreteChart(name);
+                charts.get(whichSignalToShow).drawDiscreteChart(name + "(nr. " + whichSignalToShow + ")");
             } else {
-                charts.get(whichSignalToShow).drawContinuousChart(name);
+                charts.get(whichSignalToShow).drawContinuousChart(name + "(nr. " + whichSignalToShow + ")");
             }
         } else if (whichSignalToShow == 1) {
             String name = App.getSellectdOptionFromMenu(App.getSignalOneMenu());
             if (name.equals("Szum Impulsowy") || name.equals("Impuls jednostkowy")) {
-                charts.get(whichSignalToShow).drawDiscreteChart(name);
+                charts.get(whichSignalToShow).drawDiscreteChart(name + "(nr. " + whichSignalToShow + ")");
             } else {
-                charts.get(whichSignalToShow).drawContinuousChart(name);
+                charts.get(whichSignalToShow).drawContinuousChart(name + "(nr. " + whichSignalToShow + ")");
             }
         } else if (whichSignalToShow == 2) {
-            charts.get(whichSignalToShow).drawContinuousChart("Sygnał wynikowy");
+            charts.get(whichSignalToShow).drawContinuousChart("Sygnał wynikowy" +
+                    "(nr. " + whichSignalToShow + ")");
         }
         add(charts.get(whichSignalToShow), 0, 1);
     }

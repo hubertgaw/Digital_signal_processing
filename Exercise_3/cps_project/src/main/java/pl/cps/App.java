@@ -53,6 +53,11 @@ public class App extends Application {
     private static List<Data> quantizedSignalPointsToDrawChart = new ArrayList<>();
     private Exercise3View ex3View = null;
 
+
+    public static List<Data> getResultPoints() {
+        return resultPoints;
+    }
+
     public static String getSelectedOperation() {
         return selectedOperation;
     }
