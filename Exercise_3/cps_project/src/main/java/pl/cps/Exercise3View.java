@@ -38,6 +38,7 @@ public class Exercise3View {
     Integer signalNumber1;
     Integer signalNumber2;
     Integer selectedWindowIndex = 0;
+    Integer selectedFilterIndex = 0;
 
 
     public Exercise3View(Stage stage) {
@@ -78,8 +79,6 @@ public class Exercise3View {
         pane.add(backBtn,0,0);
 //        pane.add(new TextField("jakis tam"),0,1);
         ChartComponent filterChart = new ChartComponent();
-        LowPassFiltration lowPassFiltration = new LowPassFiltration();
-        MiddlePassFiltration middlePassFiltration = new MiddlePassFiltration();
         List<Data> filterPoints = new ArrayList<>();
         Window window;
         if (selectedWindowIndex == 0) {
@@ -87,16 +86,20 @@ public class Exercise3View {
         } else {
             window = new HanningWindow();
         }
-        if (signalNumber1 == 0) {
-            filterPoints = lowPassFiltration.calculate(App.getSelectedSignals().get(0).
-                    calculateAndReturnPoints(sampleFreq), filterRow, cutOffFreq, sampleFreq, window);
-        } else if (signalNumber1 == 1) {
-            filterPoints = lowPassFiltration.calculate(
-                    App.getSelectedSignals().get(1).calculateAndReturnPoints(sampleFreq), filterRow, cutOffFreq,
+        LowPassFiltration filtration;
+        if (selectedFilterIndex == 0) {
+            filtration = new LowPassFiltration();
+        } else {
+            filtration = new MiddlePassFiltration(); // middlePass dziedziczy po Low więc chyba git
+        }
+
+        if (signalNumber1 == 2) {
+            filterPoints = filtration.calculate(
+                    Sampler.sampling(App.getResultPoints(),sampleFreq), filterRow, cutOffFreq,
                     sampleFreq, window);
         } else {
-            filterPoints = middlePassFiltration.calculate(
-                    Sampler.sampling(App.getResultPoints(),sampleFreq), filterRow, cutOffFreq,
+            filterPoints = filtration.calculate(
+                    App.getSelectedSignals().get(signalNumber1).calculateAndReturnPoints(sampleFreq), filterRow, cutOffFreq,
                     sampleFreq, window);
         }
         filterChart.generateSignal(filterPoints);
@@ -108,8 +111,8 @@ public class Exercise3View {
             pointsAfterFiltration = Splot.calculate(App.getResultPoints(), filterPoints);
         } else {
             pointsAfterFiltration = Splot.calculate(
-                    App.getSelectedSignals().get(signalNumber1).calculateAndReturnPoints(sampleFreq),
-                    filterPoints);
+                    filterPoints,
+                    App.getSelectedSignals().get(signalNumber1).calculateAndReturnPoints(sampleFreq));
         }
         chartAfterFiltration.generateSignal(pointsAfterFiltration);
         chartAfterFiltration.drawDiscreteChart("Sygnał po filtracji");
@@ -213,6 +216,23 @@ public class Exercise3View {
         askWindowVBox.getChildren().add(askWindowText);
         askWindowVBox.getChildren().add(windowCB);
 
+        Text askFilterTypeText = new Text("Wybierz typ filtra");
+        ChoiceBox filterCB = new ChoiceBox(FXCollections.observableArrayList(
+                "Filtr dolnoprzepustowy", "Filtr pasmowy")
+        );
+        filterCB.getSelectionModel().selectedIndexProperty().addListener(
+                new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                        selectedFilterIndex = newValue.intValue();
+                    }
+                }
+
+        );
+        VBox askFilterTypeVBox = new VBox();
+        askFilterTypeVBox.getChildren().add(askFilterTypeText);
+        askFilterTypeVBox.getChildren().add(filterCB);
+
 
         Button nextBtn = new Button("Dalej");
 
@@ -222,6 +242,7 @@ public class Exercise3View {
         askParametersVBox.getChildren().add(askFilterRowVBox);
         askParametersVBox.getChildren().add(askCutOffFreqVBox);
         askParametersVBox.getChildren().add(askWindowVBox);
+        askParametersVBox.getChildren().add(askFilterTypeVBox);
         askParametersVBox.getChildren().add(nextBtn);
 
         nextBtn.setOnMouseClicked((action) -> {
