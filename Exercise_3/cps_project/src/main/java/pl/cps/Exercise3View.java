@@ -16,7 +16,9 @@ import pl.cps.signal.emiters.Signal;
 import pl.cps.signal.emiters.TriangularSignal;
 import pl.cps.signal.emiters.UnitJump;
 import pl.cps.signal.exercise3.Correlation;
+import pl.cps.signal.exercise3.Splot;
 import pl.cps.signal.exercise3.filtration.LowPassFiltration;
+import pl.cps.signal.exercise3.filtration.MiddlePassFiltration;
 import pl.cps.signal.exercise3.filtration.windows.HanningWindow;
 import pl.cps.signal.exercise3.filtration.windows.RectangularWindow;
 import pl.cps.signal.exercise3.filtration.windows.Window;
@@ -75,9 +77,10 @@ public class Exercise3View {
         backBtn.setOnMouseClicked((a) -> {this.init();});
         pane.add(backBtn,0,0);
 //        pane.add(new TextField("jakis tam"),0,1);
-        ChartComponent chart = new ChartComponent();
+        ChartComponent filterChart = new ChartComponent();
         LowPassFiltration lowPassFiltration = new LowPassFiltration();
-        List<Data> pointsAfterFiltration = new ArrayList<>();
+        MiddlePassFiltration middlePassFiltration = new MiddlePassFiltration();
+        List<Data> filterPoints = new ArrayList<>();
         Window window;
         if (selectedWindowIndex == 0) {
             window = new RectangularWindow();
@@ -85,22 +88,34 @@ public class Exercise3View {
             window = new HanningWindow();
         }
         if (signalNumber1 == 0) {
-            pointsAfterFiltration = lowPassFiltration.calculate(App.getSelectedSignals().get(0).
+            filterPoints = lowPassFiltration.calculate(App.getSelectedSignals().get(0).
                     calculateAndReturnPoints(sampleFreq), filterRow, cutOffFreq, sampleFreq, window);
         } else if (signalNumber1 == 1) {
-            pointsAfterFiltration = lowPassFiltration.calculate(
+            filterPoints = lowPassFiltration.calculate(
                     App.getSelectedSignals().get(1).calculateAndReturnPoints(sampleFreq), filterRow, cutOffFreq,
                     sampleFreq, window);
         } else {
-            pointsAfterFiltration = lowPassFiltration.calculate(
+            filterPoints = middlePassFiltration.calculate(
                     Sampler.sampling(App.getResultPoints(),sampleFreq), filterRow, cutOffFreq,
                     sampleFreq, window);
         }
+        filterChart.generateSignal(filterPoints);
+        filterChart.drawDiscreteChart("Filtr");
 
-        chart.generateSignal(pointsAfterFiltration);
-        chart.drawDiscreteChart("Filtr");
+        ChartComponent chartAfterFiltration = new ChartComponent();
+        List<Data> pointsAfterFiltration = new ArrayList<>();
+        if (signalNumber1 == 2) {
+            pointsAfterFiltration = Splot.calculate(App.getResultPoints(), filterPoints);
+        } else {
+            pointsAfterFiltration = Splot.calculate(
+                    App.getSelectedSignals().get(signalNumber1).calculateAndReturnPoints(sampleFreq),
+                    filterPoints);
+        }
+        chartAfterFiltration.generateSignal(pointsAfterFiltration);
+        chartAfterFiltration.drawDiscreteChart("Sygnał po filtracji");
 
-        pane.add(chart, 1,0);
+        pane.add(filterChart, 1,0);
+        pane.add(chartAfterFiltration, 1,1);
     }
 
     public void correlation(){
