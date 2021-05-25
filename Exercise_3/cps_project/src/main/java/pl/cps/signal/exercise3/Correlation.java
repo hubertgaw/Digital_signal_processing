@@ -7,7 +7,7 @@ import java.util.List;
 
 public class Correlation {
 
-    public List<Data> calculateDirect(List<Data> h, List<Data> x){
+    public static List<Data> calculateDirect(List<Data> h, List<Data> x){
         List<Data> results = new ArrayList<Data>();
         int m = h.size()+x.size()-1;
         double xP=0,yP=0,jump=(h.get(1).getX()-h.get(0).getX());
@@ -28,7 +28,7 @@ public class Correlation {
         return results;
     }
 
-    public List<Data> calculateWithConvolution(List<Data> h, List<Data> x){
+    public static List<Data> calculateWithConvolution(List<Data> h, List<Data> x){
         return Splot.calculate(h,x);
     }
 

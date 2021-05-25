@@ -32,13 +32,15 @@ import java.util.List;
 public class Exercise3View {
     GridPane pane = new GridPane();
     Stage stage;
-    Double sampleFreq;
+    Double sampleFreq1;
+    Double sampleFreq2;
     Integer filterRow;
     Double cutOffFreq;
     Integer signalNumber1;
     Integer signalNumber2;
     Integer selectedWindowIndex = 0;
     Integer selectedFilterIndex = 0;
+    Integer selectedCorrelationTypeIndex = 0;
 
 
     public Exercise3View(Stage stage) {
@@ -63,13 +65,15 @@ public class Exercise3View {
             askWindowForFiltrationParameters();
         });
         correlationBtn.setOnMouseClicked((a) -> {
-            correlation();
+            askWindowForConvolutionAndCorrelationParameters("korelacja");
         });
         convolutionBtn.setOnMouseClicked((a) -> {
+            askWindowForConvolutionAndCorrelationParameters("splot");
             convolution();
         });
         vbox.getChildren().add(filtrationBtn);
         vbox.getChildren().add(correlationBtn);
+        vbox.getChildren().add(convolutionBtn);
         pane.add(vbox,1,1);
     }
     public void filtration(){
@@ -95,12 +99,12 @@ public class Exercise3View {
 
         if (signalNumber1 == 2) {
             filterPoints = filtration.calculate(
-                    Sampler.sampling(App.getResultPoints(),sampleFreq), filterRow, cutOffFreq,
-                    sampleFreq, window);
+                    Sampler.sampling(App.getResultPoints(), sampleFreq1), filterRow, cutOffFreq,
+                    sampleFreq1, window);
         } else {
             filterPoints = filtration.calculate(
-                    App.getSelectedSignals().get(signalNumber1).calculateAndReturnPoints(sampleFreq), filterRow, cutOffFreq,
-                    sampleFreq, window);
+                    App.getSelectedSignals().get(signalNumber1).calculateAndReturnPoints(sampleFreq1), filterRow, cutOffFreq,
+                    sampleFreq1, window);
         }
         filterChart.generateSignal(filterPoints);
         filterChart.drawDiscreteChart("Filtr");
@@ -112,7 +116,7 @@ public class Exercise3View {
         } else {
             pointsAfterFiltration = Splot.calculate(
                     filterPoints,
-                    App.getSelectedSignals().get(signalNumber1).calculateAndReturnPoints(sampleFreq));
+                    App.getSelectedSignals().get(signalNumber1).calculateAndReturnPoints(sampleFreq1));
         }
         chartAfterFiltration.generateSignal(pointsAfterFiltration);
         chartAfterFiltration.drawDiscreteChart("Sygnał po filtracji");
@@ -127,43 +131,67 @@ public class Exercise3View {
         backBtn.setOnMouseClicked((a) -> {this.init();});
         pane.add(backBtn,0,0);
 
-        ChartComponent chart = new ChartComponent(),
-                chart1 = new ChartComponent(),
-                chart2 = new ChartComponent(),
-                chart3 = new ChartComponent(),
-                chart4 = new ChartComponent(),
-                chart5 = new ChartComponent();
-        Correlation corr = new Correlation();
-        Signal s1 = new UnitJump(1,0,1,0),
-                s2 = new TriangularSignal(1,0,1,1,0.5);
-        List<Data> d1 = new ArrayList<>(),
-                d2 = new ArrayList<>();
-        for (double i = -1; i < 0; i+=0.02) {
-            d1.add(new Data(i,0.0));
-            d2.add(new Data(i,0.0));
+        ChartComponent chart = new ChartComponent();
+//                chart1 = new ChartComponent(),
+//                chart2 = new ChartComponent(),
+//                chart3 = new ChartComponent(),
+//                chart4 = new ChartComponent(),
+//                chart5 = new ChartComponent();
+//        Correlation corr = new Correlation();
+
+        List<Data> correlationPoints;
+        List<Data> firstSignalPoints;
+        List<Data> secondSignalPoints;
+
+        if (signalNumber1 == 2) {
+            firstSignalPoints = App.getResultPoints();
+        } else {
+            firstSignalPoints = App.getSelectedSignals().get(signalNumber1).calculateAndReturnPoints(sampleFreq1);
         }
-        s1.calculateAndReturnPoints(10).stream().forEach( s -> d1.add(s));
-        s2.calculateAndReturnPoints(10).stream().forEach( s -> d2.add(s));
-
-        for (double i = 1; i < 2; i+=0.02) {
-            d1.add(new Data(i,0.0));
-            d2.add(new Data(i,0.0));
+        if (signalNumber2 == 2) {
+            secondSignalPoints = App.getResultPoints();
+        } else {
+            secondSignalPoints = App.getSelectedSignals().get(signalNumber2).calculateAndReturnPoints(sampleFreq2);
         }
+        if (selectedCorrelationTypeIndex == 0) {
+            correlationPoints = Correlation.calculateDirect(firstSignalPoints, secondSignalPoints);
+        } else {
+            correlationPoints = Correlation.calculateWithConvolution(firstSignalPoints, secondSignalPoints);
+        }
+        chart.generateSignal(correlationPoints);
+        chart.drawDiscreteChart("Wynik korelacji sygnału " + signalNumber1 + " i " + signalNumber2);
 
-        chart.generateSignal(corr.calculateWithConvolution(d1,d2));
-        chart1.generateSignal(d1);
-        chart2.generateSignal(d2);
-        System.out.println(d1);
-        chart3.generateSignal(corr.calculateDirect(d1,d2));
-        chart1.drawContinuousChart("Prostok");
-        chart2.drawContinuousChart("trojk");
-        chart.drawContinuousChart("corr splot");
-        chart3.drawContinuousChart("corr direct");
-
-        pane.add(chart1,1,0);
-        pane.add(chart2,1,1);
-        pane.add(chart,2,0);
-        pane.add(chart3,2,1);
+        pane.add(chart, 1, 0);
+//        Signal s1 = new UnitJump(1,0,1,0),
+//                s2 = new TriangularSignal(1,0,1,1,0.5);
+//        List<Data> d1 = new ArrayList<>(),
+//                d2 = new ArrayList<>();
+//        for (double i = -1; i < 0; i+=0.02) {
+//            d1.add(new Data(i,0.0));
+//            d2.add(new Data(i,0.0));
+//        }
+//        s1.calculateAndReturnPoints(10).stream().forEach( s -> d1.add(s));
+//        s2.calculateAndReturnPoints(10).stream().forEach( s -> d2.add(s));
+//
+//        for (double i = 1; i < 2; i+=0.02) {
+//            d1.add(new Data(i,0.0));
+//            d2.add(new Data(i,0.0));
+//        }
+//
+//        chart.generateSignal(corr.calculateWithConvolution(d1,d2));
+//        chart1.generateSignal(d1);
+//        chart2.generateSignal(d2);
+//        System.out.println(d1);
+//        chart3.generateSignal(corr.calculateDirect(d1,d2));
+//        chart1.drawContinuousChart("Prostok");
+//        chart2.drawContinuousChart("trojk");
+//        chart.drawContinuousChart("corr splot");
+//        chart3.drawContinuousChart("corr direct");
+//
+//        pane.add(chart1,1,0);
+//        pane.add(chart2,1,1);
+//        pane.add(chart,2,0);
+//        pane.add(chart3,2,1);
     }
 
     public void convolution() {
@@ -247,7 +275,7 @@ public class Exercise3View {
 
         nextBtn.setOnMouseClicked((action) -> {
             signalNumber1 = Integer.parseInt(askSignalNumberField.getText());
-            sampleFreq = Double.parseDouble(askFreqField.getText());
+            sampleFreq1 = Double.parseDouble(askFreqField.getText());
             filterRow = Integer.parseInt(askFilterRowField.getText());
             cutOffFreq = Double.parseDouble(askCutOffFreqField.getText());
             filtration();
@@ -262,4 +290,80 @@ public class Exercise3View {
         askValueStage.setScene(askParametersScene);
         askValueStage.show();
     }
+
+    private void askWindowForConvolutionAndCorrelationParameters(String name) {
+        Stage askValueStage = new Stage();
+        askValueStage.setTitle("Parametry dla: " + name);
+
+        Text askFirstSignalNumberText = new Text("Numer pierwszego sygnału");
+        TextField askFirstSignalNumberField = new TextField("0");
+        VBox askFirstSignalNumberVBox = new VBox();
+        askFirstSignalNumberVBox.getChildren().add(askFirstSignalNumberText);
+        askFirstSignalNumberVBox.getChildren().add(askFirstSignalNumberField);
+
+        Text askFirstSignalFreqText = new Text("Częstotliwość próbkowania dla pierwszego sygnału");
+        TextField askFirstSignalFreqField = new TextField("0");
+        VBox askFirstSignalFreqVBox = new VBox();
+        askFirstSignalFreqVBox.getChildren().add(askFirstSignalFreqText);
+        askFirstSignalFreqVBox.getChildren().add(askFirstSignalFreqField);
+
+        Text askSecondSignalNumberText = new Text("Numer drugiego sygnału");
+        TextField askSecondSignalNumberField = new TextField("0");
+        VBox askSecondSignalNumberVBox = new VBox();
+        askSecondSignalNumberVBox.getChildren().add(askSecondSignalNumberText);
+        askSecondSignalNumberVBox.getChildren().add(askSecondSignalNumberField);
+
+        Text askSecondSignalFreqText = new Text("Częstotliwość próbkowania dla drugiego sygnału");
+        TextField askSecondSignalFreqField = new TextField("0");
+        VBox askSecondSignalFreqVBox = new VBox();
+        askSecondSignalFreqVBox.getChildren().add(askSecondSignalFreqText);
+        askSecondSignalFreqVBox.getChildren().add(askSecondSignalFreqField);
+
+        Text askCorrelationTypeText = new Text("Wybierz typ korelacji");
+        ChoiceBox correlationCB = new ChoiceBox(FXCollections.observableArrayList(
+           "bezpośrednia" , "z użyciem splotu"
+        ));
+        correlationCB.getSelectionModel().selectedIndexProperty().addListener(
+                new ChangeListener<Number>() {
+                    @Override
+                    public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                        selectedCorrelationTypeIndex = newValue.intValue();
+                    }
+                }
+        );
+        VBox askCorrelationTypeVBox = new VBox();
+        askCorrelationTypeVBox.getChildren().add(askCorrelationTypeText);
+        askCorrelationTypeVBox.getChildren().add(correlationCB);
+
+        Button nextBtn = new Button("Dalej");
+
+        VBox askParametersVBox = new VBox();
+        askParametersVBox.getChildren().add(askFirstSignalNumberVBox);
+        askParametersVBox.getChildren().add(askFirstSignalFreqVBox);
+        askParametersVBox.getChildren().add(askSecondSignalNumberVBox);
+        askParametersVBox.getChildren().add(askSecondSignalFreqVBox);
+        askParametersVBox.getChildren().add(askCorrelationTypeVBox);
+        askParametersVBox.getChildren().add(nextBtn);
+
+        nextBtn.setOnMouseClicked((action) -> {
+            signalNumber1 = Integer.parseInt(askFirstSignalNumberField.getText());
+            signalNumber2 = Integer.parseInt(askSecondSignalNumberField.getText());
+            sampleFreq1 = Double.parseDouble(askFirstSignalFreqField.getText());
+            sampleFreq2 = Double.parseDouble(askSecondSignalFreqField.getText());
+            if (name.equals("splot")) {
+                convolution();
+            } else {
+                correlation();
+            }
+            askValueStage.close();
+        });
+
+        Scene askParametersScene = new Scene(askParametersVBox, 300, 300);
+
+        askValueStage.initModality(Modality.APPLICATION_MODAL);
+        askValueStage.initOwner(stage);
+        askValueStage.setScene(askParametersScene);
+        askValueStage.show();
+    }
+
 }
