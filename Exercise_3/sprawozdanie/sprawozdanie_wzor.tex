@@ -248,37 +248,7 @@ Wynik operacji splotu dwóch powyższych sygnałów przedstawia się następują
 \end{figure}
 
 
-\subsubsection{Eksperyment nr 5: Filtracja sygnału sinusoidalnego} 
-W ramach tego eksperymentu poddaliśmy poniższy sygnał sinusoidalny filtracjom. Podczs obu filtracji przyjęliśmy
-\begin{itemize}
-	\item rząd filtru: 25
-	\item Częstotliwość odcięcia: 10Hz
-	\item Częstotliwość próbkowania sygnału: 80Hz
-\end{itemize}
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\linewidth]{sinus-wejscie}
-	\caption{Sygnał sinusoidalny}
-	\label{}
-\end{figure}
-
-Poniżej przedstawiony został filtr dolnoprzepustowy z oknem Hanninga oraz wynik filtracji.
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\linewidth]{filtr-dolnoprzep-hannin}
-	\caption{Filtr oraz wynik filtracji dla filtra dolnoprzepustowego i zastosowania okna Hanninga}
-	\label{}
-\end{figure}
-
-
-Poniżej przedstawiony został filtr pasmowy z oknem prostokątnym oraz wynik filtracji.
-\begin{figure}[H]
-	\centering
-	\includegraphics[width=\linewidth]{filtr-pasmowy-prost}
-	\caption{Filtr oraz wynik filtracji dla filtra pasmowego i zastosowania okna prostokątnego}
-	\label{}
-\end{figure}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -487,7 +457,37 @@ Wynik operacji korelacji z wykorzystaniem splotu dwóch powyższych sygnałów p
     \label{Wynik_8.1}
 \end{figure}
 
+\subsection{Eksperyment nr 9: Filtracja sygnału sinusoidalnego} 
+W ramach tego eksperymentu poddaliśmy poniższy sygnał sinusoidalny filtracjom. Podczs obu filtracji przyjęliśmy
+\begin{itemize}
+	\item rząd filtru: 25
+	\item Częstotliwość odcięcia: 10Hz
+	\item Częstotliwość próbkowania sygnału: 80Hz
+\end{itemize}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{sinus-wejscie}
+	\caption{Sygnał sinusoidalny}
+	\label{}
+\end{figure}
+
+Poniżej przedstawiony został filtr dolnoprzepustowy z oknem Hanninga oraz wynik filtracji.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{filtr-dolnoprzep-hannin}
+	\caption{Filtr oraz wynik filtracji dla filtra dolnoprzepustowego i zastosowania okna Hanninga}
+	\label{}
+\end{figure}
+
+
+Poniżej przedstawiony został filtr pasmowy z oknem prostokątnym oraz wynik filtracji.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{filtr-pasmowy-prost}
+	\caption{Filtr oraz wynik filtracji dla filtra pasmowego i zastosowania okna prostokątnego}
+	\label{}
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -507,6 +507,7 @@ Podczas procesu filtracji skupiliśmy się przede wszystkim na uzyskaniu optymal
     \item Operacje korelacji i splotu są do siebie bardzo podobne, a w niektórych przypadkach dają w wyniku ten sam rezultat. Ponadto można zrealizować korelację w oparciu o splot.
     \item Zastosowanie funkcji okna pozwala zwiększyć efektywność filtru.
     \item Im większy rząd filtra, tym jakość filtracji lepsza
+    \item Metoda filtrów SOI zastosowana w zadaniu generuje zakłócenia na krańcach odfiltrowanego sygnału.
 \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BIBLIOGRAFIA
