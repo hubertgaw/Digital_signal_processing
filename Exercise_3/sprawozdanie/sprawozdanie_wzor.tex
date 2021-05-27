@@ -464,6 +464,15 @@ Pierwsza pula eksperymentów polegała na splocie sygnałów dyskretnych. W eksp
 \subsection{Korelacja sygnałów dyskretnych}
 Druga pula eksperymentów polegała na pokazaniu operacji korelacji sygnałów dyskretnych. Eksperymenty przeprowadziliśmy dla takich samych sygnałów jak przy operacji splotu. Pierwszy z eksperymentów wykonany na sygnałach sinusoidalnych (a więc sygnałach symetrycznych) dał wynik dokładnie taki sam jak w przypadku splotu dla tych sygnałów. Różnice w rezultacie, jeśli porównamy go z operacją splotu dla analogicznych sygnałów możemy zaobserwować w eksperymencie nr 6. Co ciekawe, jest to po prostu odbicie lustrzane względem prostej y = 4 (środek wykresu). Eksperyment 7 pokazał nam, że w przypadku korelacji parametry x i h ze wzoru zawartego w \cite{instrukcja} nie mogą być stosowane zamiennie. W eksperymencie 8 pokazaliśmy korelacji z wykorzystaniem splotu. Wynik nie może dziwić - jest on po prostu wykresem powstałym w wyniku splotu dwóch sygnałów, a więc powstaje wykres taki sam jak w eksperymencie nr 4. 
 
+\subsection{Filtracja sygnałów dyskretnych}
+Podczas procesu filtracji skupiliśmy się przede wszystkim na uzyskaniu optymalnej odpowiedzi impulsowej, którą potem należy wykorzystać w operacji splotu, aby uzyskać sygnał przefiltrowany. Uważamy, że okno Hanninga daje zdecydowanie lepsze i dokładniejsze rezultaty od okna prostokątnego. Co do filtra dolnoprzepustowego i środkowoprzepustowego wydaje nam się, że ciężko jednoznacznie stwierdzić, który z nich jest "lepszy". Uważamy, że ich zastosowanie należy uzależnić od konkretnego przypadku - w niektórych lepiej sprawdzi się filtr dolnoprzpustowy, a w innych - średnioprzepustowy.
+
+\subsection{Ostateczne najważniejsze wnioski}
+\begin{itemize}
+    \item Operacje korelacji i splotu są do siebie bardzo podobne, a w niektórych przypadkach dają w wyniku ten sam rezultat. Ponadto można zrealizować korelację w oparciu o splot.
+    \item Zastosowanie funkcji okna pozwala zwiększyć efektywność filtru.
+    \item Im większy rząd filtra, tym jakość filtracji lepsza
+\end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BIBLIOGRAFIA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
