@@ -81,4 +81,11 @@ public class MainLayout extends GridPane {
         add(histogramComponent, 0, 2);
     }
 
+    public void addOperationSignalAfterAddition(List<Data> resultsPoints) {
+        ChartComponent afterAdditionChart = new ChartComponent();
+        afterAdditionChart.generateSignal(resultsPoints);
+        afterAdditionChart.drawContinuousChart("Sygnał S2");
+        add(afterAdditionChart,2,2);
+    }
+
 }

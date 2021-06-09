@@ -7,7 +7,7 @@ import java.util.List;
 import static pl.cps.signal.model.MathematicalOperation.isEqualWithAccuracy;
 
 public class Multiplication {
-    
+
     private static double ITERATIONS_STEP_SIZE = 0.001, COMPARISON_ACCURRACY = ITERATIONS_STEP_SIZE / 1000;
 
     public static List<Data> performCalculating(List<Data> pointsFromFirstSignal,

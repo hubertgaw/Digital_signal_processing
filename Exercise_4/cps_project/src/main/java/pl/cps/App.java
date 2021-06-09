@@ -104,13 +104,16 @@ public class App extends Application {
         VBox buttonBox = new VBox();
         MenuBar menuBar = new MenuBar();
         Button calculateButton = new Button(), nextButton = new Button(), showButton = new Button(),
-                saveBtn = new Button(), loadBtn = new Button(), sampleBtn = new Button(), filtrationCorrelationBtn = new Button();        calculateButton.setText("Podaj parametry sygnałów");
+                saveBtn = new Button(), loadBtn = new Button(), sampleBtn = new Button(), filtrationCorrelationBtn = new Button(),
+                addToGeneratedBtn = new Button();
+        calculateButton.setText("Podaj parametry sygnałów");
         nextButton.setText("Nastepny wykres");
         showButton.setText("Oblicz i pokaż");
         saveBtn.setText("Zapisz");
         loadBtn.setText("Odczytaj");
         sampleBtn.setText("Wykonaj próbkowanie");
         filtrationCorrelationBtn.setText("Filtracja/korelacja");
+        addToGeneratedBtn.setText("Dodaj do wygenerowanego");
         buttonBox.getChildren().add(calculateButton);
         buttonBox.getChildren().add(nextButton);
         buttonBox.getChildren().add(showButton);
@@ -118,6 +121,7 @@ public class App extends Application {
         buttonBox.getChildren().add(loadBtn);
         buttonBox.getChildren().add(sampleBtn);
         buttonBox.getChildren().add(filtrationCorrelationBtn);
+        buttonBox.getChildren().add(addToGeneratedBtn);
         mainPane.add(buttonBox, 1, 1);
         calculateButton.setOnMouseClicked((action) -> {
             startCalculating(stage);
@@ -135,6 +139,12 @@ public class App extends Application {
         filtrationCorrelationBtn.setOnMouseClicked((action) -> {
             ex3View = new Exercise3View(stage);
             ex3View.init();
+        });
+        addToGeneratedBtn.setOnMouseClicked((action) -> {
+            //hardcoded Signal to match S2 from instruction
+            Signal signal = new SinusoidalSignal(5,0,16,0.5);
+            resultPoints = Addition.performCalculating(signal.calculateAndReturnPoints(1000), resultPoints);
+            mainLayout.addOperationSignalAfterAddition(resultPoints);
         });
         signalOneMenu.setText("Sygnal nr 1");
         signalTwoMenu.setText("Sygnal nr 2");
