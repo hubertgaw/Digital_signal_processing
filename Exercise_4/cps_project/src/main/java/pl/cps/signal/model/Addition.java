@@ -12,7 +12,7 @@ import static pl.cps.signal.model.MathematicalOperation.isEqualWithAccuracy;
 
 public class Addition {
 
-    private static double ITERATIONS_STEP_SIZE = 0.001, COMPARISON_ACCURRACY=ITERATIONS_STEP_SIZE/1000;
+    private static double ITERATIONS_STEP_SIZE = 0.0625, COMPARISON_ACCURRACY=ITERATIONS_STEP_SIZE;
 
     public static List<Data> performCalculating(List<Data> pointsFromFirstSignal,
                                                 List<Data> pointsFromSecondSignal) {

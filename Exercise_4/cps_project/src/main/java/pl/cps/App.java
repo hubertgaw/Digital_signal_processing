@@ -142,8 +142,8 @@ public class App extends Application {
         });
         addToGeneratedBtn.setOnMouseClicked((action) -> {
             //hardcoded Signal to match S2 from instruction
-            Signal signal = new SinusoidalSignal(5,0,16,0.5);
-            resultPoints = Addition.performCalculating(signal.calculateAndReturnPoints(1000), resultPoints);
+            Signal signal = new SinusoidalSignal(5,0,4,0.5);
+            resultPoints = Addition.performCalculating(signal.calculateAndReturnPoints(16), resultPoints);
             mainLayout.addOperationSignalAfterAddition(resultPoints);
         });
         signalOneMenu.setText("Sygnal nr 1");
@@ -327,7 +327,7 @@ public class App extends Application {
                     GaussianNoise.getEffectiveValue(resultPoints));
         }
         mainLayout.initChart(showingSignalCounter % 3);
-        mainLayout.initHistogram(showingSignalCounter % 3);
+//        mainLayout.initHistogram(showingSignalCounter % 3);
         System.out.println("NEXT");
     }
 
@@ -377,7 +377,7 @@ public class App extends Application {
         mainPane.getChildren().remove(mainLayout);
         mainLayout = new MainLayout();
         mainLayout.initChart(2);
-        mainLayout.initHistogram(2);
+//        mainLayout.initHistogram(2);
         //        System.out.println("Size show" + getSelectedSignals().size());
         mainPane.add(mainLayout, 0, 1);
     }
