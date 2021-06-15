@@ -20,7 +20,7 @@ class DFTTransformerTest {
         };
         Complex[] X = {
                 new Complex(2.0, 0.0),
-                new Complex(-2.0, -2.0),
+                new Complex(-2.0,-2.0),
                 new Complex(0.0, -2.0),
                 new Complex(4.0, 4.0)
         };
