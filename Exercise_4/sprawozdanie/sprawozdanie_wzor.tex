@@ -93,7 +93,7 @@ Wygenerowane wykresy przedstawiają się następująco:
 \end{figure}
 
 \subsection{Dyskretna Transformacja Fouriera oraz Szybka Transformacja Fouriera}
-Kolejnym etapem było wygenerowanie transformat dla powyżej przedstawionych sygnałów wykorzystując do tego algorytmy DFT oraz FFT. Podczas działania algorytmów mierzony był czas ich wykonania. Wyniki przedstawiamy poniżej. Wykresy są przedstawione zgodnie z instrukcją w dwóch trybach. W pierwszym z nich (W1) górny wykres prezentuje część rzeczywistą amplitudy w funkcji częstotliwości, a wykres dolny część urojoną, a w drugim (W2) górny wykres prezentuje moduł liczby zespolonej, a dolny argument liczby w funkcji częstotliwości.
+Kolejnym etapem było wygenerowanie transformat dla powyżej przedstawionych sygnałów wykorzystując do tego algorytmy DFT oraz FFT. Podczas działania algorytmów mierzony był czas ich wykonania. Wyniki przedstawiamy poniżej. Każda z poniższych grafik przedstawia wykresy otrzymane z punktów uzyskanych z transformacji. Wykresy są przedstawione zgodnie z instrukcją w dwóch trybach. W pierwszym z nich (W1) górny wykres prezentuje część rzeczywistą amplitudy w funkcji częstotliwości, a wykres dolny część urojoną, a w drugim (W2) górny wykres prezentuje moduł liczby zespolonej, a dolny argument liczby w funkcji częstotliwości.
 
 \subsubsection{Dyskretna Transformacja Fouriera}
 Sygnały będące wynikiem Dyskretnej Transformacji Fouriera przeprowadzonej dla sygnału S1 znajdującego się na rysunku \ref{S1_sygnal} prezentują się następująco:
@@ -200,6 +200,17 @@ S2 & 2,17 ms & 0,47 ms \\ \hline
 S3 & 2,55 ms & 0,41 ms \\ \hline
 \end{tabular}
 \end{table}
+
+\subsection{Transformacja Falkowa}
+W tej sekcji przedstawiony zostanie wykres uzyskany z punktów otrzymanych po przeprowadzeniu transformacji falkowej na sygnale S1 dla 64 próbek.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{falkowa-s1}
+	\caption{Wykres sygnału S1 po przeprowadzaniu na nim transformacji falkowej}
+	\label{s1-falkowa}
+\end{figure}
+Czas transformacji 0.0001s.
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -207,7 +218,10 @@ S3 & 2,55 ms & 0,41 ms \\ \hline
 \indent
 \indent Program został zaimplementowany prawidłowo i spełnia swoje funkcje jakimi było wygenerowanie transformat DFT, FFT i falkowa. Umożliwione zostało także wyświetlanie wyników w odpowiednim formacie (dwa tryby wyświetlania: (W1), w którym górny wykres prezentuje część rzeczywistą amplitudy w funkcji częstotliwości, a wykres dolny część urojoną i (W2), w którym górny wykres prezentuje moduł liczby zespolonej, a dolny argument liczby w funkcji częstotliwości.)\\
 
-\indent Analizując wykresy dla Dyskretnej i dla Szybkiej Transformacji Fouriera możemy zauważyć, że wykresy transformat dla tych samych sygnałów wyglądają tak samo zarówno dla DFT, jak i FFT. Uważamy, że jest to jak najbardziej pożądane zachowanie programu. Patrząc na czasy wykonania obu algorytmów Szybka transformacja Fouriera jest w przypadku sygnału S2 ponad 4 razy szybsza, a w przypadku S1 nawet ponad 10 razy. Pokazuje to dlaczego w systemach informatycznych i telekomunikacyjnych wykorzystywana jest właśnie Szybka Transformacja Fouriera - ten sam wynik możemy otrzymać w zdecydowanie krótszym czasie.
+\indent Dla transformacji DFT oraz FFT można zauważyć wyodrębnienie każdej ze składowych sygnału. Analizując wykresy dla Dyskretnej i dla Szybkiej Transformacji Fouriera możemy zauważyć, że wykresy transformat dla tych samych sygnałów wyglądają tak samo zarówno dla DFT, jak i FFT. Uważamy, że jest to jak najbardziej pożądane zachowanie programu. Patrząc na czasy wykonania obu algorytmów Szybka transformacja Fouriera jest w przypadku sygnału S2 ponad 4 razy szybsza, a w przypadku S1 nawet ponad 10 razy. Pokazuje to dlaczego w systemach informatycznych i telekomunikacyjnych wykorzystywana jest właśnie Szybka Transformacja Fouriera - ten sam wynik możemy otrzymać w zdecydowanie krótszym czasie. Należy jednak nadmienić, że czas obliczeń może zmieniać się w zależności od chwilowego obciążenia procesora komputera oraz jego specyfikacji jak i konkretnych szczegółów implementacyjnych, które nie są charakterystyczne dla algorytmu ale dla danej jego implementacji.\\
+
+\indent Wyniki transformacji falkowej wyglądają zupełnie inaczej niż wyniki innych transformat co spowodowane jest tym, iż ta transformata przenosi funkcje w dziedzinę czasu. Można również zauważyć, że ta transformacja jest wręcz nieporównywalnie szybsza od DFT a nawet FFT.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BIBLIOGRAFIA
