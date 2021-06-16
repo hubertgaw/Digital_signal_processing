@@ -152,7 +152,12 @@ public class App extends Application {
         addToGeneratedBtn.setOnMouseClicked((action) -> {
             //hardcoded Signal to match S2 from instruction
             Signal signal = new SinusoidalSignal(5,0,4,0.5);
-            resultPoints = Addition.performCalculating(signal.calculateAndReturnPoints(16), resultPoints);
+            List<Data> signalPoints = signal.calculateAndReturnPoints(16);
+            Data lastValueTmp = resultPoints.get(resultPoints.size()-1);
+            resultPoints = Addition.performCalculating(signalPoints, resultPoints);
+            // nie dodaje się ostatnia próbka, więc dodaje ją ręcznie
+            resultPoints.add(new Data(lastValueTmp.getX(), lastValueTmp.getY() +
+                    signalPoints.get(signalPoints.size()-1).getY()));
             mainLayout.addOperationSignalAfterAddition(resultPoints);
         });
         transformBtn.setOnMouseClicked((action) -> {
@@ -548,18 +553,25 @@ public class App extends Application {
         List<Complex> pointsAfterTransformation;
 
         pointsBeforeTransformation = ComplexConverter.convertDataToComplex(resultPoints);
+        long start = System.nanoTime();
+        long stop = 0;
         // jeśli DFT lub FFT to po 2 wykresy nam potrzebne
         if (selectedTransformType.equals("DFT")) {
             pointsAfterTransformation = DFTTransformer.simpleDFTTransform(pointsBeforeTransformation);
+            stop = System.nanoTime();
             transformedChartsPane = preparePointsToShow(pointsAfterTransformation);
         } else if (selectedTransformType.equals("FFT")){
             pointsAfterTransformation = FFTTransformer.fftTransform(pointsBeforeTransformation);
+            stop = System.nanoTime();
             transformedChartsPane = preparePointsToShow(pointsAfterTransformation);
         }
 //        else { //jeśli falkowa to (chyba) 1 wykres,
 //            transformingWindowLayout1 = new TransformingWindowLayout();
 //            transformingWindowLayout2 = null;
 //        }
+
+        long timeElapsed = stop - start;
+        System.out.println("time: " + timeElapsed);
 
         transformationStage.initOwner(stage);
         Scene transformedChartsScene = new Scene(transformedChartsPane);
