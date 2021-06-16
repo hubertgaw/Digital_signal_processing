@@ -92,12 +92,122 @@ Wygenerowane wykresy przedstawiają się następująco:
 	\label{S3_sygnal}
 \end{figure}
 
+\subsection{Dyskretna Transformacja Fouriera oraz Szybka Transformacja Fouriera}
+Kolejnym etapem było wygenerowanie transformat dla powyżej przedstawionych sygnałów wykorzystując do tego algorytmy DFT oraz FFT. Podczas działania algorytmów mierzony był czas ich wykonania. Wyniki przedstawiamy poniżej. Wykresy są przedstawione zgodnie z instrukcją w dwóch trybach. W pierwszym z nich (W1) górny wykres prezentuje część rzeczywistą amplitudy w funkcji częstotliwości, a wykres dolny część urojoną, a w drugim (W2) górny wykres prezentuje moduł liczby zespolonej, a dolny argument liczby w funkcji częstotliwości.
 
+\subsubsection{Dyskretna Transformacja Fouriera}
+Sygnały będące wynikiem Dyskretnej Transformacji Fouriera przeprowadzonej dla sygnału S1 znajdującego się na rysunku \ref{S1_sygnal} prezentują się następująco:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{S1_DFT_W1.png}
+	\caption{wykresy typu W1 dla DFT na sygnale S1}
+	\label{S1_DFT_W1}
+\end{figure}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{S1_DFT_W2.png}
+	\caption{wykresy typu W2 dla DFT na sygnale S1}
+	\label{S1_DFT_W2}
+\end{figure}
+
+Sygnały będące wynikiem Dyskretnej Transformacji Fouriera przeprowadzonej dla sygnału S2 znajdującego się na rysunku \ref{S2_sygnal} prezentują się następująco:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{S2_DFT_W1.png}
+	\caption{wykresy typu W1 dla DFT na sygnale S2}
+	\label{S2_DFT_W1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{S2_DFT_W2.png}
+	\caption{wykresy typu W2 dla DFT na sygnale S2}
+	\label{S2_DFT_W2}
+\end{figure}
+
+Sygnały będące wynikiem Dyskretnej Transformacji Fouriera przeprowadzonej dla sygnału S3 znajdującego się na rysunku \ref{S3_sygnal} prezentują się następująco:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{S3_DFT_W1.png}
+	\caption{wykresy typu W1 dla DFT na sygnale S3}
+	\label{S3_DFT_W1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{S3_DFT_W2.png}
+	\caption{wykresy typu W2 dla DFT na sygnale S3}
+	\label{S3_DFT_W2}
+\end{figure}
+
+\subsubsection{Szybka Transformacja Fouriera}
+Sygnały będące wynikiem Szybkiej Transformacji Fouriera przeprowadzonej dla sygnału S1 znajdującego się na rysunku \ref{S1_sygnal} prezentują się następująco:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{S1_FFT_W1.png}
+	\caption{wykresy typu W1 dla FFT na sygnale S1}
+	\label{S1_FFT_W1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{S1_FFT_W2.png}
+	\caption{wykresy typu W2 dla FFT na sygnale S1}
+	\label{S1_FFT_W2}
+\end{figure}
+
+Sygnały będące wynikiem Szybkiej Transformacji Fouriera przeprowadzonej dla sygnału S2 znajdującego się na rysunku \ref{S2_sygnal} prezentują się następująco:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{S2_FFT_W1.png}
+	\caption{wykresy typu W1 dla FFT na sygnale S2}
+	\label{S2_FFT_W1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{S2_FFT_W2.png}
+	\caption{wykresy typu W2 dla FFT na sygnale S2}
+	\label{S2_FFT_W2}
+\end{figure}
+
+Sygnały będące wynikiem Szybkiej Transformacji Fouriera przeprowadzonej dla sygnału S3 znajdującego się na rysunku \ref{S3_sygnal} prezentują się następująco:
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{S3_FFT_W1.png}
+	\caption{wykresy typu W1 dla FFT na sygnale S3}
+	\label{S3_FFT_W1}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=\linewidth]{S3_FFT_W2.png}
+	\caption{wykresy typu W2 dla FFT na sygnale S3}
+	\label{S3_FFT_W2}
+\end{figure}
+
+\subsubsection{Porównanie czasów wykonania algorytmów DFT i FFT}
+W ramach programu zaimplementowaliśmy także liczenie czasów wykonania poszczególnych transformacji. Zestawiając czasy wykonania dla Dyskretnej Transformacji Fouriera i Szybkiej Transformacji Fouriera otrzymamy następującą tabelę:
+
+\begin{table}[H]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+   & DFT     & FFT     \\ \hline
+S1 & 5,24 ms & 0,42 ms \\ \hline
+S2 & 2,17 ms & 0,47 ms \\ \hline
+S3 & 2,55 ms & 0,41 ms \\ \hline
+\end{tabular}
+\end{table}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Wnioski}
+\indent
+\indent Program został zaimplementowany prawidłowo i spełnia swoje funkcje jakimi było wygenerowanie transformat DFT, FFT i falkowa. Umożliwione zostało także wyświetlanie wyników w odpowiednim formacie (dwa tryby wyświetlania: (W1), w którym górny wykres prezentuje część rzeczywistą amplitudy w funkcji częstotliwości, a wykres dolny część urojoną i (W2), w którym górny wykres prezentuje moduł liczby zespolonej, a dolny argument liczby w funkcji częstotliwości.)\\
+
+\indent Analizując wykresy dla Dyskretnej i dla Szybkiej Transformacji Fouriera możemy zauważyć, że wykresy transformat dla tych samych sygnałów wyglądają tak samo zarówno dla DFT, jak i FFT. Uważamy, że jest to jak najbardziej pożądane zachowanie programu. Patrząc na czasy wykonania obu algorytmów Szybka transformacja Fouriera jest w przypadku sygnału S2 ponad 4 razy szybsza, a w przypadku S1 nawet ponad 10 razy. Pokazuje to dlaczego w systemach informatycznych i telekomunikacyjnych wykorzystywana jest właśnie Szybka Transformacja Fouriera - ten sam wynik możemy otrzymać w zdecydowanie krótszym czasie.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BIBLIOGRAFIA
