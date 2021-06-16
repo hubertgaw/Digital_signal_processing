@@ -15,4 +15,37 @@ public class ComplexConverter {
         }
         return complexPoints;
     }
+
+    public static List<Data> convertComplexRealPartToData(List<Complex> originalPoints) {
+        List<Data> returnPoints = new ArrayList<>();
+        for (int i = 0; i < originalPoints.size(); i++) {
+            returnPoints.add(new Data((double) i, originalPoints.get(i).getReal()));
+        }
+        return returnPoints;
+    }
+
+    public static List<Data> convertComplexImaginaryPartToData(List<Complex> originalPoints) {
+        List<Data> returnPoints = new ArrayList<>();
+        for (int i = 0; i < originalPoints.size(); i++) {
+            returnPoints.add(new Data((double) i, originalPoints.get(i).getImaginary()));
+        }
+        return returnPoints;
+    }
+
+    public static List<Data> convertComplexAbsToData(List<Complex> originalPoints) {
+        List<Data> returnPoints = new ArrayList<>();
+        for (int i = 0; i < originalPoints.size(); i++) {
+            returnPoints.add(new Data((double) i, originalPoints.get(i).abs()));
+        }
+        return returnPoints;
+    }
+
+    public static List<Data> convertComplexArgumentToData(List<Complex> originalPoints) {
+        List<Data> returnPoints = new ArrayList<>();
+        for (int i = 0; i < originalPoints.size(); i++) {
+            returnPoints.add(new Data((double) i, originalPoints.get(i).getArgument()));
+        }
+        return returnPoints;
+    }
+
 }
