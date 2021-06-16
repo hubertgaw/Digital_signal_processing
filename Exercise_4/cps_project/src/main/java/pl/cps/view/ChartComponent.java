@@ -23,10 +23,10 @@ public class ChartComponent extends HBox {
     public ChartComponent() {
 
         xAxis = new NumberAxis();
-        xAxis.setLabel("t[s]");
+        xAxis.setLabel("numer próbki");
 
         yAxis = new NumberAxis();
-        yAxis.setLabel("A");
+        yAxis.setLabel("liczba urojona");
 
 
         series = new XYChart.Series<>();

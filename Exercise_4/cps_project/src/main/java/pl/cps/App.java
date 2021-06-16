@@ -2,6 +2,8 @@ package pl.cps;
 
 import javafx.application.Application;
 import javafx.application.Preloader;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
@@ -10,15 +12,16 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.apache.commons.math3.complex.Complex;
 import pl.cps.signal.adc.Quantizer;
 import pl.cps.signal.adc.Reconstructors;
 import pl.cps.signal.adc.Sampler;
 import pl.cps.signal.emiters.*;
+import pl.cps.signal.exercise4.ComplexConverter;
+import pl.cps.signal.exercise4.DFTTransformer;
+import pl.cps.signal.exercise4.FFTTransformer;
 import pl.cps.signal.model.*;
-import pl.cps.view.QuantizingWindowLayout;
-import pl.cps.view.ReconstructingWindowLayout;
-import pl.cps.view.SamplingWindowLayout;
-import pl.cps.view.MainLayout;
+import pl.cps.view.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +55,10 @@ public class App extends Application {
     private static List<Data> sampledSignalPoints = new ArrayList<>();
     private static List<Data> quantizedSignalPointsToDrawChart = new ArrayList<>();
     private Exercise3View ex3View = null;
+    private ComboBox<String> transformTypesComboBox;
+    private ComboBox<String> showingTypeComboBox;
+    private String selectedTransformType;
+    private String selectedShowingType;
 
 
     public static List<Data> getResultPoints() {
@@ -105,7 +112,7 @@ public class App extends Application {
         MenuBar menuBar = new MenuBar();
         Button calculateButton = new Button(), nextButton = new Button(), showButton = new Button(),
                 saveBtn = new Button(), loadBtn = new Button(), sampleBtn = new Button(), filtrationCorrelationBtn = new Button(),
-                addToGeneratedBtn = new Button();
+                addToGeneratedBtn = new Button(), transformBtn = new Button();
         calculateButton.setText("Podaj parametry sygnałów");
         nextButton.setText("Nastepny wykres");
         showButton.setText("Oblicz i pokaż");
@@ -114,6 +121,7 @@ public class App extends Application {
         sampleBtn.setText("Wykonaj próbkowanie");
         filtrationCorrelationBtn.setText("Filtracja/korelacja");
         addToGeneratedBtn.setText("Dodaj do wygenerowanego");
+        transformBtn.setText("Transformacja");
         buttonBox.getChildren().add(calculateButton);
         buttonBox.getChildren().add(nextButton);
         buttonBox.getChildren().add(showButton);
@@ -122,6 +130,7 @@ public class App extends Application {
         buttonBox.getChildren().add(sampleBtn);
         buttonBox.getChildren().add(filtrationCorrelationBtn);
         buttonBox.getChildren().add(addToGeneratedBtn);
+        buttonBox.getChildren().add(transformBtn);
         mainPane.add(buttonBox, 1, 1);
         calculateButton.setOnMouseClicked((action) -> {
             startCalculating(stage);
@@ -143,8 +152,16 @@ public class App extends Application {
         addToGeneratedBtn.setOnMouseClicked((action) -> {
             //hardcoded Signal to match S2 from instruction
             Signal signal = new SinusoidalSignal(5,0,4,0.5);
-            resultPoints = Addition.performCalculating(signal.calculateAndReturnPoints(16), resultPoints);
+            List<Data> signalPoints = signal.calculateAndReturnPoints(16);
+            Data lastValueTmp = resultPoints.get(resultPoints.size()-1);
+            resultPoints = Addition.performCalculating(signalPoints, resultPoints);
+            // nie dodaje się ostatnia próbka, więc dodaje ją ręcznie
+            resultPoints.add(new Data(lastValueTmp.getX(), lastValueTmp.getY() +
+                    signalPoints.get(signalPoints.size()-1).getY()));
             mainLayout.addOperationSignalAfterAddition(resultPoints);
+        });
+        transformBtn.setOnMouseClicked((action) -> {
+            askWindowForTransformType(stage);
         });
         signalOneMenu.setText("Sygnal nr 1");
         signalTwoMenu.setText("Sygnal nr 2");
@@ -188,6 +205,43 @@ public class App extends Application {
         mainPane.add(signalCalculatedDetails, 1, 0);
 
     }
+
+    private void askWindowForTransformType(Stage stage) {
+        Stage askValueStage = new Stage();
+        askValueStage.setTitle("Typ transformacji");
+
+        String[] transformTypes = {"DFT", "FFT", "Falkowa"};
+        String[] showingTypes = {"W1", "W2"};
+        ObservableList<String> transformTypesList = FXCollections.observableArrayList(transformTypes);
+        ObservableList<String> showingTypesList = FXCollections.observableArrayList(showingTypes);
+
+        transformTypesComboBox = new ComboBox<>();
+        transformTypesComboBox.setItems(transformTypesList);
+        showingTypeComboBox = new ComboBox<>();
+        showingTypeComboBox.setItems(showingTypesList);
+
+        HBox askTypesHBox = new HBox(20);
+        askTypesHBox.getChildren().add(transformTypesComboBox);
+        askTypesHBox.getChildren().add(showingTypeComboBox);
+
+        Button nextBtn = new Button("Dalej");
+        askTypesHBox.getChildren().add(nextBtn);
+        nextBtn.setOnMouseClicked((action) -> {
+            selectedTransformType = transformTypesComboBox.getValue();
+            selectedShowingType = showingTypeComboBox.getValue();
+            showWindowWithTransformedSignal(stage);
+            askValueStage.close();
+
+        });
+
+        Scene askTypeScene = new Scene(askTypesHBox, 300, 150);
+
+        askValueStage.initModality(Modality.APPLICATION_MODAL);
+        askValueStage.initOwner(stage);
+        askValueStage.setScene(askTypeScene);
+        askValueStage.show();
+    }
+
 
     private static void askWindowForSamplingFrequency(Stage stage) {
         Stage askValueStage = new Stage();
@@ -490,6 +544,71 @@ public class App extends Application {
         quantizationStage.setScene(quantizationScene);
 
         quantizationStage.show();
+    }
+
+    private void showWindowWithTransformedSignal(Stage stage) {
+        Stage transformationStage = new Stage();
+        GridPane transformedChartsPane = new GridPane();
+        List<Complex> pointsBeforeTransformation;
+        List<Complex> pointsAfterTransformation;
+
+        pointsBeforeTransformation = ComplexConverter.convertDataToComplex(resultPoints);
+        long start = System.nanoTime();
+        long stop = 0;
+        // jeśli DFT lub FFT to po 2 wykresy nam potrzebne
+        if (selectedTransformType.equals("DFT")) {
+            pointsAfterTransformation = DFTTransformer.simpleDFTTransform(pointsBeforeTransformation);
+            stop = System.nanoTime();
+            transformedChartsPane = preparePointsToShow(pointsAfterTransformation);
+        } else if (selectedTransformType.equals("FFT")){
+            pointsAfterTransformation = FFTTransformer.fftTransform(pointsBeforeTransformation);
+            stop = System.nanoTime();
+            transformedChartsPane = preparePointsToShow(pointsAfterTransformation);
+        }
+//        else { //jeśli falkowa to (chyba) 1 wykres,
+//            transformingWindowLayout1 = new TransformingWindowLayout();
+//            transformingWindowLayout2 = null;
+//        }
+
+        long timeElapsed = stop - start;
+        System.out.println("time: " + timeElapsed);
+
+        transformationStage.initOwner(stage);
+        Scene transformedChartsScene = new Scene(transformedChartsPane);
+
+        transformationStage.setScene(transformedChartsScene);
+        transformationStage.show();
+
+
+    }
+
+    private GridPane preparePointsToShow(List<Complex> pointsAfterTransformation) {
+        GridPane finalPane = new GridPane();
+
+        List<Data> pointsForChart1;
+        TransformingWindowLayout transformingWindowLayout1;
+        List<Data> pointsForChart2;
+        TransformingWindowLayout transformingWindowLayout2;
+        transformingWindowLayout1 = new TransformingWindowLayout();
+        transformingWindowLayout2 = new TransformingWindowLayout();
+        if (selectedShowingType.equals("W1")) {
+            pointsForChart1 = ComplexConverter.convertComplexRealPartToData(pointsAfterTransformation);
+            pointsForChart2 = ComplexConverter.convertComplexImaginaryPartToData(pointsAfterTransformation);
+        } else {
+            pointsForChart1 = ComplexConverter.convertComplexAbsToData(pointsAfterTransformation);
+            pointsForChart2 = ComplexConverter.convertComplexArgumentToData(pointsAfterTransformation);
+        }
+        transformingWindowLayout1.addTransformedChart(pointsForChart1);
+        transformingWindowLayout1.initReconstructedChart();
+
+        transformingWindowLayout2.addTransformedChart(pointsForChart2);
+        transformingWindowLayout2.initReconstructedChart();
+
+        finalPane.add(transformingWindowLayout1, 0, 0);
+        finalPane.add(transformingWindowLayout2, 0, 1);
+
+        return finalPane;
+
     }
 
     private static void addReconstructiveButtons(Stage stage, GridPane windowLayout, List<Data> points) {
